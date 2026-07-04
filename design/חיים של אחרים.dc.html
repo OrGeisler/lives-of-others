@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>חיים של אחרים — הצלת כלבים, טיפול ושיקום</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&family=Rubik:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: #FAF6F0; }
+    @keyframes float-paw { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    image-slot { display: block; width: 100%; }
+    image-slot#hero-photo { height: 440px; }
+    image-slot#story-photo { height: 380px; }
+    image-slot#about-1, image-slot#about-2, image-slot#about-3, image-slot#about-4 { height: 200px; }
+    image-slot#about-2, image-slot#about-4 { margin-top: 24px; }
+    image-slot[id^="home-"] { height: 260px; }
+    image-slot[id^="dog-"] { height: 220px; }
+    image-slot[id^="tale-"] { height: 220px; }
+    image-slot[id^="up-"] { width: 96px; height: 96px; flex-shrink: 0; }
+    image-slot[id^="ig-"] { height: auto; aspect-ratio: 1; }
+  </style>
+</helmet>
+
+<div dir="rtl" lang="he" style="font-family: 'Assistant', sans-serif; color: #3A2F28; background: #FAF6F0; line-height: 1.6;">
+
+  <!-- ============ HEADER ============ -->
+  <header style="position: sticky; top: 0; z-index: 50; background: rgba(250,246,240,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #E8DFD2;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; gap: 24px;">
+      <a href="#top" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #3A2F28;">
+        <img src="assets/logo.jpg" alt="חיים של אחרים" style="width: 52px; height: 52px; border-radius: 50%; object-fit: cover;">
+        <div style="display: flex; flex-direction: column;">
+          <strong style="font-family: 'Rubik', sans-serif; font-size: 19px; line-height: 1.15;">חיים של אחרים</strong>
+          <span style="font-size: 12.5px; color: #8A7A68;">הצלת כלבים · טיפול · שיקום</span>
+        </div>
+      </a>
+      <nav style="display: flex; gap: 22px; margin-inline-start: auto; font-size: 15.5px; font-weight: 600;">
+        <a href="#about" style="color: #3A2F28; text-decoration: none;" style-hover="color: #C96F3B;">על העמותה</a>
+        <a href="#homes" style="color: #3A2F28; text-decoration: none;" style-hover="color: #C96F3B;">הבתים הקסומים</a>
+        <a href="#dogs" style="color: #3A2F28; text-decoration: none;" style-hover="color: #C96F3B;">הכלבים שלנו</a>
+        <a href="#sponsor" style="color: #3A2F28; text-decoration: none;" style-hover="color: #C96F3B;">אימוץ וירטואלי</a>
+        <a href="#stories" style="color: #3A2F28; text-decoration: none;" style-hover="color: #C96F3B;">סיפורים מהלב</a>
+        <a href="#volunteer" style="color: #3A2F28; text-decoration: none;" style-hover="color: #C96F3B;">התנדבות</a>
+      </nav>
+      <a href="{{ donateUrl }}" style="background: #C96F3B; color: #fff; padding: 10px 22px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 15px; white-space: nowrap;" style-hover="background: #B25E2E;">לתרומה ❤</a>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section id="top" data-screen-label="Hero" style="max-width: 1200px; margin: 0 auto; padding: 56px 24px 40px; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 48px; align-items: center;">
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <span style="align-self: flex-start; background: #F0E5D6; color: #8A5A2B; font-size: 14px; font-weight: 700; padding: 6px 16px; border-radius: 999px;">🐾 העמותה היחידה בישראל שבה הכלבים גרים בבתים — לא בכלובים</span>
+      <h1 style="font-family: 'Rubik', sans-serif; font-size: 46px; line-height: 1.18; margin: 0; font-weight: 800; letter-spacing: -0.5px;">חיים של אחרים —<br>הצלת כלבים נטושים, טיפול ושיקום</h1>
+      <p style="font-size: 19px; color: #5C4F40; margin: 0; max-width: 480px;">אנחנו מחלצים כלבים מהרחוב, מההסגרים וממצבי הזנחה קשים — ונותנים להם אוכל, טיפול רפואי, בית, ומעל לכול: את ההרגשה שהם אהובים.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px;">
+        <a href="#dogs" style="background: #C96F3B; color: #fff; padding: 16px 32px; border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 19px; box-shadow: 0 6px 18px rgba(201,111,59,.35);" style-hover="background: #B25E2E;">אני רוצה להציל כלב</a>
+        <a href="#volunteer" style="background: #5A7A5E; color: #fff; padding: 14px 26px; border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 17px;" style-hover="background: #4A6A4E;">אני רוצה להתנדב</a>
+        <a href="#donate" style="background: #4A6FA0; color: #fff; padding: 14px 26px; border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 17px;" style-hover="background: #3B5D8A;">אני רוצה לתרום</a>
+      </div>
+    </div>
+    <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="hero-photo" shape="rounded" radius="24" src="assets/hero-two-dogs.jpg" placeholder="תמונה ראשית" hint-size="100%,440px"></x-import>
+  </section>
+
+  <!-- ============ IMPACT COUNTERS ============ -->
+  <section data-screen-label="Impact" style="background: #3A2F28; color: #FAF6F0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 36px 24px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; text-align: center;">
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-family: 'Rubik', sans-serif; font-size: 40px; font-weight: 800; color: #E8A265;">2016</span>
+        <span style="font-size: 15px; color: #CBBBA6;">שנת ההקמה</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-family: 'Rubik', sans-serif; font-size: 40px; font-weight: 800; color: #E8A265;">מאות</span>
+        <span style="font-size: 15px; color: #CBBBA6;">כלבים ניצלים מהמתה בכל שנה</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-family: 'Rubik', sans-serif; font-size: 40px; font-weight: 800; color: #E8A265;">3</span>
+        <span style="font-size: 15px; color: #CBBBA6;">בתים קסומים — בלי כלובים</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-family: 'Rubik', sans-serif; font-size: 40px; font-weight: 800; color: #E8A265;">0</span>
+        <span style="font-size: 15px; color: #CBBBA6;">כלבים מומתים. לעולם.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EMOTIONAL STORY ============ -->
+  <section data-screen-label="Story" style="max-width: 1200px; margin: 0 auto; padding: 72px 24px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 48px; align-items: center;">
+    <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="story-photo" shape="rounded" radius="24" src="assets/foster-couch.jpg" placeholder="כלבה בבית אומנה" hint-size="100%,380px"></x-import>
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <h2 style="font-family: 'Rubik', sans-serif; font-size: 34px; margin: 0; font-weight: 800;">רוצה לעזור להציל כלב?</h2>
+      <p style="font-size: 18px; color: #5C4F40; margin: 0;">יש רגע אחד שבו הכלב מבין שהוא נשאר לבד. זהו רגע שבו האמון נשבר והלב שלו נסגר.</p>
+      <p style="font-size: 18px; color: #5C4F40; margin: 0;"><strong style="color: #3A2F28;">בעמותת חיים של אחרים אנחנו נלחמים כדי שהרגע הזה לא יהיה סוף הסיפור שלהם.</strong> בכל יום אנחנו מחלצים כלבים מהרחוב, מההסגרים וממצבי הזנחה קשים. אנחנו נותנים להם אוכל, טיפול רפואי, בית — ומעל לכול, את ההרגשה שהם אהובים.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px;">
+        <a href="#donate" style="background: #C96F3B; color: #fff; padding: 12px 22px; border-radius: 12px; text-decoration: none; font-weight: 700;">אני רוצה לתרום</a>
+        <a href="#volunteer" style="background: #fff; color: #5A7A5E; border: 2px solid #5A7A5E; padding: 10px 22px; border-radius: 12px; text-decoration: none; font-weight: 700;">אני רוצה להתנדב</a>
+        <a href="#dogs" style="background: #fff; color: #C96F3B; border: 2px solid #C96F3B; padding: 10px 22px; border-radius: 12px; text-decoration: none; font-weight: 700;">אני רוצה לעזור להציל כלב</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about" data-screen-label="About" style="background: #F2EAE0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 72px 24px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px; align-items: center;">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <h2 style="font-family: 'Rubik', sans-serif; font-size: 34px; margin: 0; font-weight: 800;">על העמותה</h2>
+        <p style="font-size: 17px; color: #5C4F40; margin: 0;">עמותת חיים של אחרים נוסדה בשנת 2016 על ידי <strong>טלי עבאדי ודבורה אטיה</strong>, במטרה להציל כלבים מהרחוב ומההסגרים ברחבי הארץ.</p>
+        <p style="font-size: 17px; color: #5C4F40; margin: 0;">חיים של אחרים היא עמותה ללא מטרת רווח (מלכ"ר) הפועלת על טהרת ההתנדבות, ומצילה מאות כלבים בכל שנה מהמתה — במטרה להעניק להם הזדמנות שנייה לחיים.</p>
+        <div style="background: #fff; border-radius: 16px; padding: 20px 24px; border-inline-start: 4px solid #C96F3B;">
+          <p style="margin: 0; font-size: 17px; font-weight: 600;">העמותה דוגלת בקידוש החיים ולעולם אינה ממיתה כלבים. כל כלב שמגיע אלינו נשאר תחת חסותנו, מטופל ואהוב — עד שיאומץ, או עד שיגיע לשיבה טובה.</p>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px;">
+        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="about-1" shape="rounded" radius="18" src="assets/tali-malinois.jpg" placeholder="טלי ודבורה" hint-size="100%,200px"></x-import>
+        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="about-2" shape="rounded" radius="18" src="assets/volunteers.jpg" placeholder="מתנדבים בפעולה" hint-size="100%,200px"></x-import>
+        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="about-3" shape="rounded" radius="18" src="assets/dog-tub.jpg" placeholder="חילוץ מהשטח" hint-size="100%,200px"></x-import>
+        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="about-4" shape="rounded" radius="18" src="assets/dog-trail.jpg" placeholder="כלב בבית החדש" hint-size="100%,200px"></x-import>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ UNIQUE: HOMES NOT CAGES + VIDEO ============ -->
+  <section data-screen-label="Unique" style="max-width: 1000px; margin: 0 auto; padding: 72px 24px 40px; text-align: center; display: flex; flex-direction: column; gap: 18px; align-items: center;">
+    <h2 style="font-family: 'Rubik', sans-serif; font-size: 34px; margin: 0; font-weight: 800;">מה מייחד אותנו?</h2>
+    <p style="font-size: 19px; color: #5C4F40; margin: 0; max-width: 640px;">ייחודיות העמותה מתבטאת בפרויקט הדגל: <strong style="color: #C96F3B;">במקום כלובים — בתים.</strong> אנחנו משכנים את הכלבים בשלושה "בתים קסומים". במקום לשהות מאחורי סורגים, הכלבים חיים בבתים חמים המעניקים ביטחון ומשפחתיות.</p>
+    <div style="width: 100%; max-width: 860px; aspect-ratio: 16/9; border-radius: 24px; background: repeating-linear-gradient(45deg, #EFE6D9, #EFE6D9 14px, #E7DCCC 14px, #E7DCCC 28px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; border: 2px dashed #C9B99F;">
+      <div style="width: 76px; height: 76px; border-radius: 50%; background: #C96F3B; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 30px;">▶</div>
+      <span style="font-family: monospace; font-size: 15px; color: #8A7A68;">כאן מוטמע באתר החי הסרטון של ערוץ 12 (assets/video/channel12.mp4)</span>
+    </div>
+    <p style="font-size: 14.5px; color: #8A7A68; margin: 0;">👆 הכתבה שנעשתה על העמותה בערוץ 12</p>
+  </section>
+
+  <!-- ============ MAGIC HOMES / MEMORIAL ============ -->
+  <section id="homes" data-screen-label="Magic Homes" style="background: #2F3A4D; color: #F4F1EA;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 72px 24px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center;">
+      <span style="font-size: 14px; letter-spacing: 2px; color: #A8B6CC; font-weight: 600;">לזכרם · חיים שממשיכים להציל חיים</span>
+      <h2 style="font-family: 'Rubik', sans-serif; font-size: 36px; margin: 0; font-weight: 800;">הבתים הקסומים</h2>
+      <p style="font-size: 18px; color: #C6CFDD; max-width: 680px; margin: 0;">הבתים הקסומים הם פרויקט הנצחה לזכר יקירים שנפלו ונרצחו במלחמת ה־7 באוקטובר. בבתים אלו מורשתם ממשיכה לחיות — דרך הצלת חיים ונתינה לבעלי חיים.</p>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 28px; width: 100%; text-align: right;">
+        <sc-for list="{{ homes }}" as="home" hint-placeholder-count="3">
+          <div style="background: #3A4658; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; min-width: 0;">
+            <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ home.photoId }}" shape="rect" src="{{ home.src }}" placeholder="{{ home.photoPlaceholder }}" hint-size="100%,260px"></x-import>
+            <div style="padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 10px; flex: 1;">
+              <h3 style="font-family: 'Rubik', sans-serif; font-size: 20px; margin: 0; font-weight: 700; color: #fff;">{{ home.title }}</h3>
+              <p style="font-size: 15px; color: #C6CFDD; margin: 0; flex: 1;">{{ home.teaser }}</p>
+              <button onClick="{{ home.open }}" style="align-self: flex-start; background: transparent; color: #E8A265; border: 1.5px solid #E8A265; padding: 9px 20px; border-radius: 999px; font-family: 'Assistant', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="background: #E8A265; color: #2F3A4D;">לסיפור המלא ←</button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MEMORIAL MODAL ============ -->
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeModal }}" style="position: fixed; inset: 0; z-index: 100; background: rgba(30,26,20,0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 32px;">
+      <div dir="rtl" onClick="{{ stopClick }}" style="background: #FAF6F0; color: #3A2F28; border-radius: 24px; max-width: 720px; max-height: 82vh; overflow-y: auto; padding: 40px 44px; position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.4); font-family: 'Assistant', sans-serif;">
+        <button onClick="{{ closeModal }}" style="position: absolute; top: 18px; left: 18px; background: #F0E5D6; border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 17px; cursor: pointer; color: #3A2F28;">✕</button>
+        <span style="font-size: 13px; letter-spacing: 2px; color: #8A7A68; font-weight: 600;">הבתים הקסומים · לזכרם</span>
+        <h3 style="font-family: 'Rubik', sans-serif; font-size: 27px; margin: 8px 0 18px; font-weight: 800;">{{ modalTitle }}</h3>
+        <sc-for list="{{ modalParagraphs }}" as="para" hint-placeholder-count="3">
+          <p style="font-size: 16.5px; color: #4A3F32; margin: 0 0 14px;">{{ para.text }}</p>
+        </sc-for>
+        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #E8DFD2; display: flex; gap: 12px; flex-wrap: wrap;">
+          <a href="{{ donateUrl }}" style="background: #C96F3B; color: #fff; padding: 11px 22px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 15px;">לתרומה לזכרם</a>
+          <a href="#dogs" onClick="{{ closeModal }}" style="background: #fff; color: #5A7A5E; border: 2px solid #5A7A5E; padding: 9px 22px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 15px;">להכיר את הכלבים</a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ DOGS GALLERY ============ -->
+  <section id="dogs" data-screen-label="Dogs" style="max-width: 1200px; margin: 0 auto; padding: 72px 24px;">
+    <div style="display: flex; flex-direction: column; gap: 10px; text-align: center; align-items: center; margin-bottom: 36px;">
+      <h2 style="font-family: 'Rubik', sans-serif; font-size: 36px; margin: 0; font-weight: 800;">הכלבים שלנו מחפשים בית</h2>
+      <p style="font-size: 18px; color: #5C4F40; margin: 0; max-width: 600px;">כל אחד מהם עבר דרך ארוכה. אפשר לאמץ, ואם אי־אפשר — אפשר לאמץ וירטואלית: חסות חודשית שמכסה אוכל, חיסונים וטיפול.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px;">
+      <sc-for list="{{ dogs }}" as="dog" hint-placeholder-count="8">
+        <div style="background: #fff; border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 2px 10px rgba(58,47,40,0.07); min-width: 0;">
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ dog.photoId }}" shape="rect" src="{{ dog.src }}" placeholder="{{ dog.placeholder }}" hint-size="100%,220px"></x-import>
+          <div style="padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1;">
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+              <strong style="font-family: 'Rubik', sans-serif; font-size: 19px;">{{ dog.name }}</strong>
+              <span style="font-size: 13px; color: #8A7A68;">{{ dog.meta }}</span>
+            </div>
+            <p style="font-size: 14px; color: #5C4F40; margin: 0; flex: 1;">{{ dog.bio }}</p>
+            <div style="display: flex; gap: 8px; margin-top: 4px;">
+              <a href="{{ dog.adopt }}" target="_blank" style="flex: 1; text-align: center; background: #C96F3B; color: #fff; padding: 9px 0; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 14px;">{{ dog.cta }}</a>
+              <a href="#sponsor" style="flex: 1; text-align: center; background: #F0E5D6; color: #8A5A2B; padding: 9px 0; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 14px;">חסות חודשית</a>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <p style="text-align: center; margin: 28px 0 0; font-size: 15px; color: #8A7A68;">* התמונות מתוך פעילות העמותה. כל הכלבים לאימוץ עם פרופיל מלא ומעודכן — <a href="https://yad4.co.il/organization/%D7%97%D7%99%D7%99%D7%9D%20%D7%A9%D7%9C%20%D7%90%D7%97%D7%A8%D7%99%D7%9D" style="color: #C96F3B; font-weight: 700;">בעמוד העמותה ב־Yad4 ←</a></p>
+  </section>
+
+  <!-- ============ SPONSOR / VIRTUAL ADOPTION ============ -->
+  <section id="sponsor" data-screen-label="Sponsor" style="background: #5A7A5E; color: #F4F6F0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 72px 24px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center;">
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <h2 style="font-family: 'Rubik', sans-serif; font-size: 34px; margin: 0; font-weight: 800; color: #fff;">אימוץ וירטואלי</h2>
+        <p style="font-size: 18px; color: #E1E8DD; margin: 0;">לא כל אחד יכול לפתוח את הבית — אבל כל אחד יכול לפתוח את הלב. בחרו כלב מהגלריה, ובחסות חודשית קבועה תלוו אותו מקרוב: תקבלו עדכונים, תמונות וסרטונים — והוא יקבל את כל מה שהוא צריך.</p>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 10px;">
+          <a href="{{ donateUrl }}" style="background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.4); border-radius: 16px; padding: 18px 12px; text-align: center; text-decoration: none; color: #fff;" style-hover="background: rgba(255,255,255,0.22);">
+            <div style="font-family: 'Rubik', sans-serif; font-size: 28px; font-weight: 800;">50 ₪</div>
+            <div style="font-size: 13.5px; color: #DDE6D8;">בחודש · שק אוכל לכלב</div>
+          </a>
+          <a href="{{ donateUrl }}" style="background: #fff; border: 2px solid #fff; border-radius: 16px; padding: 18px 12px; text-align: center; text-decoration: none; color: #3E5941; position: relative;">
+            <div style="position: absolute; top: -12px; right: 50%; transform: translateX(50%); background: #E8A265; color: #3A2F28; font-size: 12px; font-weight: 700; padding: 2px 12px; border-radius: 999px; white-space: nowrap;">הכי פופולרי</div>
+            <div style="font-family: 'Rubik', sans-serif; font-size: 28px; font-weight: 800;">100 ₪</div>
+            <div style="font-size: 13.5px; color: #5A7A5E;">בחודש · אוכל + חיסונים</div>
+          </a>
+          <a href="{{ donateUrl }}" style="background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.4); border-radius: 16px; padding: 18px 12px; text-align: center; text-decoration: none; color: #fff;" style-hover="background: rgba(255,255,255,0.22);">
+            <div style="font-family: 'Rubik', sans-serif; font-size: 28px; font-weight: 800;">200 ₪</div>
+            <div style="font-size: 13.5px; color: #DDE6D8;">בחודש · ליווי רפואי מלא</div>
+          </a>
+        </div>
+      </div>
+      <div style="background: rgba(0,0,0,0.14); border-radius: 24px; padding: 32px 34px; display: flex; flex-direction: column; gap: 16px;">
+        <h3 style="font-family: 'Rubik', sans-serif; font-size: 22px; margin: 0; color: #fff;">מה התרומה שלך עושה?</h3>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span style="min-width: 84px; font-family: 'Rubik', sans-serif; font-size: 21px; font-weight: 800; color: #F2C894;">165 ₪</span>
+          <span style="font-size: 16px; color: #E1E8DD;">שק אוכל שמאכיל כלב במשך חודש</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span style="min-width: 84px; font-family: 'Rubik', sans-serif; font-size: 21px; font-weight: 800; color: #F2C894;">200 ₪</span>
+          <span style="font-size: 16px; color: #E1E8DD;">חיסונים וטיפול מונע לכלב שחולץ</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span style="min-width: 84px; font-family: 'Rubik', sans-serif; font-size: 21px; font-weight: 800; color: #F2C894;">500 ₪</span>
+          <span style="font-size: 16px; color: #E1E8DD;">טיפול וטרינרי מציל חיים</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span style="min-width: 84px; font-family: 'Rubik', sans-serif; font-size: 21px; font-weight: 800; color: #F2C894;">1,200 ₪</span>
+          <span style="font-size: 16px; color: #E1E8DD;">חודש שלם של בית חם לכלב מחולץ</span>
+        </div>
+        <a href="#donate" style="margin-top: 6px; align-self: flex-start; background: #E8A265; color: #3A2F28; padding: 12px 26px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 16px;">אני רוצה לתרום עכשיו</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STORIES FROM THE HEART ============ -->
+  <section id="stories" data-screen-label="Stories" style="max-width: 1200px; margin: 0 auto; padding: 72px 24px;">
+    <div style="text-align: center; margin-bottom: 36px; display: flex; flex-direction: column; gap: 10px; align-items: center;">
+      <h2 style="font-family: 'Rubik', sans-serif; font-size: 36px; margin: 0; font-weight: 800;">סיפורים מהלב</h2>
+      <p style="font-size: 18px; color: #5C4F40; margin: 0;">סיפורים אמיתיים מתוך העמוד שלנו. אותו כלב, חיים אחרים.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+      <sc-for list="{{ tales }}" as="t" hint-placeholder-count="6">
+        <div style="background: #fff; border-radius: 20px; padding: 18px; box-shadow: 0 2px 10px rgba(58,47,40,0.07); display: flex; flex-direction: column; gap: 12px; min-width: 0;">
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ t.photoId }}" shape="rounded" radius="12" src="{{ t.src }}" placeholder="{{ t.name }}" hint-size="100%,220px"></x-import>
+          <strong style="font-family: 'Rubik', sans-serif; font-size: 18px;">{{ t.name }}</strong>
+          <p style="font-size: 14.5px; color: #5C4F40; margin: 0; flex: 1;">{{ t.story }}</p>
+          <a href="{{ t.ctaHref }}" target="_blank" style="align-self: flex-start; background: #C96F3B; color: #fff; padding: 10px 20px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 14.5px;">{{ t.ctaText }}</a>
+        </div>
+      </sc-for>
+    </div>
+    <p style="text-align: center; margin: 28px 0 0; font-size: 15px; color: #8A7A68;">הסיפורים מתוך <a href="https://www.facebook.com/lifeofothers" style="color: #C96F3B; font-weight: 700;">עמוד הפייסבוק שלנו</a> — שם תמצאו עדכון חדש כמעט כל יום 🐾</p>
+  </section>
+
+  <!-- ============ VOLUNTEER ============ -->
+  <section id="volunteer" data-screen-label="Volunteer" style="background: #F2EAE0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 72px 24px;">
+      <div style="text-align: center; margin-bottom: 36px; display: flex; flex-direction: column; gap: 10px; align-items: center;">
+        <h2 style="font-family: 'Rubik', sans-serif; font-size: 36px; margin: 0; font-weight: 800;">בואו להתנדב</h2>
+        <p style="font-size: 18px; color: #5C4F40; margin: 0; max-width: 560px;">העמותה פועלת על טהרת ההתנדבות — ברמת אפעל ובכל הארץ. כל זוג ידיים, וכל לב, עושים הבדל אמיתי.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px;">
+        <div style="background: #fff; border-radius: 18px; padding: 26px 22px; display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-size: 30px;">🦮</span>
+          <strong style="font-size: 18px;">טיולים עם הכלבים</strong>
+          <p style="font-size: 14.5px; color: #5C4F40; margin: 0;">שעה בשבוע של טיול, משחק בשדות של רמת אפעל — ואוזניים מאושרות.</p>
+        </div>
+        <div style="background: #fff; border-radius: 18px; padding: 26px 22px; display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-size: 30px;">🏠</span>
+          <strong style="font-size: 18px;">משפחת אומנה</strong>
+          <p style="font-size: 14.5px; color: #5C4F40; margin: 0;">בית זמני לכלב בשיקום — עד שיימצא לו הבית הקבוע. העמותה מלווה ומממנת הכול.</p>
+        </div>
+        <div style="background: #fff; border-radius: 18px; padding: 26px 22px; display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-size: 30px;">🚗</span>
+          <strong style="font-size: 18px;">הסעות והובלות</strong>
+          <p style="font-size: 14.5px; color: #5C4F40; margin: 0;">הסעת כלבים לווטרינר, לאימוצים ולבתים הקסומים.</p>
+        </div>
+        <div style="background: #fff; border-radius: 18px; padding: 26px 22px; display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-size: 30px;">📸</span>
+          <strong style="font-size: 18px;">צילום ותוכן</strong>
+          <p style="font-size: 14.5px; color: #5C4F40; margin: 0;">תמונות וסרטונים שעוזרים לכל כלב למצוא משפחה מהר יותר.</p>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 32px;">
+        <a href="{{ volunteerWa }}" target="_blank" style="background: #5A7A5E; color: #fff; padding: 14px 34px; border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 17px;">אני רוצה להתנדב</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DONATE ============ -->
+  <section id="donate" data-screen-label="Donate" style="max-width: 1200px; margin: 0 auto; padding: 72px 24px;">
+    <div style="text-align: center; margin-bottom: 36px; display: flex; flex-direction: column; gap: 10px; align-items: center;">
+      <h2 style="font-family: 'Rubik', sans-serif; font-size: 36px; margin: 0; font-weight: 800;">קיומנו תלוי אך ורק בתרומות ובמתנדבים</h2>
+      <p style="font-size: 18px; color: #5C4F40; margin: 0; max-width: 640px;">אנו זקוקים לעזרתכם כדי להמשיך לממן מזון, טיפול רפואי ואת אחזקת הבתים הקסומים. ללא תמיכתכם, לא נוכל להמשיך להילחם על חייהם של הכלבים הנטושים.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px;">
+      <div style="background: #fff; border-radius: 18px; padding: 24px 22px; box-shadow: 0 2px 10px rgba(58,47,40,0.07); display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 28px;">💳</span>
+        <strong style="font-size: 17px;">כרטיס אשראי / הוראת קבע</strong>
+        <p style="font-size: 14.5px; color: #5C4F40; margin: 0; flex: 1;">תרומה מאובטחת (סליקת Grow/משולם), חד־פעמית או חודשית.</p>
+        <a href="{{ donateUrl }}" style="color: #C96F3B; font-weight: 700; text-decoration: none; font-size: 15px;">לתרומה מאובטחת ←</a>
+      </div>
+      <div style="background: #fff; border-radius: 18px; padding: 24px 22px; box-shadow: 0 2px 10px rgba(58,47,40,0.07); display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 28px;">📱</span>
+        <strong style="font-size: 17px;">ביט / פייבוקס</strong>
+        <p style="font-size: 14.5px; color: #5C4F40; margin: 0; flex: 1;">ביט: <b>052-8296622</b><br>פייבוקס: <b>054-6881116</b></p>
+        <a href="https://links.payboxapp.com/mr8NxOzWKUb" style="color: #C96F3B; font-weight: 700; text-decoration: none; font-size: 15px;">לתשלום בפייבוקס ←</a>
+      </div>
+      <div style="background: #fff; border-radius: 18px; padding: 24px 22px; box-shadow: 0 2px 10px rgba(58,47,40,0.07); display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 28px;">🏦</span>
+        <strong style="font-size: 17px;">העברה בנקאית</strong>
+        <p style="font-size: 14.5px; color: #5C4F40; margin: 0;">למוטב: <b>חיים של אחרים</b><br>בנק מזרחי טפחות (20)<br>סניף כנפי נשרים (539)<br>חשבון: <b>497218</b></p>
+      </div>
+      <div style="background: #fff; border-radius: 18px; padding: 24px 22px; box-shadow: 0 2px 10px rgba(58,47,40,0.07); display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 28px;">🌍</span>
+        <strong style="font-size: 17px;">תרומה מחו"ל / PayPal</strong>
+        <p style="font-size: 14.5px; color: #5C4F40; margin: 0; flex: 1;">לתורמים מחוץ לישראל — תרומה מהירה ומאובטחת בפייפאל.</p>
+        <a href="https://www.paypal.me/savingthedogs" style="color: #C96F3B; font-weight: 700; text-decoration: none; font-size: 15px;">paypal.me/savingthedogs ←</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FIELD UPDATES + SOCIAL ============ -->
+  <section data-screen-label="Updates" style="max-width: 1200px; margin: 0 auto; padding: 72px 24px;">
+    <div style="display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 48px; align-items: start;">
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <h2 style="font-family: 'Rubik', sans-serif; font-size: 30px; margin: 0; font-weight: 800;">עדכונים מהשטח</h2>
+        <sc-for list="{{ updates }}" as="u" hint-placeholder-count="3">
+          <div style="background: #fff; border-radius: 16px; padding: 20px 24px; display: flex; gap: 18px; align-items: center; box-shadow: 0 2px 10px rgba(58,47,40,0.06); min-width: 0;">
+            <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ u.photoId }}" shape="rounded" radius="12" src="{{ u.src }}" placeholder="תמונה" hint-size="96px,96px"></x-import>
+            <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0;">
+              <span style="font-size: 12.5px; color: #8A7A68; font-weight: 600;">{{ u.date }}</span>
+              <strong style="font-size: 17px;">{{ u.title }}</strong>
+              <p style="font-size: 14.5px; color: #5C4F40; margin: 0;">{{ u.text }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="background: linear-gradient(135deg, #FDF3EA, #F5E3D2); border-radius: 24px; padding: 30px 32px; display: flex; flex-direction: column; gap: 14px;">
+        <h3 style="font-family: 'Rubik', sans-serif; font-size: 22px; margin: 0; font-weight: 800;">עקבו אחרינו ברשתות</h3>
+        <p style="font-size: 15.5px; color: #5C4F40; margin: 0;">כלבים חדשים, אימוצים מרגשים ורגעים קטנים של אושר — כל יום, בפייסבוק ובאינסטגרם.</p>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="ig-1" shape="rounded" radius="10" src="assets/dog-trail.jpg" placeholder="פוסט" hint-size="100%,100px"></x-import>
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="ig-2" shape="rounded" radius="10" src="assets/puppy.jpg" placeholder="פוסט" hint-size="100%,100px"></x-import>
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="ig-3" shape="rounded" radius="10" src="assets/dog-tub.jpg" placeholder="פוסט" hint-size="100%,100px"></x-import>
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="ig-4" shape="rounded" radius="10" src="assets/dog-shepherd.jpg" placeholder="פוסט" hint-size="100%,100px"></x-import>
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="ig-5" shape="rounded" radius="10" src="assets/adopt-me-cafe.jpg" placeholder="פוסט" hint-size="100%,100px"></x-import>
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="ig-6" shape="rounded" radius="10" src="assets/hero-two-dogs.jpg" placeholder="פוסט" hint-size="100%,100px"></x-import>
+        </div>
+        <a href="https://www.facebook.com/lifeofothers" style="align-self: flex-start; color: #C96F3B; font-weight: 700; text-decoration: none; font-size: 15px;">facebook.com/lifeofothers ←</a>
+        <a href="https://www.instagram.com/life_of_others_israel/" style="align-self: flex-start; color: #C96F3B; font-weight: 700; text-decoration: none; font-size: 15px;">life_of_others_israel@ ←</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact" data-screen-label="Contact" style="background: #3A2F28; color: #FAF6F0;">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 72px 24px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 48px; align-items: center;">
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <h2 style="font-family: 'Rubik', sans-serif; font-size: 32px; margin: 0; font-weight: 800; color: #fff;">רוצים לאמץ? להתנדב?</h2>
+        <p style="font-size: 17px; color: #CBBBA6; margin: 0;">מלאו את הפרטים ונחזור אליכם — או שלחו לנו הודעה ישירה בוואטסאפ. לפני כל אימוץ נערוך שיחת היכרות ושאלון התאמה, כדי לוודא שכל כלב מגיע לבית הנכון בשבילו.</p>
+        <p style="font-size: 16px; color: #CBBBA6; margin: 0;">📍 רמת אפעל · ☎ טלי 054-6881116 · אימוצים 054-4868810</p>
+        <a href="{{ contactWa }}" target="_blank" style="align-self: flex-start; background: #25D366; color: #fff; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 16px;">💬 דברו איתנו בוואטסאפ</a>
+      </div>
+      <div style="background: #473A30; border-radius: 20px; padding: 30px 32px; display: flex; flex-direction: column; gap: 14px;">
+        <input placeholder="שם מלא" style="background: #FAF6F0; border: none; border-radius: 10px; padding: 13px 16px; font-family: 'Assistant', sans-serif; font-size: 15px; color: #3A2F28;">
+        <input placeholder="טלפון" style="background: #FAF6F0; border: none; border-radius: 10px; padding: 13px 16px; font-family: 'Assistant', sans-serif; font-size: 15px; color: #3A2F28;">
+        <select style="background: #FAF6F0; border: none; border-radius: 10px; padding: 13px 16px; font-family: 'Assistant', sans-serif; font-size: 15px; color: #3A2F28;">
+          <option>אני רוצה לאמץ כלב</option>
+          <option>אני רוצה להתנדב</option>
+          <option>אני רוצה להיות משפחת אומנה</option>
+          <option>חסות חודשית / אימוץ וירטואלי</option>
+          <option>אחר</option>
+        </select>
+        <textarea placeholder="ספרו לנו קצת..." rows="3" style="background: #FAF6F0; border: none; border-radius: 10px; padding: 13px 16px; font-family: 'Assistant', sans-serif; font-size: 15px; color: #3A2F28; resize: vertical;"></textarea>
+        <button style="background: #C96F3B; color: #fff; border: none; border-radius: 12px; padding: 14px; font-family: 'Assistant', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer;" style-hover="background: #B25E2E;">שליחה בוואטסאפ 💬</button>
+        <p style="font-size: 13px; color: #CBBBA6; margin: 0;">הטופס נפתח כהודעת וואטסאפ מוכנה — לא נשמר שום מידע באתר.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background: #2A211B; color: #A89880;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 36px 24px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+      <img src="assets/logo.jpg" alt="חיים של אחרים" style="width: 46px; height: 46px; border-radius: 50%; object-fit: cover;">
+      <div style="display: flex; flex-direction: column;">
+        <strong style="color: #E5D9C7;">חיים של אחרים · Lives of Others</strong>
+        <span style="font-size: 13.5px;">עמותה רשומה (מלכ"ר) · הצלת כלבים, טיפול ושיקום · פועלת על טהרת ההתנדבות מאז 2016 · רמת אפעל</span>
+      </div>
+      <div style="margin-inline-start: auto; display: flex; gap: 18px; font-size: 14px;">
+        <a href="{{ donateUrl }}" style="color: #E8A265; text-decoration: none; font-weight: 600;">לתרומה</a>
+        <a href="#dogs" style="color: #A89880; text-decoration: none;">אימוץ</a>
+        <a href="#volunteer" style="color: #A89880; text-decoration: none;">התנדבות</a>
+        <a href="#homes" style="color: #A89880; text-decoration: none;">הבתים הקסומים</a>
+        <a href="https://www.facebook.com/lifeofothers" style="color: #A89880; text-decoration: none;">פייסבוק</a>
+        <a href="https://www.instagram.com/life_of_others_israel/" style="color: #A89880; text-decoration: none;">אינסטגרם</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ FLOATING WHATSAPP ============ -->
+  <a href="{{ contactWa }}" target="_blank" title="דברו איתנו בוואטסאפ" style="position: fixed; bottom: 26px; left: 26px; z-index: 60; width: 58px; height: 58px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; font-size: 27px; text-decoration: none; box-shadow: 0 6px 20px rgba(0,0,0,0.25); animation: float-paw 3s ease-in-out infinite;">💬</a>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;donateUrl&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;http://donation.lives-of-others.org/truma&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;קישורים&quot; },
+  &quot;whatsappNumber&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;972546881116&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;קישורים&quot; },
+  &quot;adoptWhatsapp&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;972544868810&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;קישורים&quot; }
+}">
+class Component extends DCLogic {
+  state = { openHome: null };
+
+  wa(num, msg) {
+    return 'https://wa.me/' + String(num).replace(/[^0-9]/g, '') + '?text=' + encodeURIComponent(msg);
+  }
+
+  homesData() {
+    return [
+      {
+        title: 'הבית הקסום לזכרו של סמ"ר עדי צור ז"ל',
+        photoId: 'home-adi',
+        src: 'assets/memorial-adi-tzur.jpg',
+        photoPlaceholder: 'עדי צור ז"ל',
+        teaser: 'גיבור ישראל שהגן בגופו על קיבוץ כיסופים ב־7 באוקטובר. עדי בחר דווקא בלני, כלבה שאיש לא העז להתקרב אליה — ושיקם אותה באהבה אינסופית.',
+        paragraphs: [
+          'עדי צור היה לוחם עם נשמה גדולה ואומץ לב עילאי. ב־7 באוקטובר 2023 הגן עדי בגופו על קיבוץ כיסופים בקרב גבורה מול עשרות מחבלים. במעשיו הציל עדי חיים של אנשים רבים, כשהוא מפגין גבורה בלתי רגילה עד נשימתו האחרונה. אך מעבר להיותו לוחם אמיץ, עדי היה אדם שראה את הנשמות השקופות ביותר — אלו שזקוקות לחמלה ולסבלנות.',
+          'החיבור בין עדי לעמותת "חיים של אחרים" נרקם דרך לני, כלבה שעברה התעללות קשה וחיכתה שנים ארוכות בבית המחסה שמישהו יפתח לה את הלב. לני הייתה כלבה מפוחדת, כזו שאיש לא העז להתקרב אליה — אבל עדי בחר בה דווקא בגלל הקושי שלה. בסבלנות של מלאך ובאהבה אינסופית הוא שיקם אותה והעניק לה ביטחון שמעולם לא ידעה.',
+          'לאחר שעדי נפל, לני נותרה עם חלל עצום בלב. בצעד מרגש מאין כמוהו בחרו הוריו של עדי לאמץ את לני אליהם הביתה. היום לני חיה בחיבוק העוטף של משפחת צור — היא הנחמה שלהם והם הביטחון שלה. היא זיכרון חי ופועם לאהבה של עדי, ומימוש הצוואה הלא כתובה שלו: לעזור למי שקשה לו יותר מכולם.',
+          'הבית הקסום שהוקם לזכרו הוא המקום שבו המורשת של עדי ממשיכה לחיות. כאן אנחנו מעניקים תקווה לכלבים שאיש לא רצה, מתוך אמונה שבדיוק כמו לני — לכל נשמה מגיע "גיבור" שיאמין בה.'
+        ]
+      },
+      {
+        title: 'הבית הקסום לזכרה של שני גבאי ז"ל',
+        photoId: 'home-shani',
+        src: 'assets/memorial-shani-gabay.jpg',
+        photoPlaceholder: 'שני גבאי ז"ל',
+        teaser: 'קרן אור של חמלה שנרצחה במסיבת הנובה. החלום הגדול של שני היה להקים בית מחסה משלה — ואנחנו מגשימים אותו בשבילה, כל יום מחדש.',
+        paragraphs: [
+          'שני גבאי הייתה קרן אור של חמלה וחיוך שלא נגמר. ב־7 באוקטובר 2023 נרצחה שני במסיבת ה"נובה" ברעים, לאחר שעות ארוכות שבהן ניסתה להציל אחרים ולהימלט. שני הייתה רק בת 26 — צעירה מלאת חיים עם לב ענק שתמיד היה פתוח ליצורים החלשים ביותר: הכלבים הנטושים.',
+          'בחייה, שני לא רק אהבה כלבים — היא חיה אותם. היא התנדבה, הצילה כלבים מהרחוב ודאגה לכל נשמה על ארבע שנקלעה בדרכה. הכלבים האישיים של שני היו עבורה בני משפחה לכל דבר, העוגן והשמחה שלה בכל יום. לאחר לכתה, בצעד שכולו אהבה והמשכיות, אימצו הוריה את הכלבים שלה — והם הנחמה הגדולה ביותר שלהם, זיכרון חי ונושם לאהבה האינסופית של שני.',
+          'החלום הגדול של שני, זה שדיברה עליו תמיד, היה להקים בית מחסה משלה — מקום שבו כלבים יוכלו להשתקם, לרוץ חופשי ולהרגיש נאהבים באמת. כדי להגשים את החלום שלא הספיקה לממש, הקימה העמותה את "הבית לזכרה של שני גבאי".',
+          'זהו מקום של תקווה, שבו הרוח של שני — רוח של נתינה ללא תנאי ושמחת חיים — פועמת בכל זנב שמכשכש. שני האמינה שלכל כלב מגיע סיכוי, ואנחנו כאן כדי לוודא שהסיכוי הזה יתממש. בכל פעם שכלב מהבית שלנו מוצא משפחה, אנחנו יודעים ששני מחייכת מלמעלה.'
+        ]
+      },
+      {
+        title: 'הבית הקסום לזכרו של יאיר כץ ז"ל',
+        photoId: 'home-yair',
+        src: 'assets/memorial-yair-katz.jpg',
+        photoPlaceholder: 'יאיר כץ ז"ל עם ברוס',
+        teaser: 'גם מהשטח בעזה לא שכח יאיר את הנשמות האבודות. ברוס, הפיטבול שאימץ, ממשיך היום את דרכו — בבית אחיו.',
+        paragraphs: [
+          'יאיר כץ ז"ל נשא בתוכו אהבה אינסופית לכלבים — אהבה שלא כבתה גם ברגעים המאתגרים ביותר. טלי, מנהלת העמותה, מספרת שגם מהשטח בעזה יאיר לא שכח את הנשמות האבודות שפגש בדרך. הוא יצר קשר וביקש עזרה כדי להושיט יד לכלבים חסרי אונים שנותרו ללא מחסה בין ההריסות — ובשיתוף פעולה מרגש, הכלבים האלו ניצלו.',
+          'סיפורו של ברוס, כלב הפיטבול האהוב, הוא עדות חיה לקשר העמוק בין יאיר לעמותה. ברוס היה דייר ותיק בבית המחסה — כלב גדול עם לב זהב שחיכה שנים ארוכות שמישהו יראה את יופיו הפנימי מעבר לסטיגמות. יאיר היה המאמץ שלו: זה שפתח את הלב והפך לחברו הטוב ביותר.',
+          'לאחר נפילתו של יאיר, ברוס לא נותר לבד. בצעד מרגש שסגר מעגל של חסד, אחיו של יאיר בחר להמשיך את דרכו ואימץ את ברוס אליו. היום ברוס הוא הרבה יותר מכלב מאומץ — הוא זיכרון חי, נושם ומכשכש בזנב ליאיר, והוכחה שאהבה אמיתית אינה נגמרת: היא עוברת הלאה, מהאח שנפל אל האח שממשיך את דרכו.',
+          'בית המחסה שלנו הוא הבית של יאיר — מקום שבו כל כלב מקבל הזדמנות שנייה, בדיוק כפי שיאיר העניק לברוס.'
+        ]
+      }
+    ];
+  }
+
+  renderVals() {
+    const homes = this.homesData();
+    const open = this.state.openHome;
+    const donateUrl = this.props.donateUrl ?? '#donate';
+    const adoptNum = this.props.adoptWhatsapp ?? '972544868810';
+    const genNum = this.props.whatsappNumber ?? '972546881116';
+
+    return {
+      donateUrl,
+      volunteerWa: this.wa(genNum, 'היי! אני רוצה להתנדב בעמותת חיים של אחרים 🐾'),
+      contactWa: this.wa(genNum, 'היי! הגעתי דרך האתר 🐾'),
+      homes: homes.map((h, i) => ({
+        ...h,
+        open: () => this.setState({ openHome: i })
+      })),
+      modalOpen: open !== null,
+      modalTitle: open !== null ? homes[open].title : '',
+      modalParagraphs: open !== null ? homes[open].paragraphs.map(t => ({ text: t })) : [],
+      closeModal: () => this.setState({ openHome: null }),
+      stopClick: (e) => e.stopPropagation(),
+      dogs: [
+        { photoId: 'dog-1', name: 'לוז', meta: 'בן 11', bio: 'רגוע, עדין, מחונך לבית וטוב עם אנשים, ילדים וכלבים. הבטיחו לו בית — וביטלו. עכשיו תורכם לא לוותר עליו.', placeholder: 'לוז', src: 'assets/story-dogpark.jpg', cta: 'אמצו אותי', adopt: this.wa(adoptNum, 'היי! אני רוצה לאמץ את לוז 🐾') },
+        { photoId: 'dog-2', name: 'גל', meta: 'גור בן 5 חודשים', bio: 'גל לא צריך תיקון — הוא צריך ילדות. גורון קטן, עדין, חכם ומלא אמון, שגדל עכשיו בבית המחסה.', placeholder: 'גל', src: 'assets/puppy.jpg', cta: 'אמצו אותי', adopt: this.wa(adoptNum, 'היי! אני רוצה לאמץ את גל 🐾') },
+        { photoId: 'dog-3', name: 'ג׳וני', meta: 'מחפש בית שקט', bio: 'יש אנשים שמבינים את היופי שבשקט — ג׳וני צריך בדיוק אנשים כאלה. האומנה שלו מסתיימת, והוא זקוק לבית אמיתי.', placeholder: 'ג׳וני', src: 'assets/dog-shepherd.jpg', cta: 'אמצו אותי', adopt: this.wa(adoptNum, 'היי! אני רוצה לאמץ את ג׳וני 🐾') },
+        { photoId: 'dog-4', name: 'אקי', meta: 'כמעט בת שנתיים', bio: 'חולצה ממגרש גרוטאות. מדהימה עם אנשים וילדים — אבל עדיין מחכה שהסוף הטוב שלה יגיע.', placeholder: 'אקי', src: 'assets/foster-couch.jpg', cta: 'אמצו אותי', adopt: this.wa(adoptNum, 'היי! אני רוצה לאמץ את אקי 🐾') },
+        { photoId: 'dog-5', name: 'בל', meta: 'מחכה למשפחה', bio: 'אתם לא צריכים להיות מושלמים כדי לאמץ את בל. אתם רק צריכים להיות אלה שלא יוותרו עליה.', placeholder: 'בל', src: 'assets/adopt-me-cafe.jpg', cta: 'אמצו אותי', adopt: this.wa(adoptNum, 'היי! אני רוצה לאמץ את בל 🐾') },
+        { photoId: 'dog-6', name: 'ברונו ולילה', meta: 'בני 7 · זוג', bio: 'גדלו בבית מגיל חודש וננטשו יחד בכלבייה. רגועים, מחונכים ואוהבי אדם — מחפשים בית שיקבל את שניהם.', placeholder: 'ברונו ולילה', src: 'assets/hero-two-dogs.jpg', cta: 'אמצו אותנו', adopt: this.wa(adoptNum, 'היי! אני רוצה לאמץ את ברונו ולילה 🐾') },
+        { photoId: 'dog-7', name: 'עומרי', meta: 'מתגלה לאט', bio: 'אומרים שהדברים הכי טובים מתגלים לאט — עומרי הוא בדיוק כזה. תנו לו רגע, והוא יתפוס לכם את הלב.', placeholder: 'עומרי', src: 'assets/dog-tub.jpg', cta: 'אמצו אותי', adopt: this.wa(adoptNum, 'היי! אני רוצה לאמץ את עומרי 🐾') },
+        { photoId: 'dog-8', name: 'זום', meta: 'דרושה אומנה', bio: 'העמותה משלמת 1,200 ₪ בחודש למשפחת אומנה עבור זום! כל מה שהוא צריך זה בית זמני ולב פתוח.', placeholder: 'זום', src: 'assets/dog-car-kid.jpg', cta: 'אהיה אומנה', adopt: this.wa(adoptNum, 'היי! אני רוצה להיות אומנה של זום 🐾') }
+      ],
+      tales: [
+        { photoId: 'tale-1', name: 'רוני ולונה — המלך והמלכה של הבית הקסום', src: 'assets/story-dogpark.jpg', story: 'רוני ולונה גדלו יחד אצל אדם ערירי, ואחרי פטירתו נזרקו להסגר בגיל 11. הם היו הדיירים הראשונים בבית הקסום ע"ש עדי צור, טופלו שם במסירות אין־קץ, וחיו הרבה מעבר לציפיות — כמעט עד גיל 14. כשהגיע יומו של רוני, הווטרינרית הגיעה אליו הביתה, וכולנו חיבקנו אותו בדרכו האחרונה. זו ההבטחה שלנו לכל כלב: שיבה טובה, בבית, באהבה.', ctaHref: '#donate', ctaText: 'לתמוך בבתים הקסומים' },
+        { photoId: 'tale-2', name: 'ברוס — האהבה שעוברת הלאה', src: 'assets/memorial-yair-katz.jpg', story: 'כלב פיטבול עם לב זהב, שחיכה שנים בבית המחסה שמישהו יראה אותו מעבר לסטיגמות. יאיר כץ ז"ל היה זה שפתח לו את הלב והפך לחברו הטוב ביותר. אחרי נפילתו של יאיר בעזה, אחיו אימץ את ברוס אליו — ואהבה אמיתית, מסתבר, פשוט עוברת הלאה.', ctaHref: '#homes', ctaText: 'לבית של יאיר' },
+        { photoId: 'tale-3', name: 'לני — הכלבה שעדי בחר', src: 'assets/tali-malinois.jpg', story: 'לני עברה התעללות קשה וחיכתה שנים בבית המחסה, מפוחדת כל כך שאיש לא העז להתקרב אליה. עדי צור בחר בה דווקא בגלל הקושי שלה, ובסבלנות של מלאך החזיר לה את האמון בבני אדם. אחרי שעדי נפל בהגנה על קיבוץ כיסופים, הוריו אימצו את לני אליהם — היום היא הנחמה שלהם, והם הביטחון שלה.', ctaHref: '#homes', ctaText: 'לבית של עדי' },
+        { photoId: 'tale-4', name: 'רני — הפעם זה לתמיד', src: 'assets/dog-trail.jpg', story: 'לפני כמעט שלוש שנים הוצאנו את רני מההסגר — אחד הכלבים המתוקים והטובים שפגשנו. הוא אומץ, ושמחנו כל כך בשבילו. ואז קיבלנו את הטלפון שאף עמותה לא רוצה לקבל: רני חוזר. לא בגללו — הוא לא אשם. רני בן 4, טוב ומלא אהבה, מסתדר עם כולם. עכשיו הוא מחפש אדם אחד שיבטיח לו באמת: הפעם זה לתמיד.', ctaHref: 'https://wa.me/972544868810?text=' + encodeURIComponent('היי! אני רוצה לאמץ את רני 🐾'), ctaText: 'אני רוצה להיות הבית של רני' },
+        { photoId: 'tale-5', name: 'בל — הכלבה המלאכית', src: 'assets/adopt-me-cafe.jpg', story: 'מדהימה עם אנשים, ילדים, תינוקות וכל הכלבים. אדישה לחתולים, מחונכת מאה אחוז, יודעת להישאר לבד בבית בנחת, אוהבת להתכרבל וגם לשחק. בת שנתיים, בריאה ומטופלת. בל מבינה סיטואציות וניגשת לכל מצב באהבה — היא תהיה בת משפחה מדהימה לכל בית.', ctaHref: 'https://wa.me/972544868810?text=' + encodeURIComponent('היי! אני רוצה לאמץ את בל 🐾'), ctaText: 'אני רוצה לאמץ את בל' },
+        { photoId: 'tale-6', name: 'אקי — הסוף הטוב עוד לפניה', src: 'assets/dog-tub.jpg', story: 'חולצה ממגרש גרוטאות כשהייתה גורה. היום היא כלבה צעירה, בריאה ומדהימה עם אנשים וילדים — והפרק הבא בסיפור שלה, הבית הקבוע, עדיין מחכה להיכתב. אולי אצלכם?', ctaHref: 'https://wa.me/972544868810?text=' + encodeURIComponent('היי! אני רוצה לאמץ את אקי 🐾'), ctaText: 'אני רוצה לאמץ את אקי' }
+      ],
+      updates: [
+        { photoId: 'up-1', src: 'assets/sleeping-bandana.jpg', date: 'עכשיו בעמוד הפייסבוק', title: 'הכלבים שלנו רוצים לאכול 🙏', text: 'קערה אחרי קערה, שק אחרי שק. עשרות כלבים תלויים בנו בכל יום — ואנחנו תלויים בכם. גם תרומה קטנה ממלאה עוד קערה.' },
+        { photoId: 'up-2', src: 'assets/dog-car-kid.jpg', date: 'דרוש דחוף', title: 'מחפשים אומנה לזום — העמותה משלמת 1,200 ₪ בחודש', text: 'זום צריך רק בית זמני ולב פתוח. את כל השאר — אוכל, וטרינר וליווי — אנחנו מממנים.' },
+        { photoId: 'up-3', src: 'assets/volunteers.jpg', date: 'אפשר לעזור גם בציוד', title: 'דרושים: רתמות, רצועות ושקי אוכל', text: 'נמצאים ברמת אפעל. מוזמנים לתאם הגעה: 054-6881116 — כל תרומת ציוד מתקבלת בזנבות מכשכשים.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
