@@ -17,13 +17,11 @@ document.querySelectorAll('[data-open-modal]').forEach(btn => {
     if (dlg) dlg.showModal();
   });
 });
-document.querySelectorAll('dialog.memorial-modal').forEach(dlg => {
+document.querySelectorAll('dialog.memorial-modal, dialog.dog-modal').forEach(dlg => {
   dlg.querySelectorAll('[data-close-modal]').forEach(b =>
     b.addEventListener('click', () => dlg.close()));
   dlg.addEventListener('click', e => {
-    const r = dlg.getBoundingClientRect();
-    const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
-    if (!inside) dlg.close();
+    if (e.target === dlg) dlg.close(); // click on backdrop only
   });
 });
 
@@ -52,3 +50,75 @@ const observer = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Count-up counters (trigger when in view)
+function animateCount(el) {
+  const target = parseInt(el.dataset.count, 10) || 0;
+  const suffix = el.dataset.suffix || '';
+  const dur = 1800, start = performance.now();
+  function step(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(target * eased).toLocaleString('en-US') + (p === 1 ? suffix : '');
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+const countObserver = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) { animateCount(en.target); countObserver.unobserve(en.target); }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter-num[data-count]').forEach(el => countObserver.observe(el));
+
+// Before/after auto-flip (staggered)
+document.querySelectorAll('.ba-item').forEach((item, i) => {
+  setTimeout(() => {
+    setInterval(() => item.classList.toggle('flip'), 3000);
+  }, i * 400);
+});
+
+// Dog carousels
+document.querySelectorAll('[data-carousel]').forEach(car => {
+  const track = car.querySelector('.carousel-track');
+  const slides = track ? track.querySelectorAll('img') : [];
+  const prev = car.querySelector('[data-carousel-prev]');
+  const next = car.querySelector('[data-carousel-next]');
+  const dotsWrap = car.querySelector('[data-carousel-dots]');
+  let idx = 0;
+  if (slides.length <= 1) {
+    if (prev) prev.hidden = true;
+    if (next) next.hidden = true;
+  }
+  if (dotsWrap) {
+    slides.forEach((_, i) => {
+      const dot = document.createElement('span');
+      if (i === 0) dot.className = 'on';
+      dot.addEventListener('click', () => go(i));
+      dotsWrap.appendChild(dot);
+    });
+  }
+  function go(n) {
+    idx = (n + slides.length) % slides.length;
+    track.style.transform = `translateX(${-idx * 100}%)`;
+    if (dotsWrap) dotsWrap.querySelectorAll('span').forEach((d, i) => d.classList.toggle('on', i === idx));
+  }
+  if (prev) prev.addEventListener('click', () => go(idx - 1));
+  if (next) next.addEventListener('click', () => go(idx + 1));
+});
+
+// Reset each dog carousel to first slide when its modal opens
+document.querySelectorAll('[data-open-modal]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const dlg = document.getElementById(btn.dataset.openModal);
+    if (!dlg) return;
+    const track = dlg.querySelector('.carousel-track');
+    if (track) {
+      track.style.transition = 'none';
+      track.style.transform = 'translateX(0)';
+      requestAnimationFrame(() => { track.style.transition = ''; });
+      const dots = dlg.querySelectorAll('[data-carousel-dots] span');
+      dots.forEach((d, i) => d.classList.toggle('on', i === 0));
+    }
+  });
+});

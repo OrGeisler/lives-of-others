@@ -1,3 +1,8 @@
 .DS_Store
 assets/video/channel12-540.mp4
 assets/video/channel12-web.mp4
+
+# internal review docs & raw media (not for public site)
+*.docx
+~$*
+תמונות כלבים/

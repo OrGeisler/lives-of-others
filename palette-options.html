@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>אפשרויות פלטת צבעים — חיים של אחרים</title>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Rubik:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Assistant', sans-serif; background: #F5F9FD; color: #1B2B3A; line-height: 1.6; padding: 40px 20px 80px; }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  h1 { font-family: 'Rubik', sans-serif; font-size: 34px; margin-bottom: 6px; color: #163150; }
+  .lead { font-size: 18px; color: #45586B; max-width: 680px; margin-bottom: 8px; }
+  .note { font-size: 15px; color: #7089A0; margin-bottom: 36px; }
+  .opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  @media (max-width: 820px) { .opts { grid-template-columns: 1fr; } }
+  .opt { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 18px rgba(22,49,80,.10); display: flex; flex-direction: column; }
+  .opt-preview { height: 150px; display: flex; align-items: flex-end; padding: 16px; position: relative; }
+  .opt-preview .chip { font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 999px; background: rgba(255,255,255,.9); }
+  .opt-body { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 12px; }
+  .opt-body h2 { font-family: 'Rubik', sans-serif; font-size: 21px; }
+  .opt-body p { font-size: 14.5px; color: #45586B; }
+  .swatches { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .sw { flex: 1; min-width: 60px; border-radius: 10px; height: 58px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 5px; font-size: 10.5px; font-weight: 700; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.3); }
+  .btns { display: flex; gap: 8px; margin-top: 6px; }
+  .btns a { flex: 1; text-align: center; padding: 9px 0; border-radius: 999px; font-size: 13px; font-weight: 700; color: #fff; text-decoration: none; }
+  .tag { position: absolute; top: 12px; inset-inline-start: 12px; background: rgba(0,0,0,.35); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+  .foot { margin-top: 34px; font-size: 15px; color: #45586B; background: #EAF2FA; border-radius: 14px; padding: 18px 22px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>אפשרויות פלטת צבעים 🎨</h1>
+  <p class="lead">שלוש גרסאות של כחול־ולבן, בהשראת סגנון האתר של "חיים חדשים לכלבים" (רק בכחולים במקום ורודים). <strong>אופציה 1 היא מה שמיושם כרגע באתר.</strong></p>
+  <p class="note">בחרו את הכיוון שאהבתם — וברי יוכל למקד את הגוון הסופי. אפשר גם לערבב (למשל פלטה 1 עם אקסנט של פלטה 3).</p>
+
+  <div class="opts">
+    <!-- Option 1 -->
+    <div class="opt">
+      <div class="opt-preview" style="background:linear-gradient(135deg,#163150,#1D6FB8)">
+        <span class="tag">מיושם עכשיו</span>
+        <span class="chip" style="color:#1D6FB8">🐾 בתים, לא כלובים</span>
+      </div>
+      <div class="opt-body">
+        <h2>1 · אוקיינוס + זהב</h2>
+        <p>נייבי עמוק וכחול־שמיים, עם נגיעת זהב חמה שמייחדת את כפתור התרומה. אמין, רגוע ובולט.</p>
+        <div class="swatches">
+          <div class="sw" style="background:#163150">נייבי</div>
+          <div class="sw" style="background:#1D6FB8">כחול</div>
+          <div class="sw" style="background:#3E86C7">שמיים</div>
+          <div class="sw" style="background:#E8A265;color:#3A2A16;text-shadow:none">זהב</div>
+        </div>
+        <div class="btns"><a style="background:#1D6FB8">לעזור</a><a style="background:#E8A265;color:#3A2A16">לתרום</a><a style="background:#2C7A8C">להתנדב</a></div>
+      </div>
+    </div>
+
+    <!-- Option 2 -->
+    <div class="opt">
+      <div class="opt-preview" style="background:linear-gradient(135deg,#0E2E4E,#2E86C1)">
+        <span class="chip" style="color:#2E86C1">🐾 בתים, לא כלובים</span>
+      </div>
+      <div class="opt-body">
+        <h2>2 · כחול טהור (מונוכרום)</h2>
+        <p>הכול בגווני כחול בלבד — לבן, תכלת, כחול ונייבי. נקי, מודרני ורגוע, בלי צבע חם.</p>
+        <div class="swatches">
+          <div class="sw" style="background:#0E2E4E">נייבי</div>
+          <div class="sw" style="background:#2E86C1">כחול</div>
+          <div class="sw" style="background:#6BB0DE">תכלת</div>
+          <div class="sw" style="background:#0E2E4E">דגש</div>
+        </div>
+        <div class="btns"><a style="background:#2E86C1">לעזור</a><a style="background:#0E2E4E">לתרום</a><a style="background:#5AA0CE">להתנדב</a></div>
+      </div>
+    </div>
+
+    <!-- Option 3 -->
+    <div class="opt">
+      <div class="opt-preview" style="background:linear-gradient(135deg,#123A5A,#2C7A8C)">
+        <span class="chip" style="color:#2C7A8C">🐾 בתים, לא כלובים</span>
+      </div>
+      <div class="opt-body">
+        <h2>3 · כחול + טורקיז</h2>
+        <p>כחול עמוק עם טורקיז רענן. חם יותר ו"ימי", מרגיש ידידותי ואופטימי בלי לצאת מהמשפחה הכחולה.</p>
+        <div class="swatches">
+          <div class="sw" style="background:#123A5A">נייבי</div>
+          <div class="sw" style="background:#1E6E9C">כחול</div>
+          <div class="sw" style="background:#2C9AA6">טורקיז</div>
+          <div class="sw" style="background:#7AC0C4">בהיר</div>
+        </div>
+        <div class="btns"><a style="background:#1E6E9C">לעזור</a><a style="background:#2C9AA6">לתרום</a><a style="background:#123A5A">להתנדב</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">💡 <strong>איך זה עובד:</strong> האתר החי כרגע בפלטה 1. אם תעדיפו 2 או 3 (או שילוב) — תגידו לי ואני מחליף תוך דקות. גם אפשר לכוונן כל גוון ספציפי לפי ההנחיה של ברי.</div>
+</div>
+</body>
+</html>
