@@ -71,11 +71,9 @@ const countObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.5 });
 document.querySelectorAll('.counter-num[data-count]').forEach(el => countObserver.observe(el));
 
-// Before/after auto-flip (staggered)
-document.querySelectorAll('.ba-item').forEach((item, i) => {
-  setTimeout(() => {
-    setInterval(() => item.classList.toggle('flip'), 3000);
-  }, i * 400);
+// Before/after: reveal "after" on hover (CSS); tap toggles on touch devices
+document.querySelectorAll('.ba-item').forEach(item => {
+  item.addEventListener('click', () => item.classList.toggle('flip'));
 });
 
 // Dog carousels
@@ -105,6 +103,12 @@ document.querySelectorAll('[data-carousel]').forEach(car => {
   }
   if (prev) prev.addEventListener('click', () => go(idx - 1));
   if (next) next.addEventListener('click', () => go(idx + 1));
+  // Auto-advance (pauses on hover)
+  if (slides.length > 1) {
+    let timer = setInterval(() => go(idx + 1), 3500);
+    car.addEventListener('mouseenter', () => clearInterval(timer));
+    car.addEventListener('mouseleave', () => { clearInterval(timer); timer = setInterval(() => go(idx + 1), 3500); });
+  }
 });
 
 // Reset each dog carousel to first slide when its modal opens
