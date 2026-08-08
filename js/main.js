@@ -76,14 +76,14 @@ document.querySelectorAll('.ba-item').forEach(item => {
   item.addEventListener('click', () => item.classList.toggle('flip'));
 });
 
-// Dog carousels
+// Dog carousels — expose a small API on each element so modal open/close can drive it
 document.querySelectorAll('[data-carousel]').forEach(car => {
   const track = car.querySelector('.carousel-track');
   const slides = track ? track.querySelectorAll('img') : [];
   const prev = car.querySelector('[data-carousel-prev]');
   const next = car.querySelector('[data-carousel-next]');
   const dotsWrap = car.querySelector('[data-carousel-dots]');
-  let idx = 0;
+  let idx = 0, timer = null;
   if (slides.length <= 1) {
     if (prev) prev.hidden = true;
     if (next) next.hidden = true;
@@ -92,37 +92,42 @@ document.querySelectorAll('[data-carousel]').forEach(car => {
     slides.forEach((_, i) => {
       const dot = document.createElement('span');
       if (i === 0) dot.className = 'on';
-      dot.addEventListener('click', () => go(i));
+      dot.addEventListener('click', () => { go(i); restart(); });
       dotsWrap.appendChild(dot);
     });
   }
-  function go(n) {
+  function go(n, instant) {
     idx = (n + slides.length) % slides.length;
+    if (instant) track.style.transition = 'none';
     track.style.transform = `translateX(${-idx * 100}%)`;
+    if (instant) requestAnimationFrame(() => { track.style.transition = ''; });
     if (dotsWrap) dotsWrap.querySelectorAll('span').forEach((d, i) => d.classList.toggle('on', i === idx));
   }
-  if (prev) prev.addEventListener('click', () => go(idx - 1));
-  if (next) next.addEventListener('click', () => go(idx + 1));
-  // Auto-advance (pauses on hover)
-  if (slides.length > 1) {
-    let timer = setInterval(() => go(idx + 1), 3500);
-    car.addEventListener('mouseenter', () => clearInterval(timer));
-    car.addEventListener('mouseleave', () => { clearInterval(timer); timer = setInterval(() => go(idx + 1), 3500); });
-  }
+  function start() { if (slides.length > 1 && !timer) timer = setInterval(() => go(idx + 1), 3500); }
+  function stop() { if (timer) { clearInterval(timer); timer = null; } }
+  function restart() { stop(); start(); } // keep auto-advance alive after a manual move
+  if (prev) prev.addEventListener('click', () => { go(idx - 1); restart(); });
+  if (next) next.addEventListener('click', () => { go(idx + 1); restart(); });
+  // Pause only while the pointer is on the arrows/dots, not the whole image
+  [prev, next, dotsWrap].forEach(el => el && el.addEventListener('mouseenter', stop));
+  [prev, next, dotsWrap].forEach(el => el && el.addEventListener('mouseleave', restart));
+  // API used by the modal open/close handlers
+  car._carousel = { reset: () => go(0, true), start, stop };
 });
 
-// Reset each dog carousel to first slide when its modal opens
+// When a dog modal opens: reset its carousel to slide 1 and (re)start auto-advance.
+// When it closes: stop auto-advance so hidden modals don't tick in the background.
 document.querySelectorAll('[data-open-modal]').forEach(btn => {
   btn.addEventListener('click', () => {
     const dlg = document.getElementById(btn.dataset.openModal);
     if (!dlg) return;
-    const track = dlg.querySelector('.carousel-track');
-    if (track) {
-      track.style.transition = 'none';
-      track.style.transform = 'translateX(0)';
-      requestAnimationFrame(() => { track.style.transition = ''; });
-      const dots = dlg.querySelectorAll('[data-carousel-dots] span');
-      dots.forEach((d, i) => d.classList.toggle('on', i === 0));
-    }
+    const car = dlg.querySelector('[data-carousel]');
+    if (car && car._carousel) { car._carousel.reset(); car._carousel.start(); }
+  });
+});
+document.querySelectorAll('dialog.dog-modal').forEach(dlg => {
+  dlg.addEventListener('close', () => {
+    const car = dlg.querySelector('[data-carousel]');
+    if (car && car._carousel) car._carousel.stop();
   });
 });
