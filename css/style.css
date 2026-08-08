@@ -1,28 +1,28 @@
 /* חיים של אחרים — Lives of Others */
 :root {
-  /* ===== Blue & white palette (option "Ocean" — see /palette-options.html) ===== */
-  --bg: #F5F9FD;            /* cool near-white page bg */
-  --ink: #1B2B3A;          /* deep blue-ink text */
-  --muted: #45586B;        /* secondary text */
-  --soft: #7089A0;         /* tertiary / captions */
-  --line: #DBE6F0;         /* hairlines */
-  --cream: #EAF2FA;        /* soft blue band bg (replaces warm cream) */
-  --chip: #E4EFF8;         /* light-blue chips/pills */
-  --chip-ink: #1D6FB8;     /* text on chips */
+  /* ===== Blue & turquoise palette (option 3 — see /palette-options.html) ===== */
+  --bg: #F4F9FB;           /* cool near-white page bg */
+  --ink: #14293A;          /* deep blue-ink text */
+  --muted: #42586A;        /* secondary text */
+  --soft: #6E8A9C;         /* tertiary / captions */
+  --line: #D6E6EC;         /* hairlines */
+  --cream: #E6F2F5;        /* soft turquoise-tint band bg */
+  --chip: #DCEEF2;         /* light chips/pills */
+  --chip-ink: #1E6E9C;     /* text on chips */
   /* --orange* kept as var names for compatibility; now the PRIMARY blue */
-  --orange: #1D6FB8;       /* primary blue (main CTA / brand accent) */
-  --orange-d: #175A97;     /* primary blue, darker (hover) */
-  --green: #2C7A8C;        /* teal-blue (sponsor / volunteer) */
+  --orange: #1E6E9C;       /* primary blue (main CTA / brand accent) */
+  --orange-d: #17587D;     /* primary blue, darker (hover) */
+  --green: #2C7A8C;        /* teal (sponsor / volunteer) */
   --green-d: #22626F;
-  --blue: #3E86C7;         /* secondary sky blue */
-  --blue-d: #2E6BA0;
-  --navy: #163150;         /* deep navy (memorial / dark bands) */
-  --navy-2: #22405F;
-  --navy-text: #C1D2E4;
-  --gold: #E8A265;         /* warm accent — reserved for DONATE emphasis only */
-  --gold-2: #F2C894;
-  --dark: #16324F;         /* impact / contact bands → navy-blue */
-  --darker: #0F2438;
+  --blue: #3E9BC7;         /* secondary sky blue */
+  --blue-d: #2E7BA0;
+  --navy: #123A5A;         /* deep navy (memorial / dark bands) */
+  --navy-2: #1E4E6E;
+  --navy-text: #B9D3E2;
+  --gold: #22A0AD;         /* TURQUOISE accent — reserved for DONATE emphasis */
+  --gold-2: #45BEC9;
+  --dark: #123A5A;         /* impact / contact bands → navy-blue */
+  --darker: #0D2B44;
   --wa: #25D366;
 }
 
@@ -78,8 +78,8 @@ img { max-width: 100%; }
 .btn-blue   { background: var(--blue);   color: #fff; } .btn-blue:hover   { background: var(--blue-d); }
 .btn-outline-green  { background: #fff; color: var(--green); border: 2px solid var(--green); padding: 12px 26px; }
 .btn-outline-orange { background: #fff; color: var(--orange); border: 2px solid var(--orange); padding: 12px 26px; }
-/* Donate emphasis — warm gold pop so "לתרום" stands out among the three CTAs */
-.btn-gold { background: var(--gold); color: #3A2A16; box-shadow: 0 6px 18px rgba(232,162,101,.4); }
+/* Donate emphasis — turquoise pop so "לתרום" stands out among the three CTAs */
+.btn-gold { background: var(--gold); color: #fff; box-shadow: 0 6px 18px rgba(34,160,173,.4); }
 .btn-gold:hover { background: var(--gold-2); }
 .btn-sm { padding: 11px 22px; border-radius: 999px; font-size: 15.5px; }
 .btn-hero-main { font-size: 19px; padding: 16px 34px; box-shadow: 0 8px 22px rgba(29,111,184,.32); }
@@ -151,7 +151,7 @@ video.hero-photo { display: block; background: #0d1c2c; }
 .homes-sub { font-size: 18px; color: var(--navy-text); max-width: 680px; margin: 0; }
 .homes-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 28px; width: 100%; text-align: start; }
 .home-card { background: var(--navy-2); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
-.home-card img { width: 100%; height: 260px; object-fit: cover; object-position: top center; }
+.home-card img { width: 100%; height: 300px; object-fit: cover; object-position: center 22%; }
 .home-card-body { padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
 .home-card h3 { font-size: 20px; margin: 0; font-weight: 700; color: #fff; }
 .home-card p { font-size: 15px; color: var(--navy-text); margin: 0; flex: 1; }
@@ -174,7 +174,7 @@ video.hero-photo { display: block; background: #0d1c2c; }
 .memorial-eyebrow { font-size: 13px; letter-spacing: 2px; color: var(--soft); font-weight: 600; }
 .memorial-modal h3 { font-size: 27px; margin: 8px 0 18px; font-weight: 800; }
 .memorial-modal img.memorial-portrait { width: 132px; height: 132px; object-fit: cover; object-position: top center; border-radius: 50%; float: inline-start; margin-inline-end: 18px; margin-bottom: 8px; border: 3px solid var(--chip); }
-.memorial-modal img.memorial-hero-img { width: 100%; max-height: 360px; object-fit: cover; object-position: top center; border-radius: 16px; margin: 4px 0 18px; display: block; }
+.memorial-modal img.memorial-hero-img { width: 100%; max-height: 380px; object-fit: cover; object-position: center 25%; border-radius: 16px; margin: 4px 0 18px; display: block; }
 .memorial-modal p { font-size: 16.5px; color: #4A3F32; margin: 0 0 14px; }
 .memorial-actions { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; gap: 12px; flex-wrap: wrap; clear: both; }
 
@@ -243,7 +243,7 @@ video.hero-photo { display: block; background: #0d1c2c; }
 .vol-card strong { font-size: 18px; }
 .vol-card p { font-size: 14.5px; color: var(--muted); margin: 0; }
 .vol-cta { text-align: center; margin-top: 32px; }
-.vol-banner { width: 100%; height: 300px; object-fit: cover; object-position: center 35%; border-radius: 22px; margin-bottom: 28px; }
+.vol-banner { width: 100%; height: 300px; object-fit: cover; object-position: center 24%; border-radius: 22px; margin-bottom: 28px; }
 .vol-info { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; }
 .vol-info-card { background: #fff; border-radius: 18px; padding: 24px 22px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 2px 10px rgba(22,49,80,.06); }
 .vol-info-card strong { font-size: 18px; }
