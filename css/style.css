@@ -170,6 +170,8 @@ video.hero-photo { display: block; background: #0d1c2c; }
   font-family: 'Assistant', sans-serif; font-size: 15px; font-weight: 700;
 }
 .home-donate:hover { background: var(--gold-2); border-color: var(--gold-2); }
+.update-cta { display: inline-block; margin-top: 10px; align-self: flex-start; background: var(--gold); color: #fff; padding: 8px 18px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 14.5px; }
+.update-cta:hover { background: var(--gold-2); }
 
 /* ---------- Memorial modal ---------- */
 .memorial-modal { border: none; border-radius: 24px; max-width: 720px; width: calc(100% - 48px); max-height: 84vh; padding: 0; background: var(--bg); color: var(--ink); box-shadow: 0 30px 80px rgba(0,0,0,0.4); }
