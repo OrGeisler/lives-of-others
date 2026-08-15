@@ -369,11 +369,18 @@ video.hero-photo { display: block; background: #0d1c2c; }
 .ba-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; width: 100%; }
 .ba-item { position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 4/5; box-shadow: 0 6px 20px rgba(0,0,0,.28); }
 .ba-item img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .9s ease; }
+.ba-item { cursor: pointer; }
 .ba-item .ba-after { opacity: 0; }
-.ba-item:hover .ba-after, .ba-item.flip .ba-after { opacity: 1; }
-.ba-item:hover .ba-before, .ba-item.flip .ba-before { opacity: 0; }
-.ba-item .ba-hint { position: absolute; top: 10px; inset-inline-end: 10px; background: rgba(0,0,0,.45); color: #fff; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; opacity: .85; }
-.ba-item:hover .ba-hint { opacity: 0; }
+.ba-item.flip .ba-after { opacity: 1; }
+.ba-item.flip .ba-before { opacity: 0; }
+/* Tap cue + current-state label. On touch: tap toggles. On desktop: hover reveals. */
+.ba-item::after { content: "👆 לפני"; position: absolute; top: 10px; inset-inline-end: 10px; z-index: 2; pointer-events: none; background: rgba(0,0,0,.6); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 11px; border-radius: 999px; transition: opacity .3s; }
+.ba-item.flip::after { content: "👆 אחרי"; background: var(--gold); }
+@media (hover: hover) {
+  .ba-item:hover .ba-after { opacity: 1; }
+  .ba-item:hover .ba-before { opacity: 0; }
+  .ba-item:hover::after { opacity: 0; }
+}
 .ba-name { position: absolute; inset-inline-start: 0; inset-inline-end: 0; bottom: 0; padding: 26px 14px 12px; background: linear-gradient(transparent, rgba(0,0,0,.72)); color: #fff; font-family: 'Rubik', sans-serif; font-weight: 700; font-size: 18px; }
 .ba-tag { position: absolute; top: 10px; inset-inline-start: 10px; background: rgba(0,0,0,.55); color: #fff; font-size: 12px; font-weight: 700; padding: 3px 12px; border-radius: 999px; }
 .counters { display: flex; gap: 56px; flex-wrap: wrap; justify-content: center; }
@@ -497,4 +504,13 @@ video.hero-photo { display: block; background: #0d1c2c; }
   .gift-occasions { grid-template-columns: 1fr; }
   .dom-inner { grid-template-columns: 1fr; }
   .dom-inner img { height: 220px; }
+}
+
+/* ===== Mobile proportions polish ===== */
+@media (max-width: 560px) {
+  .story, .about, .unique, .homes-inner, .dogs, .sponsor-inner, .rescues, .volunteer, .donate, .updates, .contact-inner { padding-block: 46px; }
+  .va-gift-inner, .va-visit-inner, .va-newsletter-inner, .dom-inner { padding-block: 40px; }
+  .dog-modal-actions .btn { flex: 1 1 100%; min-width: 0; }
+  .home-card-actions .home-donate, .home-card-actions > button { flex: 1 1 auto; text-align: center; }
+  .memorial-modal-inner { padding: 26px 20px; }
 }
