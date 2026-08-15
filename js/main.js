@@ -131,18 +131,3 @@ document.querySelectorAll('dialog.dog-modal').forEach(dlg => {
     if (car && car._carousel) car._carousel.stop();
   });
 });
-
-// Virtual-adoption: monthly / annual (one-time) tier toggle
-document.querySelectorAll('[data-tier-toggle]').forEach(toggle => {
-  const btns = toggle.querySelectorAll('.tt-btn');
-  btns.forEach(btn => btn.addEventListener('click', () => {
-    const plan = btn.dataset.plan; // 'monthly' | 'annual'
-    btns.forEach(b => b.classList.toggle('on', b === btn));
-    document.querySelectorAll('[data-tiers] .tier').forEach(tier => {
-      const num = tier.querySelector('.tier-num');
-      const period = tier.querySelector('.tier-period');
-      if (num) num.textContent = plan === 'annual' ? tier.dataset.a : tier.dataset.m;
-      if (period) period.textContent = plan === 'annual' ? 'לשנה' : 'בחודש';
-    });
-  }));
-});
