@@ -85,22 +85,23 @@ img { max-width: 100%; }
 .btn-sm { padding: 11px 22px; border-radius: 999px; font-size: 15.5px; }
 .btn-hero-main { font-size: 19px; padding: 16px 34px; box-shadow: 0 8px 22px rgba(29,111,184,.32); }
 .btn-angel {
-  background: #E0678F; color: #fff; display: inline-flex; flex-direction: column;
-  align-items: center; gap: 1px; line-height: 1.2; padding: 11px 26px;
-  box-shadow: 0 8px 22px rgba(224,103,143,.38);
+  background: #E0678F; color: #fff; display: flex; flex-direction: column;
+  align-items: center; gap: 3px; line-height: 1.2; padding: 14px 30px;
+  width: min(560px, 100%); margin-top: 14px;
+  box-shadow: 0 10px 26px rgba(224,103,143,.42);
 }
 .btn-angel:hover { background: #D14E7C; }
-.btn-angel .angel-l1 { font-size: 17px; font-weight: 800; }
-.btn-angel .angel-l2 { font-size: 13.5px; font-weight: 600; opacity: .92; }
-.btn-angel .heart { display: inline-block; animation: heartpulse 1.3s ease-in-out infinite; }
-@keyframes heartpulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.28); } }
+.btn-angel .angel-l1 { font-size: 19px; font-weight: 800; display: inline-flex; align-items: center; gap: 9px; }
+.btn-angel .angel-l2 { font-size: 16px; font-weight: 700; opacity: .96; }
+.btn-angel .angel-ico { animation: angelfloat 2.4s ease-in-out infinite; }
+@keyframes angelfloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2.5px); } }
 
 /* ---------- Hero ---------- */
 .hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 48px; align-items: center; padding-block: 56px 40px; }
 .hero-copy { display: flex; flex-direction: column; gap: 20px; }
 .hero-chip {
   align-self: flex-start; background: var(--chip); color: var(--chip-ink);
-  font-size: 14px; font-weight: 700; padding: 6px 16px; border-radius: 999px;
+  font-size: 17.5px; font-weight: 800; padding: 9px 20px; border-radius: 999px;
 }
 .hero h1 { font-size: 50px; line-height: 1.12; margin: 0; font-weight: 900; letter-spacing: -0.5px; color: var(--navy); }
 .hero-title-sub { display: block; font-family: 'Assistant', sans-serif; font-size: 21px; font-weight: 600; color: var(--muted); letter-spacing: 0; margin-top: 10px; }
@@ -359,7 +360,7 @@ video.hero-photo { display: block; background: #0d1c2c; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .wa-float { animation: none; }
-  .btn-angel .heart { animation: none; }
+  .btn-angel .angel-ico { animation: none; }
 }
 
 /* ---------- Top donation bar ---------- */
@@ -377,7 +378,7 @@ video.hero-photo { display: block; background: #0d1c2c; }
 .rescue-numbers .wrap { padding-block: 60px; display: flex; flex-direction: column; gap: 36px; align-items: center; }
 .rn-head { text-align: center; display: flex; flex-direction: column; gap: 8px; }
 .rn-head h2 { font-size: 32px; margin: 0; font-weight: 800; }
-.rn-head p { margin: 0; font-size: 16px; color: var(--navy-text); }
+.rn-head p { margin: 0; font-size: 20px; font-weight: 600; color: var(--navy-text); }
 .ba-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; width: 100%; }
 .ba-item { position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 4/5; box-shadow: 0 6px 20px rgba(0,0,0,.28); }
 .ba-item img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .9s ease; }
@@ -411,7 +412,7 @@ video.hero-photo { display: block; background: #0d1c2c; }
 /* ---------- Dog modal + carousel ---------- */
 .dog-card { cursor: pointer; }
 .dog-card .dog-open-hint { font-size: 12.5px; color: var(--chip-ink); font-weight: 700; }
-.dog-modal { border: none; border-radius: 24px; max-width: 760px; width: calc(100% - 40px); max-height: 88vh; padding: 0; background: var(--bg); color: var(--ink); box-shadow: 0 30px 80px rgba(0,0,0,0.4); }
+.dog-modal { border: none; border-radius: 24px; max-width: 920px; width: calc(100% - 40px); max-height: 90vh; padding: 0; background: var(--bg); color: var(--ink); box-shadow: 0 30px 80px rgba(0,0,0,0.4); }
 .dog-modal::backdrop { background: rgba(15,26,40,0.62); backdrop-filter: blur(4px); }
 .dog-modal-inner { padding: 0 0 30px; position: relative; }
 .dog-close { position: absolute; top: 14px; inset-inline-start: auto; inset-inline-end: 14px; z-index: 6; background: rgba(255,255,255,.92); border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; color: var(--ink); box-shadow: 0 2px 8px rgba(0,0,0,.2); }
@@ -516,6 +517,16 @@ video.hero-photo { display: block; background: #0d1c2c; }
   .gift-occasions { grid-template-columns: 1fr; }
   .dom-inner { grid-template-columns: 1fr; }
   .dom-inner img { height: 220px; }
+}
+
+/* Memorial modal bottom back button */
+.memorial-back { background: transparent; border: 1.5px solid var(--line); color: var(--muted); }
+.memorial-back:hover { background: var(--cream); color: var(--ink); }
+
+/* Dog + memorial modals: full-screen on phones (better than narrow centered box) */
+@media (max-width: 720px) {
+  .dog-modal, .memorial-modal { width: 100%; max-width: 100%; height: 100%; max-height: 100dvh; border-radius: 0; }
+  .dog-modal .carousel-track img { height: 46vh; }
 }
 
 /* ===== Mobile proportions polish ===== */
