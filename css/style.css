@@ -33,6 +33,7 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: 'Assistant', sans-serif;
+  font-size: 17px;
   line-height: 1.6;
 }
 h1, h2, h3, .brand-name, .stat-num { font-family: 'Rubik', sans-serif; }
@@ -83,6 +84,16 @@ img { max-width: 100%; }
 .btn-gold:hover { background: var(--gold-2); }
 .btn-sm { padding: 11px 22px; border-radius: 999px; font-size: 15.5px; }
 .btn-hero-main { font-size: 19px; padding: 16px 34px; box-shadow: 0 8px 22px rgba(29,111,184,.32); }
+.btn-angel {
+  background: #E0678F; color: #fff; display: inline-flex; flex-direction: column;
+  align-items: center; gap: 1px; line-height: 1.2; padding: 11px 26px;
+  box-shadow: 0 8px 22px rgba(224,103,143,.38);
+}
+.btn-angel:hover { background: #D14E7C; }
+.btn-angel .angel-l1 { font-size: 17px; font-weight: 800; }
+.btn-angel .angel-l2 { font-size: 13.5px; font-weight: 600; opacity: .92; }
+.btn-angel .heart { display: inline-block; animation: heartpulse 1.3s ease-in-out infinite; }
+@keyframes heartpulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.28); } }
 
 /* ---------- Hero ---------- */
 .hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 48px; align-items: center; padding-block: 56px 40px; }
@@ -348,6 +359,7 @@ video.hero-photo { display: block; background: #0d1c2c; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .wa-float { animation: none; }
+  .btn-angel .heart { animation: none; }
 }
 
 /* ---------- Top donation bar ---------- */
