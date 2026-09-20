@@ -522,6 +522,7 @@ video.hero-photo { display: block; background: #0d1c2c; }
 /* Memorial modal bottom back button */
 .memorial-back { background: transparent; border: 1.5px solid var(--line); color: var(--muted); }
 .memorial-back:hover { background: var(--cream); color: var(--ink); }
+.dog-back { display: block; width: 100%; margin-top: 12px; text-align: center; }
 
 /* Dog + memorial modals: full-screen on phones (better than narrow centered box) */
 @media (max-width: 720px) {
