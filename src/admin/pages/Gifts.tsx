@@ -5,15 +5,18 @@ import type { Gift } from '../types'
 import { Empty, Field, Help, PageHead, fail, toast } from '../ui'
 import { useDogsLite } from '../useDogsLite'
 import { fmtDate, waLink } from '../util'
+import { localDate } from '../../lib/constants'
+
+const GIFT_STATUS: Record<Gift['status'], string> = { pending: 'ממתין לתשלום', paid: 'שולם', sent: 'נשלח', canceled: 'בוטל' }
 
 type Form = {
-  id?: string; buyer_donor_id?: string | null
+  id?: string; buyer_donor_id?: string | null; status: Gift['status']
   buyer_name: string; buyer_phone: string; buyer_email: string
   dog_id: string; recipient_name: string; recipient_phone: string; recipient_email: string; greeting: string; send_at: string
 }
 const blank = (): Form => ({
-  buyer_name: '', buyer_phone: '', buyer_email: '', dog_id: '', recipient_name: '', recipient_phone: '',
-  recipient_email: '', greeting: '', send_at: new Date().toISOString().slice(0, 10),
+  status: 'paid', buyer_name: '', buyer_phone: '', buyer_email: '', dog_id: '', recipient_name: '', recipient_phone: '',
+  recipient_email: '', greeting: '', send_at: localDate(),
 })
 
 const giftMessage = (g: Gift) =>
@@ -23,16 +26,19 @@ export default function Gifts() {
   const dogs = useDogsLite()
   const [list, setList] = useState<Gift[] | null>(null)
   const [form, setForm] = useState<Form | null>(null)
+  const [err, setErr] = useState('')
 
   const refresh = async () => {
-    const { data } = await supabase.from('gifts').select('*, donors(*), dogs(id,slug,name,main_image)').neq('status', 'canceled').order('send_at')
+    const { data, error } = await supabase.from('gifts').select('*, donors(*), dogs(id,slug,name,main_image)').neq('status', 'canceled').order('send_at')
+    setErr(error ? 'לא הצלחנו לטעון את המתנות. בדקו את החיבור לאינטרנט ונסו לרענן.' : '')
     setList((data ?? []) as Gift[])
   }
   useEffect(() => { refresh() }, [])
 
   const today = new Date(); today.setHours(23, 59, 59, 999)
-  const toSend = useMemo(() => (list ?? []).filter(g => !g.sent_at && g.send_at && new Date(g.send_at) <= today), [list])
-  const later = useMemo(() => (list ?? []).filter(g => !g.sent_at && (!g.send_at || new Date(g.send_at) > today)), [list])
+  const toSend = useMemo(() => (list ?? []).filter(g => g.status === 'paid' && !g.sent_at && g.send_at && new Date(g.send_at) <= today), [list])
+  const later = useMemo(() => (list ?? []).filter(g => g.status === 'paid' && !g.sent_at && (!g.send_at || new Date(g.send_at) > today)), [list])
+  const unpaid = useMemo(() => (list ?? []).filter(g => g.status === 'pending'), [list])
   const sent = useMemo(() => (list ?? []).filter(g => g.sent_at), [list])
 
   const markSent = async (g: Gift) => {
@@ -56,23 +62,23 @@ export default function Gifts() {
       buyer_donor_id: buyer, dog_id: form.dog_id || null, recipient_name: form.recipient_name.trim() || null,
       recipient_phone: form.recipient_phone.trim() || null, recipient_email: form.recipient_email.trim() || null,
       greeting: form.greeting.trim() || null, send_at: form.send_at ? new Date(form.send_at + 'T09:00:00').toISOString() : null,
-      status: 'paid',
+      status: form.status,
     }
     const r = form.id ? await supabase.from('gifts').update(gift).eq('id', form.id) : await supabase.from('gifts').insert(gift)
     if (!fail(r.error, 'השמירה')) { toast('נשמר ✓'); setForm(null); refresh() }
   }
   const edit = (g: Gift) => setForm({
-    id: g.id, buyer_donor_id: g.buyer_donor_id, buyer_name: g.donors?.honor_name ?? '', buyer_phone: g.donors?.phone ?? '',
+    id: g.id, status: g.status, buyer_donor_id: g.buyer_donor_id, buyer_name: g.donors?.honor_name ?? '', buyer_phone: g.donors?.phone ?? '',
     buyer_email: g.donors?.email ?? '', dog_id: g.dog_id ?? '', recipient_name: g.recipient_name ?? '',
     recipient_phone: g.recipient_phone ?? '', recipient_email: g.recipient_email ?? '', greeting: g.greeting ?? '',
-    send_at: g.send_at?.slice(0, 10) ?? '',
+    send_at: g.send_at ? localDate(new Date(g.send_at)) : '',
   })
   const set = <K extends keyof Form>(k: K, v: Form[K]) => setForm(f => f && { ...f, [k]: v })
 
   const card = (g: Gift, actions: boolean) => {
     const wa = waLink(g.recipient_phone, giftMessage(g))
     return (
-      <div key={g.id} className="ad-row clickable" onClick={() => edit(g)}>
+      <div key={g.id} className="ad-row clickable" role="button" tabIndex={0} onClick={() => edit(g)} onKeyDown={e => { if (e.key === 'Enter') edit(g) }}>
         {g.dogs?.main_image && <img className="ad-thumb" src={g.dogs.main_image} alt="" />}
         <div className="ad-row-main">
           <b>🎁 ל{g.recipient_name ?? '—'}</b>
@@ -98,12 +104,20 @@ export default function Gifts() {
         כשמגיע <b>יום השליחה</b> של מתנה, היא מופיעה למעלה. לוחצים <b>💬 שליחה</b> — נפתחת הודעת וואטסאפ מוכנה למקבל/ת המתנה עם הברכה, ואז <b>✓ נשלח</b>.
         אחרי זה המקבל/ת יופיעו אוטומטית ברשימת העדכונים החודשיים למשך שנה.
       </Help>
+      {err && <p className="ad-error">{err}</p>}
       {!list ? <p>טוען…</p> : (
         <>
           <h2 className="ad-h2">לשליחה היום ({toSend.length})</h2>
           {toSend.length ? <div className="ad-list">{toSend.map(g => card(g, true))}</div> : <Empty>אין מתנות לשליחה היום ✓</Empty>}
           <h2 className="ad-h2">מתוזמנות לתאריך מאוחר יותר ({later.length})</h2>
           {later.length ? <div className="ad-list">{later.map(g => card(g, true))}</div> : <Empty>אין.</Empty>}
+          {unpaid.length > 0 && (
+            <details className="ad-box">
+              <summary>⏳ מילאו טופס אבל התשלום עוד לא הגיע ({unpaid.length})</summary>
+              <p className="ad-hint">כשהתשלום יגיע מ-Grow המתנה תעבור לבד לרשימה למעלה. אפשר לפתוח מתנה ולשנות סטטוס ידנית (למשל אם שילמו בביט), או לבטל.</p>
+              <div className="ad-list">{unpaid.map(g => card(g, false))}</div>
+            </details>
+          )}
           {sent.length > 0 && <details className="ad-box"><summary>נשלחו ({sent.length})</summary><div className="ad-list">{sent.map(g => card(g, false))}</div></details>}
         </>
       )}
@@ -132,6 +146,11 @@ export default function Gifts() {
               <Field label="מתי לשלוח"><input type="date" value={form.send_at} onChange={e => set('send_at', e.target.value)} /></Field>
             </div>
             <Field label="הברכה האישית מהקונה"><textarea rows={3} value={form.greeting} onChange={e => set('greeting', e.target.value)} /></Field>
+            <Field label="סטטוס" hint="'בוטל' מסתיר את המתנה מכל הרשימות">
+              <select value={form.status} onChange={e => set('status', e.target.value as Gift['status'])}>
+                {Object.entries(GIFT_STATUS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+              </select>
+            </Field>
             <div className="ad-form-actions">
               <button className="ad-btn primary big">שמירה</button>
               <button type="button" className="ad-btn ghost" onClick={() => setForm(null)}>ביטול</button>

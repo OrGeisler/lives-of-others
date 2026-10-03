@@ -12,7 +12,7 @@ function BeforeAfter({ slug, name }: { slug: string; name: string }) {
   // hover reveals "after" (CSS); tap toggles on touch devices
   const [flip, setFlip] = useState(false)
   return (
-    <div className={`ba-item${flip ? ' flip' : ''}`} onClick={() => setFlip(f => !f)}>
+    <div className={`ba-item${flip ? ' flip' : ''}`} role="button" tabIndex={0} aria-pressed={flip} aria-label={`${name} לפני ואחרי`} onClick={() => setFlip(f => !f)} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlip(f => !f) } }}>
       <img className="ba-before" src={`/assets/img/ba-${slug}-before.jpg`} alt={`${name} לפני`} />
       <img className="ba-after" src={`/assets/img/ba-${slug}-after.jpg`} alt={`${name} אחרי`} />
       <span className="ba-tag">לפני / אחרי</span>

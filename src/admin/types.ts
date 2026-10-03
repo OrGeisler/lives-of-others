@@ -13,7 +13,5 @@ export type Gift = {
   status: 'pending' | 'paid' | 'sent' | 'canceled'; created_at: string
   donors?: Donor | null; dogs?: DogLite | null
 }
-export const SOURCES: Record<string, string> = {
-  friends: 'חברים', facebook: 'פייסבוק', instagram: 'אינסטגרם', volunteering: 'הגעתי להתנדבות', news: 'חדשות', other: 'אחר',
-}
+export { SOURCES } from '../lib/constants'
 export const STATUS: Record<string, string> = { pending: 'ממתין', active: 'פעיל', canceled: 'בוטל', failed: 'חיוב נכשל' }

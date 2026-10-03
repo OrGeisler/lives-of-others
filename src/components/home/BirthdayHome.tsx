@@ -10,7 +10,7 @@ const CONFETTI: [string, string, string, string][] = [
 export default function BirthdayHome() {
   const { data } = useBirthdayDog()
   const dog = data?.dogs
-  if (!dog) return null
+  if (!dog || dog.active === false) return null
   return (
     <section className="bday-home">
       <div className="confetti" aria-hidden="true">

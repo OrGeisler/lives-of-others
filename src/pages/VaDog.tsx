@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import Carousel from '../components/Carousel'
 import { VaAccordions } from '../components/VirtualAdoptionDetails'
-import { TIER_OPTIONS } from '../lib/checkout'
+import { TIERS } from '../lib/constants'
 import { useDog } from '../lib/data'
 import { useTitle } from '../lib/pagesData'
 import '../styles/checkout.css'
@@ -38,7 +38,7 @@ export default function VaDog() {
           <VaAccordions whatIs />
           <h2 className="vd-h2">בחרו את מסלול החסות החודשית ל{dog.name}</h2>
           <div className="tier-pick" role="radiogroup" aria-label="מסלול חודשי">
-            {TIER_OPTIONS.map(t => (
+            {TIERS.map(t => (
               <button key={t.amt} type="button" role="radio" aria-checked={tier === t.amt}
                 className={`tier-card tier-option${t.featured ? ' featured' : ''}${tier === t.amt ? ' on' : ''}`} onClick={() => setTier(t.amt)}>
                 {t.featured && <span className="tc-badge">הכי פופולרי</span>}

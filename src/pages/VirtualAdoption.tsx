@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom'
 import { VaAccordions, VaTiers } from '../components/VirtualAdoptionDetails'
 import { WA_ADOPT, wa } from '../lib/links'
 import { useVirtualDogs } from '../lib/checkout'
+import { WAZE_SHELTER } from '../lib/constants'
 import '../styles/checkout.css'
 import { useTitle } from '../lib/pagesData'
 import '../styles/pages.css'
 
-const WAZE = 'https://waze.com/ul?q=%D7%94%D7%91%D7%99%D7%AA%20%D7%94%D7%A7%D7%A1%D7%95%D7%9D%20%D7%A2%22%D7%A9%20%D7%A2%D7%93%D7%99%20%D7%A6%D7%95%D7%A8&navigate=yes'
 
 export default function VirtualAdoption() {
   const vdogs = useVirtualDogs()
@@ -72,7 +72,7 @@ export default function VirtualAdoption() {
           <p>מלווים כלב וירטואלית? אתם מוזמנים לבוא לבקר ולטייל איתו בבית המחסה ברמת אפעל — בתיאום מראש.</p>
           <div className="va-visit-actions">
             <a className="btn btn-gold" href={wa(WA_ADOPT, 'היי! אני מלווה כלב וירטואלית ואשמח לתאם ביקור בבית המחסה 🐾')} target="_blank" rel="noopener">💬 קבעו ביקור בוואטסאפ</a>
-            <a className="btn btn-outline-green" href={WAZE} target="_blank" rel="noopener">🗺️ ניווט בוויז</a>
+            <a className="btn btn-outline-green" href={WAZE_SHELTER} target="_blank" rel="noopener">🗺️ ניווט בוויז</a>
           </div>
         </div>
       </section>

@@ -30,6 +30,7 @@ try {
     ok('anon reads active dogs', (await tx`select count(*)::int c from dogs`)[0].c > 0)
     ok('anon cannot read donors', !!(await tryq(tx, () => tx`select * from donors`)).e)
     ok('anon cannot insert dogs', !!(await tryq(tx, () => tx`insert into dogs (slug,name) values ('x','x')`)).e)
+    ok('anon cannot call link_payment_to_sponsorship', !!(await tryq(tx, () => tx`select public.link_payment_to_sponsorship(gen_random_uuid(), gen_random_uuid())`)).e)
     ok('anon cannot read payments', !!(await tryq(tx, () => tx`select * from payments`)).e)
 
     // logged-in stranger (not invited)
@@ -37,6 +38,7 @@ try {
     ok('stranger: claim_staff → null', (await tx`select public.claim_staff() r`)[0].r === null)
     ok('stranger sees 0 donors', (await tx`select count(*)::int c from donors`)[0].c === 0)
     ok('stranger cannot insert donor', !!(await tryq(tx, () => tx`insert into donors (honor_name) values ('x')`)).e)
+    ok('stranger cannot use payment_new_sponsorship', !!(await tryq(tx, () => tx`select public.payment_new_sponsorship(gen_random_uuid(), null, 50)`)).e)
     ok('stranger cannot invite self', !!(await tryq(tx, () => tx`insert into staff_invites (email) values ('stranger@rls-test.invalid')`)).e)
     ok('stranger cannot make self staff', !!(await tryq(tx, () => tx`insert into staff (user_id,email,role) values (${ids.stranger},'s','admin')`)).e)
 
@@ -49,6 +51,12 @@ try {
     const sp = await tryq(tx, () => tx`insert into sponsorships (donor_id, dog_id, tier, status) values (${d.r?.[0]?.id}, ${dog}, 50, 'active') returning id`)
     ok('editor can insert sponsorship', !sp.e)
     ok('editor can log monthly update', !(await tryq(tx, () => tx`insert into updates_log (sponsorship_id, period, channel) values (${sp.r?.[0]?.id}, date_trunc('month', now())::date, 'whatsapp')`)).e)
+    // payment linking RPCs
+    const pay = await tryq(tx, () => tx`insert into payments (kind, sum, needs_review, payer_name) values ('donation', 50, true, 'x') returning id`)
+    ok('editor can insert payment', !pay.e)
+    const sp2 = await tryq(tx, () => tx`insert into sponsorships (donor_id, dog_id, tier, status) values (${d.r?.[0]?.id}, ${dog}, 50, 'pending') returning id`)
+    ok('editor links payment → pending sponsorship', !(await tryq(tx, () => tx`select public.link_payment_to_sponsorship(${pay.r?.[0]?.id}, ${sp2.r?.[0]?.id})`)).e)
+    ok('…and it became active + payment matched', (await tx`select s.status, p.needs_review from sponsorships s join payments p on p.sponsorship_id = s.id where s.id = ${sp2.r?.[0]?.id}`)[0]?.status === 'active')
     ok('editor can edit dogs', !(await tryq(tx, () => tx`update dogs set tagline = tagline where id = ${dog}`)).e)
     ok('editor cannot invite staff', !!(await tryq(tx, () => tx`insert into staff_invites (email) values ('x@rls-test.invalid')`)).e)
     ok('editor cannot promote self', (await tryq(tx, () => tx`update staff set role='admin' where user_id=${ids.editor} returning 1`)).r?.length === 0)

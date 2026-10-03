@@ -65,7 +65,7 @@ export default function Staff() {
           <div key={i.email} className="ad-row">
             <div className="ad-row-main"><b>{i.name ?? i.email}</b><span className="ad-muted" dir="ltr">{i.email}</span></div>
             <span className="ad-tag gray">עוד לא נכנס/ה</span>
-            <button className="ad-link" onClick={async () => { await supabase.from('staff_invites').delete().eq('email', i.email); refresh() }}>ביטול</button>
+            <button className="ad-link" onClick={async () => { if (!confirm(`לבטל את ההזמנה של ${i.email}?`)) return; await supabase.from('staff_invites').delete().eq('email', i.email); refresh() }}>ביטול</button>
           </div>
         ))}
       </div>

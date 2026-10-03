@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { TIERS } from '../lib/constants'
 
 // The virtual-adoption details shared by the home page and /virtual-adoption (24.9 items 8.3–8.4):
 // three "+" accordions, then the monthly tiers as info cards (not payment buttons).
@@ -18,11 +19,6 @@ const BASKET: [string, string][] = [
   ['🐾', 'הוא כבר מכשכש בזנב 😊 — מוזמנים לבוא לבקר אותו ולצאת לטיול משותף (אל תשכחו לתאם איתנו מראש).'],
 ]
 
-const TIERS = [
-  { ico: '🦴', amt: 25, desc: 'תמיכה באוכל איכותי וחטיפים שהכלבים הכי אוהבים' },
-  { ico: '💉', amt: 50, desc: 'תמיכה באוכל איכותי, חיסונים בשגרה וטיפולים רפואיים', featured: true },
-  { ico: '🏡', amt: 100, desc: 'תמיכה באוכל איכותי, טיפולים רפואיים מצילי חיים ותחזוקת מתחם בית המחסה' },
-]
 
 const Li = ({ ico, text }: { ico: string; text: string }) => (
   <li><span>{ico}</span><span>{text}</span></li>

@@ -20,15 +20,18 @@ export default function ToSend() {
   const [tpl, setTpl] = useState(() => load('ad.tpl.sponsor', DEFAULT_TPL))
   const [giftTpl, setGiftTpl] = useState(() => load('ad.tpl.gift', DEFAULT_GIFT_TPL))
   const [showSent, setShowSent] = useState(false)
+  const [err, setErr] = useState(false)
   const period = monthStart()
 
   const refresh = async () => {
     const yearAgo = new Date(); yearAgo.setFullYear(yearAgo.getFullYear() - 1)
     const [sp, gifts, logs] = await Promise.all([
       supabase.from('sponsorships').select('*, donors(*), dogs(id,slug,name,main_image)').eq('status', 'active'),
-      supabase.from('gifts').select('*, dogs(id,slug,name,main_image)').not('sent_at', 'is', null).gte('sent_at', yearAgo.toISOString()),
+      supabase.from('gifts').select('*, dogs(id,slug,name,main_image)').not('sent_at', 'is', null).gte('sent_at', yearAgo.toISOString()).lt('sent_at', new Date(period + 'T00:00:00').toISOString()),
       supabase.from('updates_log').select('sponsorship_id,gift_id').eq('period', period),
     ])
+    if ([sp, gifts, logs].some(r => r.error)) { setErr(true); setRows([]); return }
+    setErr(false)
     const sentS = new Set((logs.data ?? []).map(l => l.sponsorship_id))
     const sentG = new Set((logs.data ?? []).map(l => l.gift_id))
     const r: Row[] = [
@@ -82,7 +85,7 @@ export default function ToSend() {
         </Field>
       </details>
 
-      {!rows ? <p>טוען…</p> : pending.length === 0 ? (
+      {err ? <p className="ad-error">לא הצלחנו לטעון את הנתונים. בדקו את החיבור לאינטרנט ונסו לרענן את העמוד.</p> : !rows ? <p>טוען…</p> : pending.length === 0 ? (
         <Empty>🎉 כל העדכונים של החודש נשלחו!{rows.length === 0 && <> עדיין אין מאמצים פעילים — <Link to="/admin/sponsors">להוספת מאמץ ←</Link></>}</Empty>
       ) : byDog.map(([dog, list]) => (
         <section key={dog} className="ad-group">

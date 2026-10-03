@@ -16,7 +16,7 @@ export default function Team() {
         <div className="team-grid reveal">
           {team.data?.map(m => (
             <div className="team-member" key={m.id}>
-              {m.photo && <img src={m.photo} alt={m.name} onClick={() => setZoom(m)} />}
+              {m.photo && <button type="button" className="team-zoom" aria-label={`הגדלת התמונה של ${m.name}`} onClick={() => setZoom(m)}><img src={m.photo} alt={m.name} /></button>}
               <span className="team-name">{m.name}</span>
             </div>
           ))}

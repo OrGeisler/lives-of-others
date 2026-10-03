@@ -1,3 +1,4 @@
+import { WAZE_SHELTER } from '../../lib/constants'
 // Static home-page sections, converted 1:1 from the static site (index.html on main).
 // Texts are kept verbatim; dynamic sections (team, memorials, dogs, birthday, counters, contact) live in their own files.
 import { Link } from 'react-router-dom'
@@ -181,7 +182,7 @@ export function Volunteer() {
           </div>
           <img className="vol-banner reveal" src="/assets/img/dog-gili-1.jpg" alt="מבט של כלב מחכה למתנדב" />
           <div className="vol-info reveal">
-            <div className="vol-info-card"><span className="vol-icon">📍</span><strong>איפה?</strong><p>בית המחסה של עמותת חיים של אחרים, רמת אפעל.<br /><span className="vol-map-note">🗺️ בוויז חפשו: <a href="https://waze.com/ul?q=%D7%94%D7%91%D7%99%D7%AA%20%D7%94%D7%A7%D7%A1%D7%95%D7%9D%20%D7%A2%22%D7%A9%20%D7%A2%D7%93%D7%99%20%D7%A6%D7%95%D7%A8&navigate=yes" target="_blank" rel="noopener"><strong>״הבית הקסום ע״ש עדי צור״</strong></a></span></p></div>
+            <div className="vol-info-card"><span className="vol-icon">📍</span><strong>איפה?</strong><p>בית המחסה של עמותת חיים של אחרים, רמת אפעל.<br /><span className="vol-map-note">🗺️ בוויז חפשו: <a href={WAZE_SHELTER} target="_blank" rel="noopener"><strong>״הבית הקסום ע״ש עדי צור״</strong></a></span></p></div>
             <div className="vol-info-card"><span className="vol-icon">🗓️</span><strong>מתי?</strong><p>בכל ימות השבוע, בתיאום מראש.</p></div>
             <div className="vol-info-card"><span className="vol-icon">👥</span><strong>למי זה מתאים?</strong><p>מתנדבים מגיל 16 ומעלה. בימי שבת יוצאים טיולים משפחתיים המשלבים הורים וילדים.</p></div>
           </div>

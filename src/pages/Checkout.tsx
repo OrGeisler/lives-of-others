@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { GIFT_SUM, submitCheckout } from '../lib/checkout'
+import { submitCheckout } from '../lib/checkout'
+import { GIFT_SUM, SOURCES, localDate } from '../lib/constants'
 import { useDog } from '../lib/data'
 import { useTitle } from '../lib/pagesData'
 import '../styles/checkout.css'
 
-const SOURCES: [string, string][] = [['friends', 'חברים'], ['facebook', 'פייסבוק'], ['instagram', 'אינסטגרם'], ['volunteering', 'הגעתי להתנדבות'], ['news', 'חדשות'], ['other', 'אחר']]
 
 // Our own details form (24.9: "לכבוד" instead of first/last/company, no address, "how did you hear of us",
 // terms + mailing consent). Details are saved first; payment then happens on Grow's secure page.
@@ -17,7 +17,7 @@ export default function Checkout() {
   useTitle(type === 'gift' ? 'אימוץ במתנה — השלמת פרטים' : 'אימוץ וירטואלי — השלמת פרטים')
 
   const [f, setF] = useState({ honor_name: '', phone: '', email: '', source: '', consent_terms: false, consent_marketing: false, website: '' })
-  const [g, setG] = useState({ name: '', phone: '', email: '', greeting: '', send_at: new Date().toISOString().slice(0, 10) })
+  const [g, setG] = useState({ name: '', phone: '', email: '', greeting: '', send_at: localDate() })
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
   const [payUrl, setPayUrl] = useState('')
@@ -29,11 +29,11 @@ export default function Checkout() {
   const sum = type === 'gift' ? GIFT_SUM : tier
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (busy || payUrl) return
     setBusy(true); setErr('')
     const r = await submitCheckout({ type, dog: dog.slug, tier, ...f, gift: type === 'gift' ? g : undefined })
-    setBusy(false)
-    if (r.error || !r.redirect) { setErr(r.error ?? 'משהו השתבש, נסו שוב'); return }
-    setPayUrl(r.redirect)
+    if (r.error || !r.redirect) { setBusy(false); setErr(r.error ?? 'משהו השתבש, נסו שוב'); return }
+    setPayUrl(r.redirect) // stays busy until the browser leaves for the payment page
   }
   const upd = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setF(x => ({ ...x, [k]: e.target.type === 'checkbox' ? (e.target as HTMLInputElement).checked : e.target.value }))
@@ -65,7 +65,7 @@ export default function Checkout() {
             <label className="co-field"><span>מייל *</span><input required type="email" autoComplete="email" dir="ltr" value={f.email} onChange={upd('email')} /></label>
           </div>
           <label className="co-field"><span>איך הגעתם אלינו?</span>
-            <select value={f.source} onChange={upd('source')}><option value="">בחרו…</option>{SOURCES.map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
+            <select value={f.source} onChange={upd('source')}><option value="">בחרו…</option>{Object.entries(SOURCES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
 
           {type === 'gift' && (
             <>
@@ -76,7 +76,7 @@ export default function Checkout() {
               </div>
               <div className="co-2">
                 <label className="co-field"><span>המייל שלו/ה</span><input type="email" dir="ltr" value={g.email} onChange={updG('email')} /></label>
-                <label className="co-field"><span>מתי לשלוח את ההפתעה?</span><input type="date" min={new Date().toISOString().slice(0, 10)} value={g.send_at} onChange={updG('send_at')} /></label>
+                <label className="co-field"><span>מתי לשלוח את ההפתעה?</span><input type="date" min={localDate()} value={g.send_at} onChange={updG('send_at')} /></label>
               </div>
               <label className="co-field"><span>הברכה האישית שלכם</span><textarea rows={3} maxLength={600} placeholder="מזל טוב! ..." value={g.greeting} onChange={updG('greeting')} /></label>
             </>
@@ -88,7 +88,7 @@ export default function Checkout() {
 
           {err && <p className="co-error" role="alert">{err}</p>}
           <button className="btn btn-angel co-submit" disabled={busy}>
-            <span className="angel-l1">{busy ? 'שומר…' : `להמשך לתשלום מאובטח · ${sum} ₪`}</span>
+            <span className="angel-l1">{payUrl ? 'מעבירים לתשלום…' : busy ? 'שומר…' : `להמשך לתשלום מאובטח · ${sum} ₪`}</span>
           </button>
           <p className="co-note">🔒 התשלום מתבצע בדף המאובטח של Grow — בכרטיס אשראי, ביט או Google Pay. בסיום תישלח אליכם קבלה למייל.</p>
         </form>

@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigationType } from 'react-router-dom'
 
 // Scroll-reveal for any `.reveal` element (also ones rendered later, after data loads),
 // and scroll to #hash targets once they exist (content is async).
 export function usePageEffects() {
   const { pathname, hash } = useLocation()
+  const navType = useNavigationType()
 
   useEffect(() => {
     const io = new IntersectionObserver(entries => {
@@ -20,12 +21,12 @@ export function usePageEffects() {
   }, [pathname])
 
   useEffect(() => {
-    if (!hash) { window.scrollTo(0, 0); return }
+    if (!hash) { if (navType !== 'POP') window.scrollTo(0, 0); return } // Back/Forward: the browser restores the position
     let tries = 0
     const t = setInterval(() => {
       const el = document.getElementById(decodeURIComponent(hash.slice(1)))
       if (el || ++tries > 40) { clearInterval(t); el?.scrollIntoView() }
     }, 50)
     return () => clearInterval(t)
-  }, [pathname, hash])
+  }, [pathname, hash, navType])
 }

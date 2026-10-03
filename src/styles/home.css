@@ -28,3 +28,5 @@ a.dog-card:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; 
   .counters-strip .counter + .counter { border-inline-start: 0; border-top: 2px solid #e3edf3; }
   .counters-strip .counter-num { font-size: 46px; }
 }
+.team-zoom { background: none; border: 0; padding: 0; cursor: zoom-in; border-radius: 50%; display: block; width: 100%; }
+.team-zoom:focus-visible, .ba-item:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }

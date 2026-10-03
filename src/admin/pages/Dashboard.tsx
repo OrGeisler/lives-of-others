@@ -8,6 +8,7 @@ type Stats = { active: number; monthly: number; toSend: number; giftsToday: numb
 
 export default function Dashboard() {
   const [s, setS] = useState<Stats | null>(null)
+  const [err, setErr] = useState(false)
   useEffect(() => {
     (async () => {
       const period = monthStart()
@@ -15,10 +16,11 @@ export default function Dashboard() {
       const [sp, logs, gifts, pay, bd] = await Promise.all([
         supabase.from('sponsorships').select('id,tier,status,created_at'),
         supabase.from('updates_log').select('sponsorship_id').eq('period', period).not('sponsorship_id', 'is', null),
-        supabase.from('gifts').select('id').is('sent_at', null).neq('status', 'canceled').lte('send_at', endOfToday.toISOString()),
+        supabase.from('gifts').select('id').is('sent_at', null).eq('status', 'paid').lte('send_at', endOfToday.toISOString()),
         supabase.from('payments').select('id').eq('needs_review', true),
         supabase.from('birthday_schedule').select('dogs(name)').eq('month', new Date().getMonth() + 1).maybeSingle(),
       ])
+      if ([sp, logs, gifts, pay].some(r => r.error)) { setErr(true); return }
       const all = sp.data ?? []
       const active = all.filter(x => x.status === 'active')
       const sent = new Set((logs.data ?? []).map(l => l.sponsorship_id))
@@ -40,7 +42,7 @@ export default function Dashboard() {
     <>
       <PageHead title="שלום 👋" />
       <Help>זה המסך הראשי. הכרטיסים הצבעוניים מראים <b>מה מחכה לטיפול</b>. לחיצה על כרטיס מעבירה למסך המתאים.</Help>
-      {!s ? <p>טוען…</p> : (
+      {err ? <p className="ad-error">לא הצלחנו לטעון את הנתונים. בדקו את החיבור לאינטרנט ונסו לרענן את העמוד.</p> : !s ? <p>טוען…</p> : (
         <div className="ad-cards">
           <Link to="/admin/to-send" className={`ad-card${s.toSend ? ' alert' : ' ok'}`}>
             <span className="ad-card-num">{s.toSend}</span>

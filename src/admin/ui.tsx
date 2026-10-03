@@ -36,7 +36,15 @@ export function Toaster() {
   return msg ? <div className={`ad-toast${msg.bad ? ' bad' : ''}`} role="status">{msg.m}</div> : null
 }
 
-export const fail = (e: { message: string } | null | undefined, what = 'הפעולה') => {
-  if (e) { toast(`${what} לא הצליחה: ${e.message}`, true); return true }
+// Postgres/PostgREST errors are English and technical — translate the common ones for staff
+const heError = (e: { message: string; code?: string }) => {
+  if (e.code === '23505') return 'כבר קיים פריט עם אותם פרטים (למשל כלב עם אותו שם)'
+  if (e.code === '42501' || /permission|row-level security/i.test(e.message)) return 'אין לך הרשאה לפעולה הזו'
+  if (e.code === '23503') return 'הפריט קשור לנתונים אחרים ולא ניתן לשנות אותו כך'
+  if (/fetch|network|Failed to/i.test(e.message)) return 'אין חיבור לאינטרנט — נסו שוב'
+  return e.message
+}
+export const fail = (e: { message: string; code?: string } | null | undefined, what = 'הפעולה') => {
+  if (e) { toast(`${what} לא הצליחה: ${heError(e)}`, true); return true }
   return false
 }

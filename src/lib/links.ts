@@ -1,4 +1,5 @@
-// Fixed external links (same values as the static site). Editable copies live in site_settings.links.
+// Fixed external links (same values as the static site). site_settings.links holds the Grow link the checkout
+// edge function redirects to — keep the two in sync if a link changes.
 export const DONATE_URL = 'http://donation.lives-of-others.org/truma'
 export const GROW_VIRTUAL = 'https://pay.grow.link/NzMwNzY~417a0ec0d5f219cf2a3f89acc96cb22a-Mzg0MjMyNw'
 export const GROW_ITEMS = 'https://pay.grow.link/d11531631a4771ca56c52465ec53819b-MzE0NDM5Nw'

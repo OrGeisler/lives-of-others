@@ -147,3 +147,6 @@
 .ad-guide > summary { font-size: 18px; padding: 2px 0; }
 .ad-guide > div { padding-top: 8px; line-height: 1.7; }
 .ad-guide ol { padding-inline-start: 22px; margin: 6px 0; }
+.ad-pick { width: 100%; border: 2px solid transparent; font: inherit; text-align: inherit; }
+.ad-pick:hover { border-color: #1E6E9C; }
+.ad-unsaved { color: #b03a63; font-weight: 800; align-self: center; }

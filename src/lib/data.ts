@@ -18,24 +18,24 @@ function useQuery<T>(run: () => PromiseLike<{ data: unknown; error: { message: s
 }
 
 export const useDogs = () =>
-  useQuery<Dog[]>(() => supabase.from('dogs').select('*').order('sort'))
+  useQuery<Dog[]>(() => supabase.from('dogs').select('*').eq('active', true).order('sort'))
 
 export const useDog = (slug: string) =>
-  useQuery<Dog>(() => supabase.from('dogs').select('*').eq('slug', slug).maybeSingle(), [slug])
+  useQuery<Dog>(() => supabase.from('dogs').select('*').eq('slug', slug).eq('active', true).maybeSingle(), [slug])
 
 export const useFallen = () =>
-  useQuery<Fallen[]>(() => supabase.from('fallen').select('*').order('sort'))
+  useQuery<Fallen[]>(() => supabase.from('fallen').select('*').eq('active', true).order('sort'))
 
 export const useTeam = () =>
-  useQuery<TeamMember[]>(() => supabase.from('team').select('*').order('sort'))
+  useQuery<TeamMember[]>(() => supabase.from('team').select('*').eq('active', true).order('sort'))
 
 export const useCounters = () =>
   useQuery<{ value: Counter[] }>(() => supabase.from('site_settings').select('value').eq('key', 'counters').maybeSingle())
 
 export const useBirthdayDog = () => {
   const month = new Date().getMonth() + 1
-  return useQuery<{ dogs: Dog | null }>(
-    () => supabase.from('birthday_schedule').select('dogs(*)').eq('month', month).maybeSingle(),
+  return useQuery<{ text: string | null; dogs: Dog | null }>(
+    () => supabase.from('birthday_schedule').select('text, dogs(*)').eq('month', month).maybeSingle(),
     [month],
   )
 }

@@ -13,3 +13,5 @@
   .dog-page-gallery .carousel-track .slide { height: 50vh; }
   .dog-page-body { padding: 26px 20px 40px; }
 }
+.carousel-dots button { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.5); border: 0; padding: 0; cursor: pointer; }
+.carousel-dots button.on { background: #fff; }

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { TIER_AMOUNTS, localDate } from '../../lib/constants'
 import { supabase } from '../../lib/supabase'
 import Modal from '../Modal'
 import { SOURCES, STATUS, type Sponsorship } from '../types'
@@ -8,13 +9,13 @@ import { useDogsLite } from '../useDogsLite'
 import { fmtDate, shekel, waLink } from '../util'
 
 type Form = {
-  sponsorship_id?: string; donor_id?: string
+  sponsorship_id?: string; donor_id?: string; canceled_at?: string | null
   honor_name: string; phone: string; email: string; source: string; consent_marketing: boolean; notes: string
   dog_id: string; tier: number; status: string; started_at: string
 }
 const blank = (): Form => ({
   honor_name: '', phone: '', email: '', source: '', consent_marketing: false, notes: '',
-  dog_id: '', tier: 50, status: 'active', started_at: new Date().toISOString().slice(0, 10),
+  dog_id: '', tier: 50, status: 'active', started_at: localDate(),
 })
 
 export default function Sponsors() {
@@ -23,11 +24,13 @@ export default function Sponsors() {
   const [list, setList] = useState<Sponsorship[] | null>(null)
   const [q, setQ] = useState('')
   const [form, setForm] = useState<Form | null>(null)
+  const [err, setErr] = useState(false)
   const status = params.get('status') ?? 'active'
   const dogF = params.get('dog') ?? ''
 
   const refresh = async () => {
-    const { data } = await supabase.from('sponsorships').select('*, donors(*), dogs(id,slug,name,main_image)').order('created_at', { ascending: false })
+    const { data, error } = await supabase.from('sponsorships').select('*, donors(*), dogs(id,slug,name,main_image)').order('created_at', { ascending: false })
+    setErr(!!error)
     setList((data ?? []) as Sponsorship[])
   }
   useEffect(() => { refresh() }, [])
@@ -40,10 +43,10 @@ export default function Sponsors() {
   const setParam = (k: string, v: string) => { const p = new URLSearchParams(params); if (v) p.set(k, v); else p.delete(k); setParams(p) }
 
   const edit = (s: Sponsorship) => setForm({
-    sponsorship_id: s.id, donor_id: s.donor_id,
+    sponsorship_id: s.id, donor_id: s.donor_id, canceled_at: s.canceled_at,
     honor_name: s.donors?.honor_name ?? '', phone: s.donors?.phone ?? '', email: s.donors?.email ?? '',
     source: s.donors?.source ?? '', consent_marketing: s.donors?.consent_marketing ?? false, notes: s.donors?.notes ?? '',
-    dog_id: s.dog_id ?? '', tier: s.tier ?? 50, status: s.status, started_at: (s.started_at ?? s.created_at).slice(0, 10),
+    dog_id: s.dog_id ?? '', tier: s.tier ?? 50, status: s.status, started_at: localDate(new Date(s.started_at ?? s.created_at)),
   })
 
   const submit = async (e: React.FormEvent) => {
@@ -63,7 +66,7 @@ export default function Sponsors() {
     }
     const sp = {
       donor_id: donorId, dog_id: form.dog_id || null, tier: form.tier, status: form.status,
-      started_at: form.started_at || null, canceled_at: form.status === 'canceled' ? new Date().toISOString() : null,
+      started_at: form.started_at || null, canceled_at: form.status === 'canceled' ? (form.canceled_at ?? new Date().toISOString()) : null, // keep the original cancel date
     }
     const r = form.sponsorship_id
       ? await supabase.from('sponsorships').update(sp).eq('id', form.sponsorship_id)
@@ -95,12 +98,13 @@ export default function Sponsors() {
         </select>
       </div>
 
+      {err && <p className="ad-error">לא הצלחנו לטעון את הנתונים. בדקו את החיבור לאינטרנט ונסו לרענן את העמוד.</p>}
       {!list ? <p>טוען…</p> : shown.length === 0 ? <Empty>אין מאמצים להצגה כאן.</Empty> : (
         <div className="ad-list">
           {shown.map(s => {
             const wa = waLink(s.donors?.phone, `היי ${s.donors?.honor_name ?? ''}! 🐾`)
             return (
-              <div key={s.id} className="ad-row clickable" onClick={() => edit(s)}>
+              <div key={s.id} className="ad-row clickable" role="button" tabIndex={0} onClick={() => edit(s)} onKeyDown={e => { if (e.key === 'Enter') edit(s) }}>
                 {s.dogs?.main_image && <img className="ad-thumb" src={s.dogs.main_image} alt="" />}
                 <div className="ad-row-main">
                   <b>{s.donors?.honor_name || 'ללא שם'}</b>
@@ -132,7 +136,7 @@ export default function Sponsors() {
               </Field>
               <Field label="סכום חודשי">
                 <select value={form.tier} onChange={e => set('tier', Number(e.target.value))}>
-                  <option value={25}>25 ₪</option><option value={50}>50 ₪</option><option value={100}>100 ₪</option>
+                  {TIER_AMOUNTS.map(a => <option key={a} value={a}>{a} ₪</option>)}
                 </select>
               </Field>
             </div>

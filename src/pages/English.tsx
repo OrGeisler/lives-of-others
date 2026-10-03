@@ -29,6 +29,12 @@ function sendContact(e: FormEvent<HTMLFormElement>) {
 }
 
 export default function English() {
+  // the <html> element is Hebrew/RTL for the rest of the site — switch it while this page is shown
+  useEffect(() => {
+    const html = document.documentElement
+    html.lang = 'en'; html.dir = 'ltr'
+    return () => { html.lang = 'he'; html.dir = 'rtl' }
+  }, [])
   const [navOpen, setNavOpen] = useState(false)
   usePageEffects()
   useEffect(() => {

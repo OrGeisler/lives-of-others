@@ -14,13 +14,23 @@ export default function DogEdit() {
   const [d, setD] = useState<D | null>(null)
   const [busy, setBusy] = useState(false)
   const [uploading, setUploading] = useState(0)
+  const [dirty, setDirty] = useState(false)
+  const [missing, setMissing] = useState(false)
 
   useEffect(() => {
-    supabase.from('dogs').select('*').eq('id', id).single().then(({ data }) => setD(data as D))
+    supabase.from('dogs').select('*').eq('id', id).maybeSingle().then(({ data, error }) => { if (error || !data) setMissing(true); else setD(data as D) })
   }, [id])
+  // warn before leaving the page with unsaved changes (e.g. freshly uploaded photos)
+  useEffect(() => {
+    if (!dirty) return
+    const h = (e: BeforeUnloadEvent) => { e.preventDefault() }
+    window.addEventListener('beforeunload', h)
+    return () => window.removeEventListener('beforeunload', h)
+  }, [dirty])
+  if (missing) return <p>הכלב לא נמצא. <Link to="/admin/dogs">לכל הכלבים ←</Link></p>
   if (!d) return <p>טוען…</p>
 
-  const set = <K extends keyof D>(k: K, v: D[K]) => setD(x => x && { ...x, [k]: v })
+  const set = <K extends keyof D>(k: K, v: D[K]) => { setDirty(true); setD(x => x && { ...x, [k]: v }) }
   const photos = d.gallery ?? []
 
   const onFiles = async (files: FileList | null) => {
@@ -31,8 +41,9 @@ export default function DogEdit() {
       try { added.push(await uploadImage(f, `dogs/${d.slug}`)) } catch (e) { toast(`העלאה נכשלה: ${(e as Error).message}`, true) }
       setUploading(n => n - 1)
     }
-    const gallery = [...photos, ...added]
-    setD(x => x && { ...x, gallery, main_image: x.main_image || gallery[0] || null })
+    // functional update: photos removed/reordered while uploading are not overwritten
+    setDirty(true)
+    setD(x => { if (!x) return x; const gallery = [...(x.gallery ?? []), ...added]; return { ...x, gallery, main_image: x.main_image || gallery[0] || null } })
     if (added.length) toast(`${added.length} תמונות נוספו — לא לשכוח ללחוץ שמירה`)
   }
   const movePhoto = (i: number, dir: -1 | 1) => {
@@ -43,8 +54,8 @@ export default function DogEdit() {
   }
   const removePhoto = (src: string) => {
     if (!confirm('להסיר את התמונה מהכלב?')) return
-    const g = photos.filter(p => p !== src)
-    setD(x => x && { ...x, gallery: g, main_image: x.main_image === src ? g[0] ?? null : x.main_image })
+    setDirty(true)
+    setD(x => { if (!x) return x; const g = (x.gallery ?? []).filter(p => p !== src); return { ...x, gallery: g, main_image: x.main_image === src ? g[0] ?? null : x.main_image } })
   }
 
   const save = async () => {
@@ -53,10 +64,10 @@ export default function DogEdit() {
     const { error } = await supabase.from('dogs').update({
       name: d.name, slug, age_text: d.age_text, tagline: d.tagline, story: d.story, main_image: d.main_image, gallery: photos,
       available_for_adoption: d.available_for_adoption, available_for_virtual: d.available_for_virtual,
-      available_for_gift: d.available_for_gift, active: d.active,
+      available_for_gift: d.available_for_gift, active: d.active, grow_virtual_link: d.grow_virtual_link,
     }).eq('id', d.id)
     setBusy(false)
-    if (!fail(error, 'השמירה')) { toast('נשמר — האתר מתעדכן מיד ✓'); set('slug', slug) }
+    if (!fail(error, 'השמירה')) { toast('נשמר — האתר מתעדכן מיד ✓'); setD(x => x && { ...x, slug }); setDirty(false) }
   }
 
   return (
@@ -82,6 +93,9 @@ export default function DogEdit() {
           <label className="ad-check"><input type="checkbox" checked={d.available_for_virtual} onChange={e => set('available_for_virtual', e.target.checked)} /> זמין לאימוץ וירטואלי</label>
           <label className="ad-check"><input type="checkbox" checked={d.available_for_gift} onChange={e => set('available_for_gift', e.target.checked)} /> מופיע בעמוד "אימוץ במתנה"</label>
         </div>
+        <Field label="קישור Grow אישי לכלב (לא חובה)" hint="אם פתחתם ב-Grow דף תשלום נפרד לכלב הזה — הדביקו כאן, והאימוץ הווירטואלי שלו יעבור לשם. ריק = דף האימוץ הכללי">
+          <input dir="ltr" placeholder="https://pay.grow.link/..." value={d.grow_virtual_link ?? ''} onChange={e => set('grow_virtual_link', e.target.value.trim() || null)} />
+        </Field>
       </div>
 
       <div className="ad-box">
@@ -108,7 +122,8 @@ export default function DogEdit() {
 
       <div className="ad-sticky-save">
         <button className="ad-btn primary big" onClick={save} disabled={busy || uploading > 0}>{busy ? 'שומר…' : '💾 שמירה'}</button>
-        <button className="ad-btn ghost" onClick={() => nav('/admin/dogs')}>חזרה</button>
+        <button className="ad-btn ghost" onClick={() => { if (!dirty || confirm('יש שינויים שלא נשמרו. לצאת בלי לשמור?')) nav('/admin/dogs') }}>חזרה</button>
+        {dirty && <span className="ad-unsaved">● יש שינויים שלא נשמרו</span>}
       </div>
     </>
   )

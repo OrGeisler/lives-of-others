@@ -24,7 +24,7 @@ export default function Carousel({ images, alt }: { images: string[]; alt: strin
           <button className="carousel-btn carousel-prev" aria-label="הקודם" onClick={() => go(-1)}>‹</button>
           <button className="carousel-btn carousel-next" aria-label="הבא" onClick={() => go(1)}>›</button>
           <div className="carousel-dots">
-            {images.map((_, i) => <span key={i} className={i === idx ? 'on' : ''} onClick={() => setIdx(i)} />)}
+            {images.map((_, i) => <button type="button" key={i} className={i === idx ? 'on' : ''} aria-label={`תמונה ${i + 1}`} aria-current={i === idx} onClick={() => setIdx(i)} />)}
           </div>
         </>
       )}

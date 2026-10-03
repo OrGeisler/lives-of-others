@@ -34,9 +34,11 @@ const GIFTS = [
 export default function Birthday() {
   useTitle('יום הולדת לכלב 🎂 — חיים של אחרים')
   const { search } = useLocation()
-  const { dog } = useBirthdayDogFor(monthFromQuery(search))
+  const { dog, text, loading } = useBirthdayDogFor(monthFromQuery(search))
   const name = dog?.name ?? ''
-  const story = dog?.story?.split(/\n\s*\n/)[0] ?? ''
+  // the month's own text from the admin (ימי הולדת) wins; otherwise the first paragraph of the dog's story
+  const story = text || (dog?.story?.split(/\n\s*\n/)[0] ?? '')
+  if (loading) return <div style={{ minHeight: '70vh' }} />
 
   return (
     <>
@@ -44,12 +46,12 @@ export default function Birthday() {
         <Confetti />
         <div className="wrap">
           <Link className="bd-back" to="/">→ חזרה לעמוד הבית</Link>
-          <h1>🎂 ל<span className="bd-name">{name}</span> יש יום הולדת!</h1>
+          <h1>{dog ? <>🎂 ל<span className="bd-name">{name}</span> יש יום הולדת!</> : '🎂 חוגגים יום הולדת לכלבים שלנו!'}</h1>
           <p>כל חודש כלב אחר מבית המחסה חוגג יום הולדת — וזו ההזדמנות שלכם לפנק אותו במתנה קטנה שתעשה לו את היום. בואו נחגוג יחד! 🎈</p>
         </div>
       </section>
 
-      <section className="bd-dog reveal">
+      {dog && <section className="bd-dog reveal">
         {dog?.main_image && <img src={dog.main_image} alt={`${name} חוגג/ת יום הולדת`} />}
         <div>
           <span className="bd-badge">🎉 חוגג/ת החודש</span>
@@ -58,7 +60,7 @@ export default function Birthday() {
           <p>{story}</p>
           <p>בואו נעשה ל{name} יום הולדת בלתי נשכח 💛</p>
         </div>
-      </section>
+      </section>}
 
       <div className="bd-fact reveal">
         <div className="card">✨ <strong>ידעתם?</strong> גם מפורסמים אוהבים כלבים — מחקרים מראים שחיבוק לכלב משחרר אוקסיטוצין (הורמון האהבה) גם אצל האדם וגם אצל הכלב. אז מתנה ל{name} = קצת אושר גם לכם 🐾</div>

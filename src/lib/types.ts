@@ -10,6 +10,7 @@ export type Dog = {
   available_for_adoption: boolean
   available_for_virtual: boolean
   available_for_gift: boolean
+  active?: boolean
   grow_virtual_link: string | null
   sort: number
 }
