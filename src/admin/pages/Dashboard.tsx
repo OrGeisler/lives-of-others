@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { Help, PageHead } from '../ui'
 import { HE_MONTHS, monthStart, shekel } from '../util'
 
-type Stats = { active: number; monthly: number; toSend: number; giftsToday: number; review: number; failed: number; bday: string | null }
+type Stats = { active: number; monthly: number; toSend: number; giftsToday: number; review: number; failed: number; stalePending: number; bday: string | null }
 
 export default function Dashboard() {
   const [s, setS] = useState<Stats | null>(null)
@@ -13,7 +13,7 @@ export default function Dashboard() {
       const period = monthStart()
       const endOfToday = new Date(); endOfToday.setHours(23, 59, 59, 999)
       const [sp, logs, gifts, pay, bd] = await Promise.all([
-        supabase.from('sponsorships').select('id,tier,status'),
+        supabase.from('sponsorships').select('id,tier,status,created_at'),
         supabase.from('updates_log').select('sponsorship_id').eq('period', period).not('sponsorship_id', 'is', null),
         supabase.from('gifts').select('id').is('sent_at', null).neq('status', 'canceled').lte('send_at', endOfToday.toISOString()),
         supabase.from('payments').select('id').eq('needs_review', true),
@@ -29,6 +29,7 @@ export default function Dashboard() {
         giftsToday: gifts.data?.length ?? 0,
         review: pay.data?.length ?? 0,
         failed: all.filter(x => x.status === 'failed').length,
+        stalePending: all.filter(x => x.status === 'pending' && Date.now() - new Date(x.created_at).getTime() > 2 * 86400e3).length,
         bday: (bd.data?.dogs as unknown as { name: string } | null)?.name ?? null,
       })
     })()
@@ -63,6 +64,13 @@ export default function Dashboard() {
               <span className="ad-card-num">{s.failed}</span>
               <span className="ad-card-label">הוראות קבע שהחיוב שלהן נכשל</span>
               <span className="ad-card-go">לבדיקה ←</span>
+            </Link>
+          )}
+          {s.stalePending > 0 && (
+            <Link to="/admin/sponsors?status=pending" className="ad-card alert">
+              <span className="ad-card-num">{s.stalePending}</span>
+              <span className="ad-card-label">מילאו טופס אימוץ אבל לא השלימו תשלום (יותר מיומיים)</span>
+              <span className="ad-card-go">לשלוח להם הודעה ←</span>
             </Link>
           )}
           <Link to="/admin/sponsors" className="ad-card">

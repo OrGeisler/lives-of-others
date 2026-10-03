@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import type { Dog } from '../../lib/types'
+import AskText from '../AskText'
 import { Help, PageHead, fail, toast } from '../ui'
 
 type Row = Dog & { active: boolean }
@@ -9,12 +10,11 @@ type Row = Dog & { active: boolean }
 export default function Dogs() {
   const nav = useNavigate()
   const [dogs, setDogs] = useState<Row[] | null>(null)
+  const [asking, setAsking] = useState(false)
   const refresh = () => supabase.from('dogs').select('*').order('sort').then(({ data }) => setDogs((data ?? []) as Row[]))
   useEffect(() => { refresh() }, [])
 
-  const add = async () => {
-    const name = prompt('איך קוראים לכלב החדש?')?.trim()
-    if (!name) return
+  const add = async (name: string) => {
     const sort = (dogs?.at(-1)?.sort ?? 0) + 1
     const r = await supabase.from('dogs').insert({ name, slug: `dog-${Date.now()}`, sort, active: false }).select('id').single()
     if (!fail(r.error, 'ההוספה')) nav(`/admin/dogs/${r.data!.id}`)
@@ -31,7 +31,7 @@ export default function Dogs() {
 
   return (
     <>
-      <PageHead title="הכלבים שלנו"><button className="ad-btn primary" onClick={add}>➕ כלב חדש</button></PageHead>
+      <PageHead title="הכלבים שלנו"><button className="ad-btn primary" onClick={() => setAsking(true)}>➕ כלב חדש</button></PageHead>
       <Help>
         לחיצה על כלב פותחת עריכה: שם, גיל, סיפור ותמונות. החיצים ▲▼ קובעים את <b>הסדר באתר</b>.
         כלב חדש נוצר <b>מוסתר</b> — כשהוא מוכן מסמנים "מוצג באתר".
@@ -59,6 +59,7 @@ export default function Dogs() {
           ))}
         </div>
       )}
+      {asking && <AskText title="כלב חדש 🐶" label="איך קוראים לכלב?" hint="אחרי זה תגיעו למסך שבו מוסיפים גיל, סיפור ותמונות" okLabel="המשך ←" onOk={add} onClose={() => setAsking(false)} />}
     </>
   )
 }

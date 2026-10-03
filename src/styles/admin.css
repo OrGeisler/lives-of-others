@@ -142,3 +142,8 @@
   .ad-sticky-save { bottom: 64px; }
   .ad-toast { bottom: 84px; }
 }
+.ad-guide-lead { font-size: 18px; color: var(--muted); margin: 0 0 6px; }
+.ad-guide { margin: 8px 0; }
+.ad-guide > summary { font-size: 18px; padding: 2px 0; }
+.ad-guide > div { padding-top: 8px; line-height: 1.7; }
+.ad-guide ol { padding-inline-start: 22px; margin: 6px 0; }

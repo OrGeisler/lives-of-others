@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import type { Counter, Fallen, TeamMember } from '../../lib/types'
 import { uploadImage } from '../image'
+import AskText from '../AskText'
 import { Field, Help, PageHead, fail, toast } from '../ui'
 
 type Member = TeamMember & { active: boolean }
@@ -10,6 +11,7 @@ export default function SiteContent() {
   const [counters, setCounters] = useState<Counter[]>([])
   const [team, setTeam] = useState<Member[]>([])
   const [fallen, setFallen] = useState<Fallen[]>([])
+  const [asking, setAsking] = useState(false)
 
   const refresh = async () => {
     const [c, t, f] = await Promise.all([
@@ -30,11 +32,9 @@ export default function SiteContent() {
   const saveMember = async (m: Member) => {
     if (!fail((await supabase.from('team').update({ name: m.name, photo: m.photo, active: m.active }).eq('id', m.id)).error, 'השמירה')) toast(`${m.name} נשמר/ה ✓`)
   }
-  const addMember = async () => {
-    const name = prompt('שם איש/אשת הצוות:')?.trim()
-    if (!name) return
+  const addMember = async (name: string) => {
     const sort = (team.at(-1)?.sort ?? 0) + 1
-    if (!fail((await supabase.from('team').insert({ name, sort })).error, 'ההוספה')) { toast('נוסף/ה — עכשיו אפשר להעלות תמונה'); refresh() }
+    if (!fail((await supabase.from('team').insert({ name, sort })).error, 'ההוספה')) { toast('נוסף/ה — עכשיו אפשר להעלות תמונה'); setAsking(false); refresh() }
   }
   const photo = async (m: Member, file: File | undefined) => {
     if (!file) return
@@ -67,7 +67,7 @@ export default function SiteContent() {
       </section>
 
       <section className="ad-box">
-        <div className="ad-head"><h2 className="ad-h2">👥 הצוות שלנו</h2><button className="ad-btn" onClick={addMember}>➕ הוספה</button></div>
+        <div className="ad-head"><h2 className="ad-h2">👥 הצוות שלנו</h2><button className="ad-btn" onClick={() => setAsking(true)}>➕ הוספה</button></div>
         <div className="ad-team">
           {team.map(m => (
             <div key={m.id} className={`ad-member${m.active ? '' : ' hidden'}`}>
@@ -96,6 +96,7 @@ export default function SiteContent() {
         ))}
         <p className="ad-hint">שינוי בסיפור המלא של פרויקט הנצחה — דרך אור (כדי לשמור על העיצוב).</p>
       </section>
+      {asking && <AskText title="איש/אשת צוות חדש/ה" label="שם" okLabel="הוספה" onOk={addMember} onClose={() => setAsking(false)} />}
     </>
   )
 }

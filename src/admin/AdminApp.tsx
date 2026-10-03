@@ -14,6 +14,7 @@ import Birthdays from './pages/Birthdays'
 import SiteContent from './pages/SiteContent'
 import Payments from './pages/Payments'
 import Staff from './pages/Staff'
+import Guide from './pages/Guide'
 
 const NAV = [
   { to: '/admin', icon: '🏠', label: 'ראשי', end: true },
@@ -24,6 +25,7 @@ const NAV = [
   { to: '/admin/birthdays', icon: '🎂', label: 'ימי הולדת' },
   { to: '/admin/payments', icon: '💳', label: 'תשלומים' },
   { to: '/admin/site', icon: '✏️', label: 'תוכן האתר' },
+  { to: '/admin/guide', icon: '📖', label: 'מדריך' },
 ]
 
 function Login() {
@@ -114,6 +116,7 @@ function Shell() {
           <Route path="birthdays" element={<Birthdays />} />
           <Route path="payments" element={<Payments />} />
           <Route path="site" element={<SiteContent />} />
+          <Route path="guide" element={<Guide />} />
           {role === 'admin' && <Route path="staff" element={<Staff />} />}
         </Routes>
       </main>
