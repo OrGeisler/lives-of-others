@@ -20,6 +20,7 @@ async function readBody(req: Request): Promise<Record<string, string>> {
   return out
 }
 const pick = (b: Record<string, string>, ...keys: string[]) => keys.map(k => b[k]).find(v => v != null && v !== '') ?? null
+const GIFT_SUM = 180
 const digits = (p: string | null) => (p ?? '').replace(/\D/g, '').replace(/^972/, '0')
 
 Deno.serve(async req => {
@@ -46,16 +47,26 @@ Deno.serve(async req => {
     raw: b, paid_at: paidAt, needs_review: true,
   }
 
-  // Auto-match a recurring charge: same phone as an active/failed sponsorship with the same monthly sum.
+  // Auto-match by phone. One person may have several donor rows (one per checkout), so look across all of them:
+  // 1) a sponsorship (pending from our checkout / active / failed) with the same monthly sum → mark active
+  // 2) otherwise a pending gift (180 ₪) bought through our checkout → mark paid
   if (phone && sum) {
     const { data: donors } = await db.from('donors').select('id, phone')
-    const donor = (donors ?? []).find(d => digits(d.phone) && digits(d.phone) === digits(phone))
-    if (donor) {
-      const { data: sps } = await db.from('sponsorships').select('id, dog_id, tier, status').eq('donor_id', donor.id).in('status', ['active', 'failed'])
-      const sp = (sps ?? []).find(s => Number(s.tier) === sum)
+    const ids = (donors ?? []).filter(d => digits(d.phone) && digits(d.phone) === digits(phone)).map(d => d.id)
+    if (ids.length) {
+      const { data: sps } = await db.from('sponsorships').select('id, donor_id, dog_id, tier, status, started_at')
+        .in('donor_id', ids).in('status', ['active', 'failed', 'pending']).order('created_at', { ascending: false })
+      const sp = (sps ?? []).find(x => Number(x.tier) === sum)
       if (sp) {
-        Object.assign(row, { kind: 'virtual', donor_id: donor.id, dog_id: sp.dog_id, sponsorship_id: sp.id, needs_review: false })
-        await db.from('sponsorships').update({ status: 'active', last_payment_at: paidAt }).eq('id', sp.id)
+        Object.assign(row, { kind: 'virtual', donor_id: sp.donor_id, dog_id: sp.dog_id, sponsorship_id: sp.id, needs_review: false })
+        await db.from('sponsorships').update({ status: 'active', last_payment_at: paidAt, started_at: sp.started_at ?? paidAt }).eq('id', sp.id)
+      } else if (sum === GIFT_SUM) {
+        const { data: gifts } = await db.from('gifts').select('id, buyer_donor_id, dog_id')
+          .in('buyer_donor_id', ids).eq('status', 'pending').order('created_at', { ascending: false }).limit(1)
+        if (gifts?.[0]) {
+          Object.assign(row, { kind: 'gift', donor_id: gifts[0].buyer_donor_id, dog_id: gifts[0].dog_id, gift_id: gifts[0].id, needs_review: false })
+          await db.from('gifts').update({ status: 'paid' }).eq('id', gifts[0].id)
+        }
       }
     }
   }

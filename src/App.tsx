@@ -7,6 +7,8 @@ import { useTitle } from './lib/pagesData'
 // Everything except the home page is loaded on demand (smaller first load). Admin is never loaded by visitors.
 const DogPage = lazy(() => import('./pages/DogPage'))
 const VirtualAdoption = lazy(() => import('./pages/VirtualAdoption'))
+const VaDog = lazy(() => import('./pages/VaDog'))
+const Checkout = lazy(() => import('./pages/Checkout'))
 const GiftAdoption = lazy(() => import('./pages/GiftAdoption'))
 const Birthday = lazy(() => import('./pages/Birthday'))
 const BirthdayThanks = lazy(() => import('./pages/BirthdayThanks'))
@@ -37,6 +39,8 @@ export default function App() {
         <Route index element={<Home />} />
         <Route path="dogs/:slug" element={page(<DogPage />)} />
         <Route path="virtual-adoption" element={page(<VirtualAdoption />)} />
+        <Route path="virtual-adoption/:slug" element={page(<VaDog />)} />
+        <Route path="checkout" element={page(<Checkout />)} />
         <Route path="gift-adoption" element={page(<GiftAdoption />)} />
         <Route path="birthday" element={page(<Birthday />)} />
         <Route path="privacy" element={page(<Privacy />)} />

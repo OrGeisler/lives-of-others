@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { GROW_VIRTUAL } from '../../lib/links'
 import VirtualAdoptionDetails from '../VirtualAdoptionDetails'
 
 // Detailed virtual-adoption section on the home page (24.9 8.1)
@@ -21,7 +20,7 @@ export default function VirtualAdoptionHome() {
         </div>
         <VirtualAdoptionDetails />
         <div className="va-home-cta reveal">
-          <a className="btn btn-angel" href={GROW_VIRTUAL} target="_blank" rel="noopener"><span className="angel-l1">אני רוצה לאמץ וירטואלית עכשיו</span></a>
+          <Link className="btn btn-angel" to="/virtual-adoption#choose"><span className="angel-l1">אני רוצה לאמץ וירטואלית עכשיו</span></Link>
           <Link to="/virtual-adoption" className="va-home-more">לעמוד האימוץ הווירטואלי המלא ←</Link>
         </div>
       </div>

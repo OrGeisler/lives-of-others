@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom'
 import { VaAccordions, VaTiers } from '../components/VirtualAdoptionDetails'
-import { GROW_VIRTUAL, WA_ADOPT, wa } from '../lib/links'
+import { WA_ADOPT, wa } from '../lib/links'
+import { useVirtualDogs } from '../lib/checkout'
+import '../styles/checkout.css'
 import { useTitle } from '../lib/pagesData'
 import '../styles/pages.css'
 
 const WAZE = 'https://waze.com/ul?q=%D7%94%D7%91%D7%99%D7%AA%20%D7%94%D7%A7%D7%A1%D7%95%D7%9D%20%D7%A2%22%D7%A9%20%D7%A2%D7%93%D7%99%20%D7%A6%D7%95%D7%A8&navigate=yes'
 
 export default function VirtualAdoption() {
+  const vdogs = useVirtualDogs()
   useTitle('אימוץ וירטואלי — חיים של אחרים')
   return (
     <>
@@ -41,8 +44,18 @@ export default function VirtualAdoption() {
         </div>
 
         {/* 24.9 (לדיון): בעתיד — גלריית כלבים שמובילה לעמוד אימוץ וירטואלי אישי לכל כלב, במקום הכפתור */}
-        <div className="va-cta">
-          <a className="btn btn-gold" href={GROW_VIRTUAL} target="_blank" rel="noopener" style={{ marginTop: 8 }}>התחילו אימוץ וירטואלי ←</a>
+        {/* 24.9 item 8: a gallery of the dogs — each opens its own virtual-adoption page */}
+        <div id="choose" className="section-head reveal" style={{ margin: '44px 0 18px' }}>
+          <h2>בחרו את הכלב שתרצו ללוות 🐾</h2>
+          <p>לחצו על כלב כדי להכיר אותו ולבחור מסלול</p>
+        </div>
+        <div className="va-gallery">
+          {vdogs?.map(d => (
+            <Link key={d.id} to={`/virtual-adoption/${d.slug}`} className="va-gdog reveal">
+              {d.main_image && <img src={d.main_image} alt={d.name} loading="lazy" />}
+              <span className="va-gdog-body"><b>{d.name}</b><span>{d.tagline}</span><em>לאמץ וירטואלית ←</em></span>
+            </Link>
+          ))}
         </div>
       </section>
 

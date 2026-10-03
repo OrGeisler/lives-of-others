@@ -27,7 +27,7 @@ export default function DogPage() {
         {dog.story?.split(/\n\s*\n/).map((p, i) => <p key={i}>{p}</p>)}
         <div className="dog-modal-actions">
           {dog.available_for_adoption && <a className="btn btn-orange" href={`https://wa.me/${WA}?text=${waText}`} target="_blank" rel="noopener">אמצו אותי</a>}
-          {dog.available_for_virtual && <Link className="btn btn-gold" to="/virtual-adoption">להיות המלאך השומר שלי – אימוץ וירטואלי</Link>}
+          {dog.available_for_virtual && <Link className="btn btn-gold" to={`/virtual-adoption/${dog.slug}`}>להיות המלאך השומר שלי – אימוץ וירטואלי</Link>}
         </div>
       </div>
     </section>

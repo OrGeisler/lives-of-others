@@ -5,3 +5,26 @@ a.dog-card { color: inherit; text-decoration: none; }
 a.dog-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(18, 58, 90, .14); }
 a.dog-card { transition: transform .15s ease, box-shadow .15s ease; }
 a.dog-card:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+/* 24.9 item 1.2 — opening text centered and bolder (was reading "like an email") */
+.hero-copy { align-items: center; text-align: center; }
+.hero h1 { font-size: 60px; }
+.hero .hero-title-sub { font-size: 23px; color: var(--primary, #1E6E9C); font-weight: 700; }
+.hero .hero-sub { font-size: 21px; font-weight: 600; color: var(--navy); max-width: 560px; line-height: 1.55; }
+.hero .cta-row, .hero .social-row { justify-content: center; }
+.hero .btn-angel { margin-inline: auto; }
+@media (max-width: 900px) { .hero h1 { font-size: 40px; } .hero .hero-sub { font-size: 19px; } }
+
+/* 24.9 item 2 — counters in their own strip, clearly separated from the before/after photos */
+.counters-strip { width: 100%; max-width: 980px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0;
+  background: #fff; border-radius: 26px; padding: 30px 12px; box-shadow: 0 18px 40px rgba(0,0,0,.25); }
+.counters-strip .counter { padding: 6px 18px; }
+.counters-strip .counter + .counter { border-inline-start: 2px solid #e3edf3; }
+.counters-strip .counter-num { color: var(--primary, #1E6E9C); font-size: 62px; }
+.counters-strip .counter-label { color: var(--navy); font-weight: 700; font-size: 18px; }
+@media (max-width: 720px) {
+  .counters-strip { grid-template-columns: 1fr; padding: 18px 12px; }
+  .counters-strip .counter { padding: 14px 10px; }
+  .counters-strip .counter + .counter { border-inline-start: 0; border-top: 2px solid #e3edf3; }
+  .counters-strip .counter-num { font-size: 46px; }
+}

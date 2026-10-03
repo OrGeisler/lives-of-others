@@ -54,20 +54,20 @@ export default function RescueNumbers() {
   return (
     <section className="rescue-numbers">
       <div className="wrap">
-        <div className="rn-head reveal">
-          <h2>מהרחוב אל הבית — ההבדל שאתם עושים</h2>
-          <p>אותו כלב, לפני ואחרי ההצלה. כל אחד מהם קיבל הזדמנות שנייה.</p>
-        </div>
-        <div className="ba-grid reveal" id="ba-grid">
-          {BEFORE_AFTER.map(([slug, name]) => <BeforeAfter key={slug} slug={slug} name={name} />)}
-        </div>
-        <div className="counters reveal">
+        <div className="counters counters-strip reveal">
           {list.map(c => (
             <div className="counter" key={c.label}>
               <CountUp value={c.value} suffix={c.suffix} />
               <div className="counter-label">{c.label}</div>
             </div>
           ))}
+        </div>
+        <div className="rn-head reveal">
+          <h2>מהרחוב אל הבית — ההבדל שאתם עושים</h2>
+          <p>אותו כלב, לפני ואחרי ההצלה. כל אחד מהם קיבל הזדמנות שנייה.</p>
+        </div>
+        <div className="ba-grid reveal" id="ba-grid">
+          {BEFORE_AFTER.map(([slug, name]) => <BeforeAfter key={slug} slug={slug} name={name} />)}
         </div>
         <a href="#donate" className="btn btn-gold reveal">לתרומה להצלת כלב</a>
       </div>

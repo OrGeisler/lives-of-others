@@ -28,9 +28,20 @@ const Li = ({ ico, text }: { ico: string; text: string }) => (
   <li><span>{ico}</span><span>{text}</span></li>
 )
 
-export function VaAccordions() {
+// whatIs: the extra "+" that the per-dog virtual-adoption page opens with (24.9 item 8, discussion)
+export function VaAccordions({ whatIs = false }: { whatIs?: boolean }) {
   return (
     <div className="acc reveal">
+      {whatIs && (
+        <details>
+          <summary>מה זה בעצם "להיות המלאך השומר שלי – אימוץ וירטואלי"?</summary>
+          <div className="acc-body">
+            <p>ישנם כלבים שהדרך שלהם לבית קבוע ארוכה יותר. חלקם נמצאים איתנו חודשים וחלקם אף שנים ארוכות. עבורם הקמנו את תוכנית "המלאך השומר שלי".</p>
+            <p>זו הדרך שלכם להפוך למלאכים השומרים של כלב שזקוק לכם — לדעת שיש לכם חבר על ארבע שמחכה לכם וזוכה לחיים טובים בזכותכם.</p>
+            <p>באימוץ וירטואלי אתם בוחרים כלב מסוים ומלווים אותו מקרוב בחסות חודשית קבועה, עד שימצא בית של ממש.</p>
+          </div>
+        </details>
+      )}
       <details>
         <summary>למי זה מתאים?</summary>
         <div className="acc-body"><ul>{FIT.map(([i, t]) => <Li key={i} ico={i} text={t} />)}</ul></div>
@@ -43,7 +54,7 @@ export function VaAccordions() {
             <div><b>2. קובעים חסות חודשית</b>סכום קבוע לבחירתכם (הוראת קבע) שמכסה אוכל, חיסונים וטיפול.</div>
             <div><b>3. מלווים מקרוב</b>מקבלים עדכונים, תמונות וסרטונים — ורואים איך הכלב שלכם פורח.</div>
           </div>
-          <Link to="/#dogs" className="btn btn-sm btn-orange" style={{ marginTop: 14 }}>הכלבים שלנו ←</Link>
+          <Link to="/virtual-adoption#choose" className="btn btn-sm btn-orange" style={{ marginTop: 14 }}>לבחירת כלב ←</Link>
         </div>
       </details>
       <details>

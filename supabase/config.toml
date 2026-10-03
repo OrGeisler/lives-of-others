@@ -416,3 +416,6 @@ enabled = true
 
 [functions.grow-webhook]
 verify_jwt = false
+
+[functions.checkout]
+verify_jwt = false

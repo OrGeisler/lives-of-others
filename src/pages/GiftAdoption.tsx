@@ -1,6 +1,6 @@
+import '../styles/checkout.css'
 import { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { GROW_VIRTUAL } from '../lib/links'
+import { Link, useNavigate } from 'react-router-dom'
 import { useGiftDogs, useTitle } from '../lib/pagesData'
 import type { Dog } from '../lib/types'
 import '../styles/pages.css'
@@ -12,7 +12,9 @@ export default function GiftAdoption() {
   useTitle('אימוץ במתנה — חיים של אחרים')
   const { dogs, error } = useGiftDogs()
   const [chosen, setChosen] = useState<Dog | null>(null)
-  const payRef = useRef<HTMLAnchorElement>(null)
+  const payRef = useRef<HTMLButtonElement>(null)
+  const nav = useNavigate()
+  const [needPick, setNeedPick] = useState(false)
 
   const pick = (d: Dog) => {
     setChosen(d)
@@ -71,13 +73,14 @@ export default function GiftAdoption() {
           })}
         </div>
 
-        {/* כרגע: מעבר לדף Grow הקיים. בגרסה הבאה: טופס נותן+מקבל, מועד שליחה, ברכה ותשלום באותו עמוד */}
+        {/* → /checkout: buyer + recipient details, send date and greeting; payment on Grow (in-page once the Grow API is connected) */}
         <div className="gift-pay reveal">
           <span className="gb-chosen">{chosen ? `🎁 בחרתם במתנה את ${chosen.name}` : ''}</span>
-          <a className="gift-box-big" ref={payRef} href={GROW_VIRTUAL} target="_blank" rel="noopener">
+          <button type="button" className="gift-box-big" ref={payRef} onClick={() => chosen ? nav(`/checkout?type=gift&dog=${chosen.slug}`) : setNeedPick(true)}>
             <span className="lid" />
             <span className="box"><span>לתשלום 180 ₪ במתנה</span><small>תרומה חד-פעמית</small></span>
-          </a>
+          </button>
+          {needPick && !chosen && <span className="gb-need" role="alert">☝️ קודם בחרו כלב — לחצו "בחרו אותי" על אחד הכלבים</span>}
         </div>
       </section>
     </>
