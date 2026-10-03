@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&family=Rubik:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=249">
 <style>
   .gift-hero { background: linear-gradient(160deg, #7a2350, #b8336a); color: #fff; text-align: center; }
   .gift-hero .wrap { padding-block: 56px 48px; display: flex; flex-direction: column; gap: 14px; align-items: center; }
@@ -51,6 +51,40 @@
     .gift-includes, .gift-dogs { grid-template-columns: 1fr; }
     .gift-hero h1 { font-size: 32px; }
   }
+  /* 24.9 */
+  .gift-hero { position: relative; overflow: hidden; background: linear-gradient(150deg, #9c1650, #C2185B 45%, #E0678F); }
+  .gift-hero::before { content: ""; position: absolute; top: 0; bottom: 0; inset-inline-start: 9%; width: 38px; background: linear-gradient(90deg,#f7d26a,#ffe9a8 50%,#f7d26a); opacity: .55; }
+  .gift-hero .wrap { position: relative; z-index: 2; }
+  .gift-hero .gh-text { display: flex; flex-direction: column; gap: 10px; max-width: 700px; }
+  .gift-why { display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px; max-width: 860px; margin: 26px auto 0; }
+  .gift-why .gw { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .gift-why .gw-ico { width: 132px; height: 132px; border-radius: 50%; background: #E0678F; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 26px rgba(224,103,143,.35); }
+  .gift-why .gw-ico svg { width: 78px; height: 78px; stroke: #fff; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .gift-why h3 { margin: 6px 0 0; font-size: 24px; color: #C2185B; }
+  .gift-why p { margin: 0; color: var(--muted); max-width: 360px; }
+  .pick-title { text-align: center; font: 800 26px 'Rubik', sans-serif; color: var(--navy); margin: 0 0 6px; }
+  .gift-dogs2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 22px; }
+  .gdog { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 16px rgba(18,58,90,.08); display: flex; flex-direction: column; border: 3px solid transparent; transition: border-color .15s, transform .15s; }
+  .gdog.on { border-color: #E0678F; transform: translateY(-4px); box-shadow: 0 14px 30px rgba(224,103,143,.28); }
+  .gdog img { width: 100%; height: 230px; object-fit: cover; cursor: pointer; }
+  .gdog-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .gdog-body h3 { margin: 0; font-size: 22px; color: var(--navy); }
+  .gdog-age { font-size: 15px; color: var(--soft); font-weight: 700; }
+  .gdog-tag { font-weight: 800; color: #E0678F; font-size: 16px; }
+  .gdog-body p { margin: 0; font-size: 16px; color: var(--muted); flex: 1; }
+  .gdog-pick { margin-top: 10px; border: none; cursor: pointer; background: #E0678F; color: #fff; font: 800 17px 'Assistant', sans-serif; padding: 12px; border-radius: 999px; }
+  .gdog.on .gdog-pick { background: #2e9e5b; }
+  .gift-pay { text-align: center; margin-top: 34px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .gift-pay .gb-chosen { font-weight: 700; color: var(--chip-ink); min-height: 1.4em; }
+  .gift-box-big { position: relative; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; }
+  .gift-box-big .lid { width: 300px; height: 42px; background: #E0678F; border-radius: 10px; position: relative; box-shadow: 0 4px 0 #b94770; transition: transform .25s; }
+  .gift-box-big .lid::before { content: "🎀"; position: absolute; top: -40px; left: 50%; transform: translateX(-50%); font-size: 46px; }
+  .gift-box-big .box { width: 270px; padding: 26px 16px 22px; background: #C2185B; color: #fff; border-radius: 0 0 14px 14px; position: relative; overflow: hidden; }
+  .gift-box-big .box::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 34px; transform: translateX(-50%); background: #f7d26a; opacity: .9; }
+  .gift-box-big .box span { position: relative; display: block; font: 900 24px 'Rubik', sans-serif; text-shadow: 0 2px 6px rgba(0,0,0,.35); }
+  .gift-box-big .box small { position: relative; display: block; font-weight: 700; font-size: 14px; margin-top: 4px; text-shadow: 0 1px 4px rgba(0,0,0,.4); }
+  .gift-box-big:hover .lid { transform: translateY(-10px) rotate(-3deg); }
+  @media (max-width: 720px) { .gift-why, .gift-dogs2 { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -81,64 +115,102 @@
   <div class="wrap">
     <a class="gift-back" href="index.html">→ חזרה לעמוד הבית</a>
     <h1>אימוץ במתנה 🎁</h1>
-    <p class="sub">מחפשים מתנה מרגשת? מתנה עם משמעות? רוצים להפתיע אדם שאוהב כלבים?</p>
-    <p>אנחנו מזמינים אתכם להעניק מתנה יוצאת דופן לאדם קרוב — אימוץ וירטואלי של אחד מהכלבים המתוקים שהצלנו. בזכות התרומה החד-פעמית שלכם בסך 180 ₪, הכלב שבחרתם יזכה לכל מה שהוא צריך כדי להשתקם: קורת גג בטוחה, מזון איכותי, טיפול רפואי מסור וים של אהבה.</p>
-    <a class="gift-box-btn" href="https://pay.grow.link/NzMwNzY~417a0ec0d5f219cf2a3f89acc96cb22a-Mzg0MjMyNw" target="_blank" rel="noopener">
-      <span class="gb-ico">🎁</span>
-      <span class="gb-amt">לתשלום 180 ₪ במתנה</span>
-      <span class="gb-sm">תרומה חד-פעמית</span>
-    </a>
+    <div class="gh-text">
+      <p class="sub">מחפשים מתנה מרגשת? מתנה עם משמעות? רוצים להפתיע אדם שאוהב כלבים?</p>
+      <p>אנחנו מזמינים אתכם להעניק מתנה יוצאת דופן, לאדם קרוב - אימוץ וירטואלי של אחד מהכלבים המתוקים שהצלנו</p>
+      <p>בזכות התרומה החד פעמית שלכם בסך 180 ₪, הכלב שבחרתם יזכה לכל מה שהוא צריך כדי להשתקם – קורת גג בטוחה, מזון איכותי, טיפול רפואי מסור וים של אהבה</p>
+      <p>ככה תוכלו לדעת שהענקתם מתנה שלא תישכח ובו זמנית הענקתם את מתנת החיים לכלב שזקוק לכם יותר מכל</p>
+    </div>
   </div>
 </section>
 
 <section class="gift-sec">
   <div class="section-head reveal"><h2>מה כוללת המתנה?</h2></div>
-  <ul class="gift-includes reveal">
-    <li><span class="gi-ico">📜</span> <span>תעודת אימוץ במתנה הנושאת <strong>ברכה אישית</strong> מכם, עם תמונת הכלב שאימצתם.</span></li>
-    <li><span class="gi-ico">💌</span> <span>בתזמון שתבחרו, נשלח לחוגג/ת <strong>הודעת אימוץ אישית ומרגשת</strong> בשם הכלב — יחד עם הברכה שלכם.</span></li>
-    <li><span class="gi-ico">📸</span> <span>כמו בקשר קרוב — מקבל/ת המתנה יזכה/תזכה ל<strong>עדכון אישי מהכלב אחת לחודש למשך שנה</strong>.</span></li>
-    <li><span class="gi-ico">📱</span> <span>הפתעה מרגשת ישר לנייד — מתנה שממשיכה לתת כל השנה.</span></li>
-  </ul>
-</section>
-
-<section class="gift-sec" style="padding-top:0">
-  <div class="section-head reveal"><h2>בחרו את הכלב שלכם</h2><p>לחצו על הכלב שתרצו להעניק כמתנה — ותייצרו כרטיס ברכה אישי.</p></div>
-  <div class="gift-dogs reveal">
-    <a class="gift-dog" href="certificate.html?type=gift&dog=shuki"><img src="assets/img/dog-shuki-1.jpg" alt="שוקי" loading="lazy"><div class="gd-body"><strong>שוקי</strong><span>בחרו במתנה ←</span></div></a>
-    <a class="gift-dog" href="certificate.html?type=gift&dog=cooper"><img src="assets/img/dog-cooper-1.jpg" alt="קופר" loading="lazy"><div class="gd-body"><strong>קופר</strong><span>בחרו במתנה ←</span></div></a>
-    <a class="gift-dog" href="certificate.html?type=gift&dog=gili"><img src="assets/img/dog-gili-2.jpg" alt="גילי" loading="lazy"><div class="gd-body"><strong>גילי</strong><span>בחרו במתנה ←</span></div></a>
-    <a class="gift-dog" href="certificate.html?type=gift&dog=junior"><img src="assets/img/dog-junior-3.jpg" alt="ג'וניור" loading="lazy"><div class="gd-body"><strong>ג'וניור</strong><span>בחרו במתנה ←</span></div></a>
-    <a class="gift-dog" href="certificate.html?type=gift&dog=pil"><img src="assets/img/dog-pil-1.jpg" alt="פיל" loading="lazy"><div class="gd-body"><strong>פיל</strong><span>בחרו במתנה ←</span></div></a>
-    <a class="gift-dog" href="certificate.html?type=gift&dog=micha"><img src="assets/img/dog-micha-1.jpg" alt="מיכה" loading="lazy"><div class="gd-body"><strong>מיכה</strong><span>בחרו במתנה ←</span></div></a>
+  <div class="gift-why reveal">
+    <div class="gw">
+      <div class="gw-ico"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="26" width="44" height="30" rx="3"/><rect x="6" y="18" width="52" height="10" rx="2"/><path d="M32 18v38"/><path d="M32 18c-4-10-16-12-16-4 0 4 8 4 16 4z"/><path d="M32 18c4-10 16-12 16-4 0 4-8 4-16 4z"/></svg></div>
+      <h3>הפתעה מרגשת ישר לנייד</h3>
+      <p>בתזמון המדוייק שתבחרו, נשלח לחוגג/ת הודעת אימוץ אישית ומרגשת בשמו של הכלב החדש שאימצתם עבורו. להודעה נצרף את הברכה האישית שלכם, כדי להפוך את הרגע לבלתי נשכח</p>
+    </div>
+    <div class="gw">
+      <div class="gw-ico"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M30 40C22 24 10 20 4 22c4 4 4 12 10 16 4 3 10 3 16 2z"/><path d="M34 40c8-16 20-20 26-18-4 4-4 12-10 16-4 3-10 3-16 2z"/><path d="M32 30c-3-4-9-1-6 4l6 6 6-6c3-5-3-8-6-4z"/><path d="M20 12l2 3M44 12l-2 3M32 6v4"/></svg></div>
+      <h3>עדכונים אישיים מהכלב</h3>
+      <p>כמו בקשר קרוב ומרגש, מקבל המתנה יזכה לעדכון אישי מהכלב אחת לחודש למשך שנה שלמה</p>
+    </div>
   </div>
 </section>
 
 <section class="gift-sec" style="padding-top:0">
-  <div class="gift-acc reveal">
-    <details>
-      <summary>מה כולל סל האימוץ הווירטואלי?</summary>
-      <div class="acc-body"><ul>
-        <li>תעודת אימוץ אישית של "המלאך השומר שלי" הנושאת את שמכם, תישלח למייל עם תמונת הכלב.</li>
-        <li>עדכון אישי מהכלב האהוב אחת לחודש, עם תמונות וסרטונים.</li>
-        <li>הזמנה לבקר ולצאת לטיול משותף עם הכלב (בתיאום מראש).</li>
-      </ul></div>
-    </details>
-    <details>
-      <summary>למי זה מתאים?</summary>
-      <div class="acc-body"><ul>
-        <li>הבית כבר מלא — אבל הלב רוצה להציל עוד נשמה.</li>
-        <li>רוצים לעשות מעשה טוב ולדעת שכלב אחד ישן הלילה שבע ומטופל.</li>
-        <li>חתול שליט בבית / טסים הרבה / אחריות של כלב היא כרגע גדולה מדי.</li>
-        <li>בני נוער שחולמים על כלב — לפני שההורים משתכנעו.</li>
-        <li>מחפשים מתנה מיוחדת עם משמעות.</li>
-      </ul></div>
-    </details>
+  <h2 class="pick-title reveal">לחצו על התמונה של הכלב שאותו תרצו לבחור כאימוץ במתנה</h2>
+  <div class="gift-dogs2">
+    <article class="gdog" data-dog="micha" data-name="מיכה">
+      <img src="assets/img/dog-micha-1.jpg" alt="מיכה" loading="lazy">
+      <div class="gdog-body">
+        <h3>מיכה</h3>
+        <span class="gdog-age">10 שנים</span>
+        <span class="gdog-tag">הלב הפועם וזקן השבט · בן 10</span>
+        <p>מיכה הוא הכלב הכי מבוגר בבית המחסה, בן 10, ומי שמכיר אותו יודע שהוא הלב הפועם של המקום. למרות כל מה שעבר בחייו, מיכה נשאר כלב מלא אהבה, ששום דבר לא משמח אותו יותר מאשר לקבל חופן נדיב של חטיפים ותשומת לב.</p>
+        <button class="gdog-pick" type="button">בחרו אותי</button>
+      </div>
+    </article>
+    <article class="gdog" data-dog="cooper" data-name="קופר">
+      <img src="assets/img/dog-cooper-1.jpg" alt="קופר" loading="lazy">
+      <div class="gdog-body">
+        <h3>קופר</h3>
+        <span class="gdog-age">8 שנים</span>
+        <span class="gdog-tag">המנהיג של משפחת "הקופרים"</span>
+        <p>אם הייתם שואלים את קופר מה הדבר הכי חשוב בעולם, התשובה הייתה פשוטה: חיבוק. קופר הוא כלב גדול עם לב רחב אפילו יותר, מעין "דוב אכפת לי" ענק ומתוק שעבורו מגע חם הוא הדבר המשמעותי מכל.</p>
+        <button class="gdog-pick" type="button">בחרו אותי</button>
+      </div>
+    </article>
+    <article class="gdog" data-dog="gili" data-name="גילי">
+      <img src="assets/img/dog-gili-2.jpg" alt="גילי" loading="lazy">
+      <div class="gdog-body">
+        <h3>גילי</h3>
+        <span class="gdog-age">4 שנים</span>
+        <span class="gdog-tag">האריה השומר של בית המחסה</span>
+        <p>גילי הוא הרבה יותר מכלב; הוא אריה בדמות רועה גרמני. יש לו נוכחות של מלך – אצילית, שקטה ובטוחה. הוא המנהיג של הלהקה שלנו, כזה שלא צריך להשמיע קול כדי שיכבדו אותו. אבל למרות המראה העוצמתי והמרשים, יש לו חולשה אחת קטנה ומתוקה: הוא פשוט משוגע על כדורים. ברגע שיש לו כדור, ה"אריה" הופך לגור המאושר בתבל.</p>
+        <button class="gdog-pick" type="button">בחרו אותי</button>
+      </div>
+    </article>
+    <article class="gdog" data-dog="junior" data-name="ג'וניור">
+      <img src="assets/img/dog-junior-3.jpg" alt="ג'וניור" loading="lazy">
+      <div class="gdog-body">
+        <h3>ג'וניור</h3>
+        <span class="gdog-age">5 שנים ו-8 חודשים</span>
+        <span class="gdog-tag">המלך של בית המחסה</span>
+        <p>ג'וניור הוא כלב יפה תואר עם נוכחות שאי אפשר להתעלם ממנה. הוא המנהיג הטבעי של הכלבים הגדולים אצלנו, "המלך" של החצר, ומי ששומר בנאמנות (וקצת עקשנות) על האוכל ועל הסדר הטוב. ג'וניור הוא לא סתם כלב; הוא דמות דומיננטית עם אישיות כובשת של מנהיג אמיתי.</p>
+        <button class="gdog-pick" type="button">בחרו אותי</button>
+      </div>
+    </article>
+    <article class="gdog" data-dog="pil" data-name="פיל">
+      <img src="assets/img/dog-pil-1.jpg" alt="פיל" loading="lazy">
+      <div class="gdog-body">
+        <h3>פיל</h3>
+        <span class="gdog-age">שנתיים</span>
+        <span class="gdog-tag">הענק עם הלב של גור קטן</span>
+        <p>פיל הוא התגלמות המושג "תינוק מגודל". התחביב האהוב עליו בעולם? לשבת בנינוחות על כיסא (גם אם הוא קצת קטן למידותיו) ולחלום חלומות בהקיץ. כשמסתכלים עליו מהצד, נראה שהוא בטוח שהוא עדיין גור קטן שיכול להתכרבל לכל אחד בחיק.</p>
+        <button class="gdog-pick" type="button">בחרו אותי</button>
+      </div>
+    </article>
+    <article class="gdog" data-dog="shuki" data-name="שוקי">
+      <img src="assets/img/dog-shuki-1.jpg" alt="שוקי" loading="lazy">
+      <div class="gdog-body">
+        <h3>שוקי</h3>
+        <span class="gdog-age">שנתיים ו-5 חודשים</span>
+        <span class="gdog-tag">מחפש את הבית שמעולם לא היה לו</span>
+        <p>הסיפור של שוקי התחיל בפברואר 2024. בחורה עם לב ענק הבחינה בו משוטט יחד עם אחותו שירלי בשדות הפתוחים שליד אבו גוש. שוקי היה אז גור קטן בן שלושה חודשים בלבד, רעב ורועד מקור באזור מבודד. מזלו השתנה כשאותה בחורה לא נשארה אדישה, יצרה קשר מיידי עם העמותה וביקשה להציל אותו ואת אחותו.</p>
+        <button class="gdog-pick" type="button">בחרו אותי</button>
+      </div>
+    </article>
   </div>
-  <div style="text-align:center; margin-top:24px">
-    <a class="gift-box-btn" style="background:#b8336a;color:#fff;border-color:#ffb3d0" href="https://pay.grow.link/NzMwNzY~417a0ec0d5f219cf2a3f89acc96cb22a-Mzg0MjMyNw" target="_blank" rel="noopener">
-      <span class="gb-ico">🎁</span>
-      <span class="gb-amt">לתשלום 180 ₪ במתנה</span>
-      <span class="gb-sm" style="color:#ffd9e8">תרומה חד-פעמית</span>
+
+  <!-- כרגע: מעבר לדף Grow הקיים. בגרסה הבאה (המערכת החדשה): טופס נותן+מקבל, מועד שליחה, ברכה ותשלום באותו עמוד -->
+  <div class="gift-pay reveal">
+    <span class="gb-chosen" id="gb-chosen"></span>
+    <a class="gift-box-big" id="gift-pay-btn" href="https://pay.grow.link/NzMwNzY~417a0ec0d5f219cf2a3f89acc96cb22a-Mzg0MjMyNw" target="_blank" rel="noopener">
+      <span class="lid"></span>
+      <span class="box"><span>לתשלום 180 ₪ במתנה</span><small>תרומה חד-פעמית</small></span>
     </a>
   </div>
 </section>
@@ -159,6 +231,23 @@
   </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="js/main.js?v=249"></script>
+<script>
+  // "בחרו אותי" — בחירת כלב למתנה (מסמן ומעדכן את כפתור התשלום)
+  (function () {
+    var cards = document.querySelectorAll('.gdog');
+    var chosen = document.getElementById('gb-chosen');
+    var pay = document.getElementById('gift-pay-btn');
+    function pick(card) {
+      cards.forEach(function (c) { c.classList.toggle('on', c === card); c.querySelector('.gdog-pick').textContent = c === card ? '✓ נבחרתי!' : 'בחרו אותי'; });
+      chosen.textContent = '🎁 בחרתם במתנה את ' + card.dataset.name;
+      pay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    cards.forEach(function (c) {
+      c.querySelector('.gdog-pick').addEventListener('click', function () { pick(c); });
+      c.querySelector('img').addEventListener('click', function () { pick(c); });
+    });
+  })();
+</script>
 </body>
 </html>

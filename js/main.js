@@ -17,7 +17,7 @@ document.querySelectorAll('[data-open-modal]').forEach(btn => {
     if (dlg) dlg.showModal();
   });
 });
-document.querySelectorAll('dialog.memorial-modal, dialog.dog-modal').forEach(dlg => {
+document.querySelectorAll('dialog.memorial-modal, dialog.dog-modal, dialog.lightbox').forEach(dlg => {
   dlg.querySelectorAll('[data-close-modal]').forEach(b =>
     b.addEventListener('click', () => dlg.close()));
   dlg.addEventListener('click', e => {
@@ -79,7 +79,16 @@ document.querySelectorAll('.ba-item').forEach(item => {
 // Dog carousels — expose a small API on each element so modal open/close can drive it
 document.querySelectorAll('[data-carousel]').forEach(car => {
   const track = car.querySelector('.carousel-track');
-  const slides = track ? track.querySelectorAll('img') : [];
+  // Wrap each photo in a slide with a blurred copy behind it, so portrait/odd-sized
+  // photos show whole (contain) without black bars or cropping (24.9 7.2)
+  if (track) track.querySelectorAll(':scope > img').forEach(img => {
+    const slide = document.createElement('div');
+    slide.className = 'slide';
+    slide.style.setProperty("--bg", `url("${img.src}")`);
+    img.replaceWith(slide);
+    slide.appendChild(img);
+  });
+  const slides = track ? track.children : [];
   const prev = car.querySelector('[data-carousel-prev]');
   const next = car.querySelector('[data-carousel-next]');
   const dotsWrap = car.querySelector('[data-carousel-dots]');
@@ -89,7 +98,7 @@ document.querySelectorAll('[data-carousel]').forEach(car => {
     if (next) next.hidden = true;
   }
   if (dotsWrap) {
-    slides.forEach((_, i) => {
+    Array.from(slides).forEach((_, i) => {
       const dot = document.createElement('span');
       if (i === 0) dot.className = 'on';
       dot.addEventListener('click', () => { go(i); restart(); });
@@ -131,3 +140,30 @@ document.querySelectorAll('dialog.dog-modal').forEach(dlg => {
     if (car && car._carousel) car._carousel.stop();
   });
 });
+
+// Hero TV: sound toggle (24.9)
+(function () {
+  var v = document.getElementById('hero-tv');
+  var b = document.querySelector('.tv-sound');
+  if (!v || !b) return;
+  b.addEventListener('click', function () {
+    v.muted = !v.muted;
+    if (!v.muted) { v.play(); }
+    b.textContent = v.muted ? '🔊 להפעלת קול' : '🔇 השתקה';
+    b.setAttribute('aria-pressed', String(!v.muted));
+  });
+})();
+
+// Team photos → enlarge in lightbox (24.9)
+(function () {
+  var lb = document.getElementById('team-lightbox');
+  if (!lb) return;
+  document.querySelectorAll('.team-member img').forEach(function (img) {
+    img.addEventListener('click', function () {
+      lb.querySelector('img').src = img.src;
+      lb.querySelector('img').alt = img.alt;
+      lb.querySelector('.lightbox-name').textContent = img.alt;
+      lb.showModal();
+    });
+  });
+})();

@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&family=Rubik:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=249">
 <style>
   .bd-hero { position: relative; overflow: hidden; text-align: center; color: #fff;
     background: linear-gradient(160deg, #2E7BA0, #7C5CBF 60%, #E0678F); }
@@ -26,6 +26,7 @@
   .bd-dog img { width: 100%; height: 320px; object-fit: cover; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,.12); }
   .bd-dog .bd-badge { display: inline-block; background: #ffe14d; color: #7a5b00; font-weight: 800; padding: 5px 14px; border-radius: 999px; font-size: 14px; }
   .bd-dog h2 { margin: 10px 0; color: var(--navy); font-size: 30px; }
+  .bd-tagline { color: #7C5CBF !important; font-weight: 800; }
   .bd-dog p { color: var(--muted); font-size: 16.5px; margin: 0 0 8px; }
   .bd-menu-sec { background: var(--cream); }
   .bd-menu-inner { max-width: 1000px; margin: 0 auto; padding: 52px 24px; }
@@ -71,7 +72,7 @@
   </div>
 </header>
 
-<!-- ====== חוגגים לכלב החודש — עדכון חודשי: החליפו שם/תמונה/סיפור וגם את קישורי המתנות ====== -->
+<!-- ====== כלב החודש מתחלף אוטומטית — js/birthdays.js ====== -->
 <section class="bd-hero">
   <div class="confetti" aria-hidden="true">
     <i style="left:6%;  background:#ffe14d; animation-duration:5.5s; animation-delay:0s"></i>
@@ -85,34 +86,35 @@
   </div>
   <div class="wrap">
     <a class="bd-back" href="index.html">→ חזרה לעמוד הבית</a>
-    <h1>🎂 החודש חוגגים יום הולדת ל<span class="bd-name">שוקי</span>!</h1>
+    <h1>🎂 ל<span class="bd-name" data-bd-name>שוקי</span> יש יום הולדת!</h1>
     <p>כל חודש כלב אחר מבית המחסה חוגג יום הולדת — וזו ההזדמנות שלכם לפנק אותו במתנה קטנה שתעשה לו את היום. בואו נחגוג יחד! 🎈</p>
   </div>
 </section>
 
 <section class="bd-dog reveal">
-  <img src="assets/img/dog-shuki-1.jpg" alt="שוקי חוגג יום הולדת">
+  <img data-bd-img src="assets/img/dog-shuki-1.jpg" alt="שוקי חוגג יום הולדת">
   <div>
     <span class="bd-badge">🎉 חוגג/ת החודש</span>
-    <h2>שוקי מזמין אתכם למסיבה</h2>
-    <p>שוקי הוא כדור של אנרגיה חיובית שפשוט מאוהב באנשים — כלב שובב, מלא שמחת חיים, שהכי אוהב בעולם להתפלש בערימות מצעים עם ריח כביסה נקי, ולחלום על הבית שמעולם לא היה לו.</p>
-    <p>ביום ההולדת שלו, בואו נראה לו כמה הוא אהוב 💛</p>
+    <h2>בואו לחגוג עם <span data-bd-name>שוקי</span>! 🥳</h2>
+    <p class="bd-tagline" data-bd-tagline></p>
+    <p data-bd-story></p>
+    <p>בואו נעשה ל<span data-bd-name>שוקי</span> יום הולדת בלתי נשכח 💛</p>
   </div>
 </section>
 
 <div class="bd-fact reveal">
-  <div class="card">✨ <strong>ידעתם?</strong> גם מפורסמים אוהבים כלבים — מחקרים מראים שחיבוק לכלב משחרר אוקסיטוצין (הורמון האהבה) גם אצל האדם וגם אצל הכלב. אז מתנה לשוקי = קצת אושר גם לכם 🐾</div>
+  <div class="card">✨ <strong>ידעתם?</strong> גם מפורסמים אוהבים כלבים — מחקרים מראים שחיבוק לכלב משחרר אוקסיטוצין (הורמון האהבה) גם אצל האדם וגם אצל הכלב. אז מתנה ל<span data-bd-name>שוקי</span> = קצת אושר גם לכם 🐾</div>
 </div>
 
 <section class="bd-menu-sec">
   <div class="bd-menu-inner">
-    <div class="section-head reveal"><h2>מחירון מתנות יום ההולדת 🎁</h2><p>בחרו מתנה לשוקי — ותקבלו למייל איגרת תודה אישית מהכלב החוגג.</p></div>
+    <div class="section-head reveal"><h2>מחירון מתנות יום ההולדת 🎁</h2><p>בחרו מתנה ל<span data-bd-name>שוקי</span> — ותקבלו איגרת תודה אישית מהכלב החוגג. <a href="birthday-thanks.html" style="color:#E0678F;font-weight:700">(הצצה לאיגרת)</a></p></div>
     <div class="bd-menu reveal">
       <a class="bd-gift" href="https://pay.grow.link/NzMwNzY~417a0ec0d5f219cf2a3f89acc96cb22a-Mzg0MjMyNw" target="_blank" rel="noopener"><span class="bg-ico">🎂</span><strong>עוגת יום הולדת</strong><span class="bg-price">25 ₪</span><span class="bg-desc">חגיגה מתוקה וכשרה לכלבים</span></a>
       <a class="bd-gift" href="https://pay.grow.link/NzMwNzY~417a0ec0d5f219cf2a3f89acc96cb22a-Mzg0MjMyNw" target="_blank" rel="noopener"><span class="bg-ico">🦴</span><strong>שק חטיפים</strong><span class="bg-price">40 ₪</span><span class="bg-desc">הפינוקים שהכי אוהבים</span></a>
       <a class="bd-gift" href="https://pay.grow.link/NzMwNzY~417a0ec0d5f219cf2a3f89acc96cb22a-Mzg0MjMyNw" target="_blank" rel="noopener"><span class="bg-ico">🧸</span><strong>צעצוע חדש</strong><span class="bg-price">60 ₪</span><span class="bg-desc">שעות של שמחה ומשחק</span></a>
       <a class="bd-gift" href="https://pay.grow.link/NzMwNzY~417a0ec0d5f219cf2a3f89acc96cb22a-Mzg0MjMyNw" target="_blank" rel="noopener"><span class="bg-ico">🛁</span><strong>יום פינוק וטיפוח</strong><span class="bg-price">120 ₪</span><span class="bg-desc">רחצה, סירוק והמון תשומת לב</span></a>
-      <a class="bd-gift" href="https://pay.grow.link/NzMwNzY~417a0ec0d5f219cf2a3f89acc96cb22a-Mzg0MjMyNw" target="_blank" rel="noopener"><span class="bg-ico">🍗</span><strong>ארוחת חג ללהקה</strong><span class="bg-price">200 ₪</span><span class="bg-desc">שוקי חוגג — וכולם נהנים</span></a>
+      <a class="bd-gift" href="https://pay.grow.link/NzMwNzY~417a0ec0d5f219cf2a3f89acc96cb22a-Mzg0MjMyNw" target="_blank" rel="noopener"><span class="bg-ico">🍗</span><strong>ארוחת חג ללהקה</strong><span class="bg-price">200 ₪</span><span class="bg-desc">חוגגים עם כל הלהקה</span></a>
       <a class="bd-gift" href="https://pay.grow.link/NzMwNzY~417a0ec0d5f219cf2a3f89acc96cb22a-Mzg0MjMyNw" target="_blank" rel="noopener"><span class="bg-ico">🎈</span><strong>מתנה בסכום חופשי</strong><span class="bg-price">אתם בוחרים</span><span class="bg-desc">כל סכום — כל חיבוק חשוב</span></a>
     </div>
   </div>
@@ -139,6 +141,7 @@
   </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="js/birthdays.js?v=249"></script>
+<script src="js/main.js?v=249"></script>
 </body>
 </html>
