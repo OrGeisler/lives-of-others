@@ -1,21 +1,50 @@
 import { lazy, Suspense } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Layout from './components/Layout'
-import DogPage from './pages/DogPage'
 import Home from './pages/Home'
+import { useTitle } from './lib/pagesData'
 
-// Admin is a separate chunk: visitors never download it
+// Everything except the home page is loaded on demand (smaller first load). Admin is never loaded by visitors.
+const DogPage = lazy(() => import('./pages/DogPage'))
+const VirtualAdoption = lazy(() => import('./pages/VirtualAdoption'))
+const GiftAdoption = lazy(() => import('./pages/GiftAdoption'))
+const Birthday = lazy(() => import('./pages/Birthday'))
+const BirthdayThanks = lazy(() => import('./pages/BirthdayThanks'))
+const Privacy = lazy(() => import('./pages/Privacy'))
+const English = lazy(() => import('./pages/English'))
 const AdminApp = lazy(() => import('./admin/AdminApp'))
+
+// Old static-site addresses (shared on WhatsApp/Grow/Facebook) keep working
+const LEGACY: Record<string, string> = {
+  '/index.html': '/', '/virtual-adoption.html': '/virtual-adoption', '/gift-adoption.html': '/gift-adoption',
+  '/birthday.html': '/birthday', '/birthday-thanks.html': '/birthday-thanks', '/privacy.html': '/privacy',
+  '/certificate.html': '/virtual-adoption', '/en/': '/en', '/en/index.html': '/en',
+}
+function NotFound() {
+  const { pathname, search, hash } = useLocation()
+  const to = LEGACY[pathname]
+  useTitle('העמוד לא נמצא — חיים של אחרים')
+  if (to) return <Navigate to={to + search + hash} replace />
+  return <div className="wrap" style={{ padding: '80px 0', textAlign: 'center' }}><h1>העמוד לא נמצא 🐾</h1><a href="/">לעמוד הבית ←</a></div>
+}
+
+const page = (el: React.ReactNode) => <Suspense fallback={<div style={{ minHeight: '60vh' }} />}>{el}</Suspense>
 
 export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="dogs/:slug" element={<DogPage />} />
-        <Route path="*" element={<div className="wrap" style={{ padding: '80px 0' }}>העמוד לא נמצא.</div>} />
+        <Route path="dogs/:slug" element={page(<DogPage />)} />
+        <Route path="virtual-adoption" element={page(<VirtualAdoption />)} />
+        <Route path="gift-adoption" element={page(<GiftAdoption />)} />
+        <Route path="birthday" element={page(<Birthday />)} />
+        <Route path="privacy" element={page(<Privacy />)} />
+        <Route path="*" element={<NotFound />} />
       </Route>
-      <Route path="admin/*" element={<Suspense fallback={null}><AdminApp /></Suspense>} />
+      <Route path="birthday-thanks" element={page(<BirthdayThanks />)} />
+      <Route path="en" element={page(<English />)} />
+      <Route path="admin/*" element={page(<AdminApp />)} />
     </Routes>
   )
 }

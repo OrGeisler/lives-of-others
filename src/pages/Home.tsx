@@ -1,3 +1,4 @@
+import { useTitle } from '../lib/pagesData'
 import BirthdayHome from '../components/home/BirthdayHome'
 import Contact from '../components/home/Contact'
 import Dogs from '../components/home/Dogs'
@@ -11,6 +12,7 @@ import '../styles/home.css'
 
 // Home page — same sections and order as the static site (index.html on main, after the 24.9 round)
 export default function Home() {
+  useTitle('חיים של אחרים — הצלת כלבים נטושים, טיפול ושיקום')
   return (
     <>
       <Hero />

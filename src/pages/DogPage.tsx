@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import Carousel from '../components/Carousel'
 import { useDog } from '../lib/data'
+import { useTitle } from '../lib/pagesData'
 
 const WA = '972528296622'
 
@@ -8,6 +9,7 @@ const WA = '972528296622'
 export default function DogPage() {
   const { slug = '' } = useParams()
   const { data: dog, loading, error } = useDog(slug)
+  useTitle(dog ? `${dog.name} — חיים של אחרים` : 'חיים של אחרים')
 
   if (loading) return <div className="wrap" style={{ padding: '80px 0' }}>טוען…</div>
   if (error || !dog) return <div className="wrap" style={{ padding: '80px 0' }}>לא מצאנו את הכלב הזה. <Link to="/#dogs">לכל הכלבים ←</Link></div>
@@ -25,7 +27,7 @@ export default function DogPage() {
         {dog.story?.split(/\n\s*\n/).map((p, i) => <p key={i}>{p}</p>)}
         <div className="dog-modal-actions">
           {dog.available_for_adoption && <a className="btn btn-orange" href={`https://wa.me/${WA}?text=${waText}`} target="_blank" rel="noopener">אמצו אותי</a>}
-          {dog.available_for_virtual && <a className="btn btn-gold" href="/virtual-adoption">להיות המלאך השומר שלי – אימוץ וירטואלי</a>}
+          {dog.available_for_virtual && <Link className="btn btn-gold" to="/virtual-adoption">להיות המלאך השומר שלי – אימוץ וירטואלי</Link>}
         </div>
       </div>
     </section>
