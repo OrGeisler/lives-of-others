@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
+import { DONATE_URL } from '../lib/links'
+import { usePageEffects } from '../lib/usePageEffects'
 
-const DONATE_URL = 'http://donation.lives-of-others.org/truma'
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
@@ -58,6 +59,7 @@ export function SiteFooter() {
 }
 
 export default function Layout() {
+  usePageEffects()
   return (
     <>
       <SiteHeader />
