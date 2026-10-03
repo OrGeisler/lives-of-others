@@ -1,0 +1,15 @@
+/* additions for the React app (on top of the static site's style.css) */
+.dog-page { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); min-height: calc(100dvh - 120px); background: var(--bg); }
+.dog-page-gallery { position: sticky; top: 0; height: calc(100dvh - 120px); }
+.dog-page-gallery .carousel { border-radius: 0; height: 100%; }
+.dog-page-gallery .carousel-track, .dog-page-gallery .carousel-track .slide { height: 100%; }
+.dog-page-body { padding: 40px 48px 48px; }
+.dog-page-body h1 { font-family: 'Rubik', sans-serif; font-size: 40px; margin: 8px 0 4px; color: var(--navy); }
+.dog-page-back { color: var(--chip-ink); font-weight: 700; text-decoration: none; }
+.dog-card img { width: 100%; }
+@media (max-width: 900px) {
+  .dog-page { grid-template-columns: 1fr; }
+  .dog-page-gallery { position: static; height: auto; }
+  .dog-page-gallery .carousel-track .slide { height: 50vh; }
+  .dog-page-body { padding: 26px 20px 40px; }
+}
