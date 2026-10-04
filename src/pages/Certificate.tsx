@@ -80,8 +80,31 @@ export default function Certificate() {
           </div>
 
           <footer className="cert-foot">
-            <div className="cert-sign"><span className="cert-sign-line" /><span>צוות עמותת חיים של אחרים</span></div>
-            <div className="cert-seal" aria-hidden="true"><span>חיים של<br />אחרים</span></div>
+            <div className="cert-sign cert-sign-stamped">
+              {/* rubber stamp of the nonprofit, inked over the signature line */}
+              <svg className="cert-stamp" viewBox="0 0 300 120" aria-label='חותמת: עמותת חיים של אחרים, ע"ר 580754083'>
+                <defs>
+                  <filter id="ink" x="-5%" y="-5%" width="110%" height="110%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="noise" />
+                    <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.1 1.55" result="speckle" />
+                    <feComposite in="SourceGraphic" in2="speckle" operator="in" result="inked" />
+                    <feTurbulence type="turbulence" baseFrequency="0.035" numOctaves="2" seed="3" result="warp" />
+                    <feDisplacementMap in="inked" in2="warp" scale="2.2" />
+                  </filter>
+                </defs>
+                <g filter="url(#ink)" fill="none" stroke="#1d3aa8">
+                  <rect x="6" y="6" width="288" height="108" rx="14" strokeWidth="5" />
+                  <rect x="15" y="15" width="270" height="90" rx="9" strokeWidth="2" />
+                  <g fill="#1d3aa8" stroke="none" fontFamily="'Frank Ruhl Libre', 'Assistant', serif" textAnchor="middle" direction="rtl">
+                    <text x="150" y="56" fontSize="30" fontWeight="900">עמותת חיים של אחרים</text>
+                    <line x1="60" y1="68" x2="240" y2="68" stroke="#1d3aa8" strokeWidth="1.6" />
+                    <text x="150" y="94" fontSize="22" fontWeight="700" fontFamily="'Assistant', sans-serif">ע״ר 580754083</text>
+                  </g>
+                </g>
+              </svg>
+              <span className="cert-sign-line" />
+              <span>צוות עמותת חיים של אחרים</span>
+            </div>
             <div className="cert-sign"><span className="cert-date">{heDate(c.date)}</span><span>תאריך</span></div>
           </footer>
           <div className="cert-legal">עמותה רשומה ע"ר 580754083 · lives-of-others.com</div>
