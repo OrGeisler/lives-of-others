@@ -1,6 +1,6 @@
 import { focusStyle } from '../lib/focus'
 import { Link, useLocation } from 'react-router-dom'
-import { GROW_VIRTUAL } from '../lib/links'
+import { GROW_BIRTHDAY } from '../lib/links'
 import { monthFromQuery, useBirthdayDogFor, useTitle } from '../lib/pagesData'
 import '../styles/pages.css'
 
@@ -75,7 +75,7 @@ export default function Birthday() {
           </div>
           <div className="bd-menu reveal">
             {GIFTS.map(g => (
-              <a className="bd-gift" key={g.name} href={GROW_VIRTUAL} target="_blank" rel="noopener">
+              <a className="bd-gift" key={g.name} href={GROW_BIRTHDAY} target="_blank" rel="noopener">
                 <span className="bg-ico">{g.ico}</span><strong>{g.name}</strong>
                 <span className="bg-price">{g.price}</span><span className="bg-desc">{g.desc}</span>
               </a>
