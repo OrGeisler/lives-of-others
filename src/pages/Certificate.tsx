@@ -59,7 +59,7 @@ export default function Certificate() {
             <div className="cert-text">
               <div className="cert-kicker">{gift ? 'תעודת אימוץ במתנה' : 'תעודת אימוץ וירטואלי'}</div>
               <h1 className="cert-title">המלאך השומר</h1>
-              <div className="cert-rule"><span>✦</span></div>
+              <div className="cert-rule"><span><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="#c8a24a" d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z" /></svg></span></div>
               <p className="cert-line">תעודה זו מוענקת בגאווה ובהוקרה ל</p>
               <div className="cert-name">{c.name}</div>
               <p className="cert-line">
@@ -72,7 +72,7 @@ export default function Certificate() {
             </div>
             <div className="cert-photo">
               {c.image && <img src={c.image} alt={c.dog ?? ''} style={focusStyle({ image_focus: c.focus })} crossOrigin="anonymous" />}
-              <span className="cert-paw" aria-hidden="true">🐾</span>
+              <svg className="cert-paw" viewBox="0 0 64 64" aria-hidden="true"><g fill="#123A5A"><ellipse cx="32" cy="42" rx="14" ry="12" /><ellipse cx="14" cy="26" rx="6" ry="8" /><ellipse cx="25" cy="15" rx="6" ry="8" /><ellipse cx="39" cy="15" rx="6" ry="8" /><ellipse cx="50" cy="26" rx="6" ry="8" /></g></svg>
             </div>
           </div>
 

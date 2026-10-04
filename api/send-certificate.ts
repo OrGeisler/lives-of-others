@@ -44,7 +44,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     ? db.from('gifts').select('donors:buyer_donor_id(email, honor_name)').eq('id', id).single()
     : db.from('sponsorships').select('donors(email, honor_name)').eq('id', id).single()
   const { data: row } = await q
-  const donor = (row as { donors: { email: string | null; honor_name: string | null } | null } | null)?.donors
+  const donor = (row as unknown as { donors: { email: string | null; honor_name: string | null } | null } | null)?.donors
   if (!donor?.email) return res.status(422).json({ error: 'no email for this donor' })
 
   const pdf = await certificatePdf(SITE, id)
