@@ -10,14 +10,14 @@ export default function Hero() {
   const togglePlay = () => {
     const v = video.current
     if (!v) return
-    if (v.paused) void v.play(); else v.pause() // state follows the video's own play/pause events
+    if (v.paused) v.play().catch(() => {}); else v.pause() // state follows the video's own play/pause events
   }
 
   const toggleSound = () => {
     const v = video.current
     if (!v) return
     v.muted = !v.muted
-    if (!v.muted) void v.play()
+    if (!v.muted) v.play().catch(() => {})
     setSoundOn(!v.muted)
   }
 

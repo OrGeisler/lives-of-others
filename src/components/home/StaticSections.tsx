@@ -41,7 +41,7 @@ export function About() {
             </div>
           </div>
           <div className="about-video reveal">
-            <video autoPlay muted loop playsInline preload="metadata" poster="/assets/img/hero-two-dogs.jpg" aria-label="רגעים מפעילות העמותה">
+            <video autoPlay muted loop playsInline preload="metadata" poster="/assets/img/montage-poster.jpg" aria-label="רגעים מפעילות העמותה">
               <source src="/assets/video/montage-draft.mp4" type="video/mp4" />
             </video>
           </div>
