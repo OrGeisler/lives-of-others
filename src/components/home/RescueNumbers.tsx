@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useCounters } from '../../lib/data'
 import type { Counter } from '../../lib/types'
 
@@ -48,11 +49,12 @@ function CountUp({ value, suffix }: { value: number; suffix: string }) {
   return <div className="counter-num" ref={ref}>{shown.toLocaleString('en-US')}{done ? suffix : ''}</div>
 }
 
-export default function RescueNumbers() {
+// Home: the counters strip on the navy band (24.9 item 2)
+export function CountersBand() {
   const counters = useCounters()
   const list: Counter[] = counters.data?.value ?? []
   return (
-    <section className="rescue-numbers">
+    <section className="rescue-numbers counters-band">
       <div className="wrap">
         <div className="counters counters-strip reveal">
           {list.map(c => (
@@ -62,6 +64,16 @@ export default function RescueNumbers() {
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  )
+}
+
+// About page: "from the street to a home" before/after grid
+export function BeforeAfterSection() {
+  return (
+    <section className="rescue-numbers">
+      <div className="wrap">
         <div className="rn-head reveal">
           <h2>מהרחוב אל הבית — ההבדל שאתם עושים</h2>
           <p>אותו כלב, לפני ואחרי ההצלה. כל אחד מהם קיבל הזדמנות שנייה.</p>
@@ -69,7 +81,7 @@ export default function RescueNumbers() {
         <div className="ba-grid reveal" id="ba-grid">
           {BEFORE_AFTER.map(([slug, name]) => <BeforeAfter key={slug} slug={slug} name={name} />)}
         </div>
-        <a href="#donate" className="btn btn-gold reveal">לתרומה להצלת כלב</a>
+        <Link to="/donate" className="btn btn-gold reveal">לתרומה להצלת כלב</Link>
       </div>
     </section>
   )

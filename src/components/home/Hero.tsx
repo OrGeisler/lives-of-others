@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import { WA_ADOPT, wa } from '../../lib/links'
 import AngelButton from './AngelButton'
@@ -28,9 +29,9 @@ export default function Hero() {
           <p className="hero-sub">אנחנו מחלצים כלבים מהרחוב, מההסגרים וממצבי הזנחה קשים — נותנים להם אוכל, טיפול רפואי, בית, ומעל הכול: את ההרגשה שהם אהובים.</p>
           <span className="hero-chip">🐾 העמותה היחידה בישראל שבה הכלבים גרים בבתים — לא בכלובים</span>
           <div className="cta-row">
-            <a href="#dogs" className="btn btn-orange">אני רוצה לאמץ כלב</a>
-            <a href="#donate" className="btn btn-gold">אני רוצה לתרום</a>
-            <a href="#volunteer" className="btn btn-green">אני רוצה להתנדב</a>
+            <Link to="/dogs" className="btn btn-orange">אני רוצה לאמץ כלב</Link>
+            <Link to="/donate" className="btn btn-gold">אני רוצה לתרום</Link>
+            <Link to="/volunteer" className="btn btn-green">אני רוצה להתנדב</Link>
           </div>
           <AngelButton />
           <div className="social-row">

@@ -1,7 +1,18 @@
 import { useState } from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet } from 'react-router-dom'
 import { DONATE_URL, WA_ADOPT, wa } from '../lib/links'
 import { usePageEffects } from '../lib/usePageEffects'
+
+// Main menu — one entry per page (the site was split from one long page into pages, 2026-10)
+const NAV = [
+  { to: '/', label: 'בית', end: true },
+  { to: '/dogs', label: 'הכלבים שלנו' },
+  { to: '/virtual-adoption', label: 'אימוץ וירטואלי' },
+  { to: '/homes', label: 'הבתים הקסומים' },
+  { to: '/about', label: 'על העמותה' },
+  { to: '/volunteer', label: 'התנדבות' },
+  { to: '/contact', label: 'צור קשר' },
+]
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
@@ -22,13 +33,10 @@ export function SiteHeader() {
               <span className="brand-sub">הצלת כלבים · טיפול · שיקום</span>
             </span>
           </Link>
-          <nav className={`main-nav${open ? ' open' : ''}`} onClick={() => setOpen(false)}>
-            <Link to="/#about">על העמותה</Link>
-            <Link to="/#homes">הבתים הקסומים</Link>
-            <Link to="/#dogs">הכלבים שלנו</Link>
-            <Link to="/virtual-adoption">אימוץ וירטואלי</Link>
-            <Link to="/#volunteer">התנדבות</Link>
-            <Link to="/#contact">צור קשר</Link>
+          <nav className={`main-nav${open ? ' open' : ''}`} onClick={() => setOpen(false)} aria-label="ניווט ראשי">
+            {NAV.map(n => (
+              <NavLink key={n.to} to={n.to} end={n.end} className={({ isActive }) => (isActive ? 'active' : undefined)}>{n.label}</NavLink>
+            ))}
           </nav>
           <div className="header-actions">
             <Link className="lang-switch" to="/en" lang="en">EN</Link>
@@ -52,12 +60,15 @@ export function SiteFooter() {
         </div>
         <div className="footer-links">
           <a className="donate" href={DONATE_URL} target="_blank" rel="noopener">לתרומה</a>
-          <Link to="/#dogs">אימוץ</Link>
+          <Link to="/dogs">אימוץ</Link>
           <Link to="/virtual-adoption">אימוץ וירטואלי</Link>
           <Link to="/gift-adoption">אימוץ במתנה</Link>
           <Link to="/birthday">יום הולדת 🎂</Link>
-          <Link to="/#volunteer">התנדבות</Link>
-          <Link to="/#homes">הבתים הקסומים</Link>
+          <Link to="/volunteer">התנדבות</Link>
+          <Link to="/homes">הבתים הקסומים</Link>
+          <Link to="/about">על העמותה</Link>
+          <Link to="/donate">תרומה</Link>
+          <Link to="/contact">צור קשר</Link>
           <Link to="/privacy">מדיניות פרטיות</Link>
           <a href="https://www.facebook.com/lifeofothers" target="_blank" rel="noopener">פייסבוק</a>
           <a href="https://www.instagram.com/lives.of.others.rescue" target="_blank" rel="noopener">אינסטגרם</a>
