@@ -160,3 +160,9 @@
 @media (max-width: 860px) { .ad-focus { grid-template-columns: 1fr; } .ad-focus-previews { flex-direction: row; flex-wrap: wrap; } .ad-focus-previews img { width: calc(50% - 4px); } .ad-focus-previews .ad-hint { display: none; } }
 .ad-cert-box { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; background: #FFF8E1; border-radius: 12px; padding: 10px 12px; font-weight: 700; }
 .ad-cert-box span { flex: 1; min-width: 160px; }
+
+.ad-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0 12px; }
+.ad-tab { border: 2px solid #d6e2ea; background: #fff; color: var(--navy); border-radius: 999px; padding: 8px 14px; font: 800 15px 'Assistant', sans-serif; cursor: pointer; min-height: 40px; }
+.ad-tab.on { background: var(--navy); border-color: var(--navy); color: #fff; }
+.ad-tab-n { display: inline-block; min-width: 20px; padding: 0 6px; border-radius: 999px; background: rgba(0,0,0,.08); font-size: 13px; margin-inline-start: 4px; }
+.ad-tab.on .ad-tab-n { background: rgba(255,255,255,.25); }

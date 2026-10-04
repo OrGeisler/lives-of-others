@@ -41,10 +41,21 @@ export default function Gifts() {
   const later = useMemo(() => (list ?? []).filter(g => g.status === 'paid' && !g.sent_at && (!g.send_at || new Date(g.send_at) > today)), [list])
   const unpaid = useMemo(() => (list ?? []).filter(g => g.status === 'pending'), [list])
   const canceled = useMemo(() => (list ?? []).filter(g => g.status === 'canceled'), [list])
+  const sent = useMemo(() => (list ?? []).filter(g => g.sent_at && g.status !== 'canceled'), [list])
+  type Tab = 'today' | 'later' | 'pending' | 'sent' | 'canceled' | 'all'
+  const TABS: { k: Tab; label: string }[] = [
+    { k: 'today', label: 'לשליחה היום' }, { k: 'later', label: 'מתוזמנות' }, { k: 'pending', label: 'ממתינות לתשלום' },
+    { k: 'sent', label: 'נשלחו' }, { k: 'canceled', label: 'בוטלו' }, { k: 'all', label: 'הכל' },
+  ]
+  const [tab, setTab] = useState<Tab>('today')
+  const [q, setQ] = useState('')
+  const byTab: Record<Tab, Gift[]> = { today: toSend, later, pending: unpaid, sent, canceled, all: list ?? [] }
+  const counts = Object.fromEntries(TABS.map(t => [t.k, byTab[t.k].length])) as Record<Tab, number>
+  const shown = byTab[tab].filter(g => !q || [g.recipient_name, g.recipient_phone, g.donors?.honor_name, g.donors?.phone, g.dogs?.name]
+    .some(v => v?.toLowerCase().includes(q.toLowerCase())))
   const restore = async (g: Gift) => {
     if (!fail((await supabase.from('gifts').update({ status: g.sent_at ? 'sent' : 'paid' }).eq('id', g.id)).error, 'השחזור')) { toast('המתנה שוחזרה ✓'); refresh() }
   }
-  const sent = useMemo(() => (list ?? []).filter(g => g.sent_at && g.status !== 'canceled'), [list])
 
   const markSent = async (g: Gift) => {
     if (!fail((await supabase.from('gifts').update({ sent_at: new Date().toISOString(), status: 'sent' }).eq('id', g.id)).error, 'הסימון')) {
@@ -123,33 +134,26 @@ export default function Gifts() {
         אחרי זה המקבל/ת יופיעו אוטומטית ברשימת העדכונים החודשיים למשך שנה.
       </Help>
       {err && <p className="ad-error">{err}</p>}
-      {!list ? <p>טוען…</p> : (
-        <>
-          <h2 className="ad-h2">לשליחה היום ({toSend.length})</h2>
-          {toSend.length ? <div className="ad-list">{toSend.map(g => card(g, true))}</div> : <Empty>אין מתנות לשליחה היום ✓</Empty>}
-          <h2 className="ad-h2">מתוזמנות לתאריך מאוחר יותר ({later.length})</h2>
-          {later.length ? <div className="ad-list">{later.map(g => card(g, true))}</div> : <Empty>אין.</Empty>}
-          {unpaid.length > 0 && (
-            <details className="ad-box">
-              <summary>⏳ מילאו טופס אבל התשלום עוד לא הגיע ({unpaid.length})</summary>
-              <p className="ad-hint">כשהתשלום יגיע מ-Grow המתנה תעבור לבד לרשימה למעלה. אפשר לפתוח מתנה ולשנות סטטוס ידנית (למשל אם שילמו בביט), או לבטל.</p>
-              <div className="ad-list">{unpaid.map(g => card(g, false))}</div>
-            </details>
-          )}
-          {canceled.length > 0 && (
-            <details className="ad-box">
-              <summary>🚫 בוטלו ({canceled.length})</summary>
-              <p className="ad-hint">מתנות שבוטלו לא נמחקות — הן רק מוסתרות מהרשימות. אפשר להחזיר אותן.</p>
-              <div className="ad-list">{canceled.map(g => (
-                <div key={g.id} className="ad-row done">
-                  <div className="ad-row-main"><b>🎁 ל{g.recipient_name ?? '—'}</b><span>מאת {g.donors?.honor_name ?? '—'} · {g.dogs?.name ?? ''}</span></div>
-                  <button className="ad-link" onClick={() => restore(g)}>↩ החזרה</button>
-                </div>
-              ))}</div>
-            </details>
-          )}
-          {sent.length > 0 && <details className="ad-box"><summary>נשלחו ({sent.length})</summary><div className="ad-list">{sent.map(g => card(g, false))}</div></details>}
-        </>
+      <div className="ad-tabs" role="tablist">
+        {TABS.map(t => (
+          <button key={t.k} role="tab" aria-selected={tab === t.k} className={`ad-tab${tab === t.k ? ' on' : ''}`} onClick={() => setTab(t.k)}>
+            {t.label} <span className="ad-tab-n">{counts[t.k]}</span>
+          </button>
+        ))}
+      </div>
+      <div className="ad-filters"><input type="search" placeholder="🔍 חיפוש לפי שם, טלפון או כלב" value={q} onChange={e => setQ(e.target.value)} /></div>
+      {tab === 'pending' && <p className="ad-hint">מילאו טופס אבל התשלום עוד לא הגיע. כשהתשלום יגיע מ-Grow המתנה תעבור לבד ל"לשליחה". שילמו בביט/מזומן? פותחים את המתנה ומשנים סטטוס ל"שולם".</p>}
+      {tab === 'canceled' && <p className="ad-hint">מתנות שבוטלו לא נמחקות — אפשר להחזיר אותן.</p>}
+      {!list ? <p>טוען…</p> : shown.length === 0 ? <Empty>{tab === 'today' ? 'אין מתנות לשליחה היום ✓' : 'אין מתנות כאן.'}</Empty> : (
+        <div className="ad-list">{shown.map(g => g.status === 'canceled'
+          ? (
+            <div key={g.id} className="ad-row done clickable" role="button" tabIndex={0} onClick={() => edit(g)}>
+              <div className="ad-row-main"><b>🎁 ל{g.recipient_name ?? '—'}</b><span>מאת {g.donors?.honor_name ?? '—'} · {g.dogs?.name ?? ''} · נוצרה {fmtDate(g.created_at)}</span></div>
+              <span className="ad-tag st-canceled">בוטל</span>
+              <button className="ad-link" onClick={e => { e.stopPropagation(); restore(g) }}>↩ החזרה</button>
+            </div>
+          )
+          : card(g, tab === 'today' || tab === 'later'))}</div>
       )}
       {form && (
         <Modal title={form.id ? 'עריכת מתנה' : 'מתנה חדשה'} onClose={() => setForm(null)}>
