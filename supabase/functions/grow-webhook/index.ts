@@ -11,11 +11,12 @@ const PAGE_REFS: Record<string, 'virtual' | 'gift' | 'birthday' | 'test'> = { '3
 // Where exactly Grow puts the page reference isn't documented — look for it in every value of the notification
 // The real notification (seen 4.10) has no page reference, but paymentDesc carries the chosen item's
 // description, so the item names of each Grow page identify it.
+// paymentDesc = the Grow PAGE TITLE (verified on a real notification 4.10)
 const ITEM_KIND: [RegExp, 'virtual' | 'gift' | 'birthday' | 'test'][] = [
-  [/^בדיקת/, 'test'],
+  [/בדיקות מערכת|^בדיקת/, 'test'],
   [/במתנה/, 'gift'],
-  [/עוגת יום הולדת|שק חטיפים|צעצוע חדש|יום פינוק|ארוחת חג|יום הולדת/, 'birthday'],
-  [/אוכל איכותי וחטיפים|חיסונים וטיפולים|מצילי חיים|אימוץ וירטואלי/, 'virtual'],
+  [/יום הולדת/, 'birthday'],
+  [/המלאך השומר|אימוץ וירטואלי/, 'virtual'],
 ]
 const pageKind = (b: Record<string, string>) => {
   for (const v of Object.values(b)) for (const [ref, kind] of Object.entries(PAGE_REFS)) if (v === ref) return kind
