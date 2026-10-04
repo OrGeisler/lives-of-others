@@ -5,6 +5,12 @@ import AngelButton from './AngelButton'
 export default function Hero() {
   const video = useRef<HTMLVideoElement>(null)
   const [soundOn, setSoundOn] = useState(false)
+  const [playing, setPlaying] = useState(false)
+  const togglePlay = () => {
+    const v = video.current
+    if (!v) return
+    if (v.paused) void v.play(); else v.pause() // state follows the video's own play/pause events
+  }
 
   const toggleSound = () => {
     const v = video.current
@@ -44,12 +50,17 @@ export default function Hero() {
           <div className="tv-antenna" aria-hidden="true"></div>
           <div className="tv-body">
             <div className="tv-screen">
-              <video ref={video} autoPlay muted loop playsInline preload="auto" poster="/assets/img/channel12-poster.jpg" aria-label="הכתבה ששודרה בערוץ 12">
+              <video onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} ref={video} autoPlay muted loop playsInline preload="auto" poster="/assets/img/channel12-poster.jpg" aria-label="הכתבה ששודרה בערוץ 12">
                 <source src="/assets/video/channel12.mp4" type="video/mp4" />
               </video>
-              <button className="tv-sound" type="button" aria-pressed={soundOn} onClick={toggleSound}>
-                {soundOn ? '🔇 השתקה' : '🔊 להפעלת קול'}
-              </button>
+              <div className="tv-controls">
+                <button className="tv-sound" type="button" aria-pressed={!playing} onClick={togglePlay}>
+                  {playing ? '⏸ עצירה' : '▶ הפעלה'}
+                </button>
+                <button className="tv-sound" type="button" aria-pressed={soundOn} onClick={toggleSound}>
+                  {soundOn ? '🔇 השתקה' : '🔊 להפעלת קול'}
+                </button>
+              </div>
             </div>
             <div className="tv-panel" aria-hidden="true"><span className="tv-knob"></span><span className="tv-knob"></span><span className="tv-grill"></span></div>
           </div>

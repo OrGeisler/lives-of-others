@@ -14,16 +14,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const load = async (s: Session | null) => {
+    // onAuthStateChange also emits INITIAL_SESSION, so it is the single source (no parallel getSession call).
+    // Each change gets a sequence number so a slower, older check can never overwrite a newer one, and the
+    // RPC runs outside the auth callback (supabase-js can deadlock when awaiting inside it).
+    let seq = 0
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
+      const my = ++seq
       setSession(s)
       if (!s) { setRole(null); setLoading(false); return }
-      // claim_staff turns an invited email into a staff member on first login, and returns the role
-      const { data } = await supabase.rpc('claim_staff')
-      setRole((data as Role) ?? null)
-      setLoading(false)
-    }
-    supabase.auth.getSession().then(({ data }) => load(data.session))
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => { load(s) })
+      setTimeout(async () => {
+        // claim_staff turns an invited email into a staff member on first login, and returns the role
+        const { data } = await supabase.rpc('claim_staff')
+        if (my !== seq) return
+        setRole((data as Role) ?? null)
+        setLoading(false)
+      }, 0)
+    })
     return () => sub.subscription.unsubscribe()
   }, [])
 
