@@ -1,0 +1,3 @@
+/* the "על העמותה" montage is square (most source clips are vertical/square phone videos) */
+.about-video { max-width: 520px; width: 100%; margin-inline: auto; }
+.about-video video { aspect-ratio: 1 / 1; object-fit: cover; }
