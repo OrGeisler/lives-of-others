@@ -18,6 +18,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const name = `תעודת אימוץ - ${cert.dog ?? ''}.pdf`
   res.setHeader('Content-Type', 'application/pdf')
   res.setHeader('Content-Disposition', `attachment; filename="certificate.pdf"; filename*=UTF-8''${encodeURIComponent(name)}`)
-  res.setHeader('Cache-Control', 'public, s-maxage=3600, max-age=600')
+  res.setHeader('Cache-Control', 'public, s-maxage=300, max-age=60')
   return res.status(200).send(pdf)
 }
