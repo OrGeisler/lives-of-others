@@ -9,9 +9,18 @@ const GIFT_SUM = 180
 // Grow page reference numbers ("אסמכתא" of each payment page) → what the payment is for
 const PAGE_REFS: Record<string, 'virtual' | 'gift' | 'birthday' | 'test'> = { '3842221': 'virtual', '4080981': 'gift', '4080999': 'birthday', '4081106': 'test' }
 // Where exactly Grow puts the page reference isn't documented — look for it in every value of the notification
+// The real notification (seen 4.10) has no page reference, but paymentDesc carries the chosen item's
+// description, so the item names of each Grow page identify it.
+const ITEM_KIND: [RegExp, 'virtual' | 'gift' | 'birthday' | 'test'][] = [
+  [/^בדיקת/, 'test'],
+  [/במתנה/, 'gift'],
+  [/עוגת יום הולדת|שק חטיפים|צעצוע חדש|יום פינוק|ארוחת חג|יום הולדת/, 'birthday'],
+  [/אוכל איכותי וחטיפים|חיסונים וטיפולים|מצילי חיים|אימוץ וירטואלי/, 'virtual'],
+]
 const pageKind = (b: Record<string, string>) => {
-  for (const v of Object.values(b)) for (const [ref, kind] of Object.entries(PAGE_REFS)) if (v === ref || v.includes(ref)) return kind
-  return null
+  for (const v of Object.values(b)) for (const [ref, kind] of Object.entries(PAGE_REFS)) if (v === ref) return kind
+  const desc = pick(b, 'paymentDesc', 'productData.0.name', 'description') ?? ''
+  return ITEM_KIND.find(([re]) => re.test(desc))?.[1] ?? null
 }
 const PAID = '2'
 
@@ -57,10 +66,11 @@ Deno.serve(async req => {
 
   const b = await readBody(req)
   const txId = pick(b, 'transactionId', 'transactionCode')
-  const sum = Number(pick(b, 'sum', 'paymentSum')) || null
+  const sum = Number(pick(b, 'paymentSum', 'sum')) || null
   const phone = normPhone(pick(b, 'payerPhone', 'phone'))
   const statusCode = pick(b, 'statusCode')
-  const paid = statusCode === PAID
+  // the after-transaction webhook is only sent for completed payments and carries no statusCode
+  const paid = statusCode == null || statusCode === PAID
   const paidAt = parseDate(pick(b, 'paymentDate'))
 
   // A re-sent notification: already recorded → no side effects again, just re-approve.
@@ -72,9 +82,9 @@ Deno.serve(async req => {
   const row: Record<string, unknown> = {
     kind: 'donation', status: pick(b, 'status', 'statusCode'), sum,
     grow_transaction_id: txId, asmachta: pick(b, 'asmachta'),
-    payer_name: pick(b, 'fullName', 'payerFullName'), payer_phone: pick(b, 'payerPhone', 'phone'), payer_email: pick(b, 'payerEmail', 'email'),
+    payer_name: pick(b, 'invoiceName', 'fullName', 'payerFullName'), payer_phone: pick(b, 'payerPhone', 'phone'), payer_email: pick(b, 'payerEmail', 'email'),
     source_link: pick(b, 'paymentLinkProcessId', 'processId', 'pageCode'),
-    receipt_url: pick(b, 'invoiceUrl', 'invoiceLink'),
+    receipt_url: pick(b, 'invoiceURL', 'invoiceUrl', 'invoiceLink'),
     raw: b, paid_at: paidAt, needs_review: true,
   }
 
@@ -84,7 +94,11 @@ Deno.serve(async req => {
   let page = pageKind(b)
   // test page (4081106): 1 ₪ = adoption, 2 ₪ = gift, 3 ₪ = birthday — matched exactly like the real flows, any tier
   const isTest = page === 'test'
-  if (isTest) { page = sum === 2 ? 'gift' : sum === 3 ? 'birthday' : 'virtual'; row.source_link = 'TEST 4081106' }
+  if (isTest) {
+    const desc = pick(b, 'paymentDesc') ?? ''
+    page = /מתנה/.test(desc) || sum === 2 ? 'gift' : /יום הולדת/.test(desc) || sum === 3 ? 'birthday' : 'virtual'
+    row.source_link = 'TEST'
+  }
   if (page === 'birthday') Object.assign(row, { kind: 'birthday', needs_review: false }) // never an adoption, even at 25/50
   if (paid && phone && sum && page !== 'birthday') {
     const { data: donors } = await db.from('donors').select('id').eq('phone_norm', phone)
@@ -92,7 +106,8 @@ Deno.serve(async req => {
     if (ids.length) {
       const { data: sps } = await db.from('sponsorships').select('id, donor_id, dog_id, tier, status, started_at, created_at')
         .in('donor_id', ids).in('status', ['active', 'failed', 'pending']).in('tier', isTest ? [25, 50, 100] : [sum])
-      const rank = (s: string) => (s === 'active' ? 0 : s === 'failed' ? 1 : 2)
+      // real money: an existing adoption first (monthly charge); test payments: the newest form first
+      const rank = (s: string) => isTest ? (s === 'pending' ? 0 : 1) : (s === 'active' ? 0 : s === 'failed' ? 1 : 2)
       const sp = page === 'gift' ? undefined : (sps ?? []).sort((a, c) => rank(a.status) - rank(c.status) || c.created_at.localeCompare(a.created_at))[0]
       if (sp) {
         Object.assign(row, { kind: 'virtual', donor_id: sp.donor_id, dog_id: sp.dog_id, sponsorship_id: sp.id, needs_review: false })
@@ -108,6 +123,8 @@ Deno.serve(async req => {
       }
     }
   }
+
+  if (row.needs_review && !page && sum && ![25, 50, 100, 180].includes(sum)) row.needs_review = false // a regular donation
 
   // Insert first (unique grow_transaction_id): if a parallel duplicate won the race, skip the side effects.
   const { error } = await db.from('payments').insert(row)
