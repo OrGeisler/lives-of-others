@@ -50,6 +50,7 @@ Deno.serve(async req => {
   const recipient = (b.gift ?? {}) as Record<string, unknown>
   if (type === 'gift') {
     if (!str(recipient.name)) return bad('נא למלא את שם מקבל/ת המתנה')
+    if (!str(recipient.phone) && !str(recipient.email)) return bad('יש למלא טלפון או מייל של מקבל/ת המתנה')
     if (str(recipient.phone) && !phoneOk(str(recipient.phone))) return bad('הטלפון של מקבל/ת המתנה לא תקין')
     if (str(recipient.email) && !emailOk(str(recipient.email))) return bad('המייל של מקבל/ת המתנה לא תקין')
   }

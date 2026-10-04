@@ -90,7 +90,13 @@ export default function Gifts() {
         {(g.status === 'paid' || g.status === 'sent') && (
           <div className="ad-row-actions" onClick={e => e.stopPropagation()}>
             <a className="ad-btn sm ghost" href={`/certificate/${g.id}`} target="_blank" rel="noopener" title={g.certificate_sent_at ? `נשלחה ${fmtDate(g.certificate_sent_at)}` : 'עוד לא נשלחה'}>📜 תעודה</a>
-            <button className="ad-btn sm" onClick={async () => { const e = await sendCertificate(g.id); if (e) toast(e, true); else { toast('התעודה נשלחה לקונה במייל ✓'); refresh() } }}>📧</button>
+            <button className="ad-btn sm" title="שליחת התעודה לקונה במייל" onClick={async () => { const e = await sendCertificate(g.id); if (e) toast(e, true); else { toast('התעודה נשלחה לקונה במייל ✓'); refresh() } }}>📧 לקונה</button>
+            {g.recipient_email && (
+              <button className="ad-btn sm primary" title={g.recipient_certificate_sent_at ? `נשלחה ${fmtDate(g.recipient_certificate_sent_at)}` : 'שליחת התעודה והברכה ישירות למקבל/ת המתנה'}
+                onClick={async () => { if (!confirm(`לשלוח את תעודת המתנה והברכה ל${g.recipient_name ?? ''} (${g.recipient_email})?`)) return; const e = await sendCertificate(g.id, 'recipient'); if (e) toast(e, true); else { toast(`התעודה נשלחה ל${g.recipient_name ?? 'מקבל/ת המתנה'} ✓`); refresh() } }}>
+                📧 למקבל/ת{g.recipient_certificate_sent_at ? ' ✓' : ''}
+              </button>
+            )}
           </div>
         )}
         {actions && (

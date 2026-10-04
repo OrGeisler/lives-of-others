@@ -26,6 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).end()
   if (!(await authorized(req))) return res.status(403).json({ error: 'forbidden' })
   const id = String((req.body ?? {}).id ?? '')
+  const toRecipient = (req.body ?? {}).to === 'recipient'
   if (!/^[0-9a-f-]{36}$/.test(id)) return res.status(400).json({ error: 'bad id' })
 
   const { data: cert } = await db.rpc('get_certificate', { p_id: id })
@@ -40,12 +41,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // who gets the email
+  if (toRecipient && !gift) return res.status(400).json({ error: 'recipient only for gifts' })
   const q = gift
-    ? db.from('gifts').select('donors:buyer_donor_id(email, honor_name)').eq('id', id).single()
+    ? db.from('gifts').select('recipient_email, recipient_name, donors:buyer_donor_id(email, honor_name)').eq('id', id).single()
     : db.from('sponsorships').select('donors(email, honor_name)').eq('id', id).single()
   const { data: row } = await q
-  const donor = (row as unknown as { donors: { email: string | null; honor_name: string | null } | null } | null)?.donors
+  const r = row as unknown as { recipient_email?: string | null; recipient_name?: string | null; donors: { email: string | null; honor_name: string | null } | null } | null
+  const donor = toRecipient ? { email: r?.recipient_email ?? null, honor_name: r?.recipient_name ?? null } : r?.donors
   if (!donor?.email) return res.status(422).json({ error: 'no email for this donor' })
+  const fromName = r?.donors?.honor_name ?? ''
 
   const pdf = await certificatePdf(SITE, id)
   const link = `${SITE}/certificate/${id}`
@@ -53,7 +57,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     <div style="text-align:center"><img src="${SITE}/assets/img/logo.jpg" width="72" height="72" style="border-radius:50%" alt=""></div>
     <h2 style="text-align:center;margin:12px 0">${gift ? 'תעודת האימוץ במתנה מוכנה 🎁' : 'תודה שהפכת למלאך השומר 😇'}</h2>
     <p>${esc(donor.honor_name)} היקר/ה,</p>
-    <p>${gift
+    <p>${toRecipient
+      ? `יש לך הפתעה! 🎁 <b>${esc(fromName)}</b> העניק/ה לך מתנה מיוחדת: אימוץ וירטואלי של <b>${esc(cert.dog)}</b> מעמותת חיים של אחרים.${cert.greeting ? `<br><br><i>"${esc(cert.greeting)}"</i>` : ''}<br><br>מצורפת תעודת האימוץ שלך.`
+      : gift
       ? `תודה על המתנה המרגשת! מצורפת תעודת האימוץ במתנה של <b>${esc(cert.dog)}</b> עבור <b>${esc(cert.name)}</b> — אפשר להדפיס או לשלוח אותה.`
       : `בזכותך <b>${esc(cert.dog)}</b> זוכה לקורת גג בטוחה, אוכל טוב, טיפול רפואי והמון אהבה. מצורפת תעודת האימוץ האישית שלך.`}</p>
     <p>פעם בחודש יגיע עדכון אישי מ${esc(cert.dog)}, עם תמונות וסרטונים 🐾</p>
@@ -63,10 +69,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   await sendMail({
     to: donor.email,
-    subject: gift ? `🎁 תעודת אימוץ במתנה — ${cert.dog}` : `😇 תעודת האימוץ שלך — המלאך השומר של ${cert.dog}`,
+    subject: toRecipient ? `🎁 קיבלת מתנה — אימוץ וירטואלי של ${cert.dog}` : gift ? `🎁 תעודת אימוץ במתנה — ${cert.dog}` : `😇 תעודת האימוץ שלך — המלאך השומר של ${cert.dog}`,
     html, replyTo: process.env.MAIL_REPLY_TO || undefined,
     attachments: [{ filename: `תעודת אימוץ - ${cert.dog}.pdf`, content: pdf }],
   })
-  await db.from(gift ? 'gifts' : 'sponsorships').update({ certificate_sent_at: new Date().toISOString() }).eq('id', id)
+  await db.from(gift ? 'gifts' : 'sponsorships').update({ [toRecipient ? 'recipient_certificate_sent_at' : 'certificate_sent_at']: new Date().toISOString() }).eq('id', id)
   return res.status(200).json({ ok: true })
 }

@@ -12,7 +12,7 @@ export type Gift = {
   recipient_name: string | null; recipient_phone: string | null; recipient_email: string | null
   greeting: string | null; send_at: string | null; sent_at: string | null
   status: 'pending' | 'paid' | 'sent' | 'canceled'; created_at: string
-  certificate_sent_at?: string | null
+  certificate_sent_at?: string | null; recipient_certificate_sent_at?: string | null
   donors?: Donor | null; dogs?: DogLite | null
 }
 export { SOURCES } from '../lib/constants'

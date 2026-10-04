@@ -55,3 +55,5 @@
 .gift-box-big { background: none; border: none; cursor: pointer; font-family: inherit; padding: 0; }
 .gb-need { color: #b3261e; font-weight: 800; margin-top: 10px; }
 @media (max-width: 720px) { .va-gallery { grid-template-columns: 1fr; } }
+
+.co-hint { margin: 0; font-size: 15px; color: var(--chip-ink); background: #FDEFF4; border-radius: 12px; padding: 10px 12px; }

@@ -32,6 +32,7 @@ export default function Checkout() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (busy || payUrl) return
+    if (type === 'gift' && !g.phone.trim() && !g.email.trim()) { setErr('יש למלא טלפון או מייל של מקבל/ת המתנה — כדי שההפתעה תגיע אליו/ה'); return }
     setBusy(true); setErr('')
     const r = await submitCheckout({ type, dog: dog.slug, tier, ...f, test: isTestMode(), gift: type === 'gift' ? g : undefined })
     if (r.error || !r.redirect) { setBusy(false); setErr(r.error ?? 'משהו השתבש, נסו שוב'); return }
@@ -75,12 +76,13 @@ export default function Checkout() {
               <h2>למי המתנה? 🎁</h2>
               <div className="co-2">
                 <label className="co-field"><span>שם מקבל/ת המתנה *</span><input required value={g.name} onChange={updG('name')} /></label>
-                <label className="co-field"><span>הטלפון שלו/ה <small>(לשליחת ההפתעה)</small></span><input type="tel" inputMode="tel" dir="ltr" value={g.phone} onChange={updG('phone')} /></label>
+                <label className="co-field"><span>הטלפון שלו/ה</span><input type="tel" inputMode="tel" dir="ltr" value={g.phone} onChange={updG('phone')} /></label>
               </div>
               <div className="co-2">
-                <label className="co-field"><span>המייל שלו/ה</span><input type="email" dir="ltr" value={g.email} onChange={updG('email')} /></label>
+                <label className="co-field"><span>המייל שלו/ה <small>(לשליחת תעודת המתנה)</small></span><input type="email" dir="ltr" value={g.email} onChange={updG('email')} /></label>
                 <label className="co-field"><span>מתי לשלוח את ההפתעה?</span><input type="date" min={localDate()} value={g.send_at} onChange={updG('send_at')} /></label>
               </div>
+              <p className="co-hint">💌 ביום שתבחרו נשלח לו/ה הודעה אישית מהעמותה עם הברכה שלכם. יש למלא טלפון <b>או</b> מייל של מקבל/ת המתנה (עדיף שניהם).</p>
               <label className="co-field"><span>הברכה האישית שלכם</span><textarea rows={3} maxLength={600} placeholder="מזל טוב! ..." value={g.greeting} onChange={updG('greeting')} /></label>
             </>
           )}
