@@ -66,7 +66,7 @@ export default function Certificate() {
                 על היותך המלאך השומר של
               </p>
               <div className="cert-dog">{c.dog}</div>
-              {gift && c.from && <p className="cert-from">אימוץ במתנה, באהבה מ{c.from} 💝</p>}
+              {gift && c.from && <p className="cert-from">אימוץ במתנה, באהבה מ{c.from}</p>}
               {gift && c.greeting && <p className="cert-greeting">"{c.greeting}"</p>}
               {!gift && <p className="cert-thanks">בזכותך {c.dog} זוכה לקורת גג בטוחה, מזון איכותי, טיפול רפואי וים של אהבה — עד שימצא בית של ממש.</p>}
             </div>
