@@ -7,7 +7,7 @@ import { certificatePdf } from './_lib/pdf.js'
 export const config = { maxDuration: 60 }
 
 const db = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!, { auth: { persistSession: false } })
-const SITE = process.env.SITE_URL || 'https://lives-of-others-app.vercel.app'
+const SITE = process.env.SITE_URL || 'https://lives-of-others.com'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const id = String(req.query.id ?? '')

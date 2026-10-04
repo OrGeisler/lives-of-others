@@ -10,7 +10,7 @@ import { esc, sendMail } from './_lib/mail.js'
 export const config = { maxDuration: 60 }
 
 const db = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!, { auth: { persistSession: false } })
-const SITE = process.env.SITE_URL || 'https://lives-of-others-app.vercel.app'
+const SITE = process.env.SITE_URL || 'https://lives-of-others.com'
 
 async function authorized(req: VercelRequest) {
   if (process.env.INTERNAL_SECRET && req.headers['x-internal-secret'] === process.env.INTERNAL_SECRET) return true
