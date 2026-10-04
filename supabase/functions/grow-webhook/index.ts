@@ -4,6 +4,7 @@
 // Docs: https://developers.grow.business/docs/webhooks — a paid transaction has statusCode "2" (status "שולם").
 import { createClient } from 'npm:@supabase/supabase-js@2'
 
+declare const EdgeRuntime: { waitUntil(p: Promise<unknown>): void }
 const db = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, { auth: { persistSession: false } })
 const GIFT_SUM = 180
 const PAID = '2'
@@ -39,6 +40,16 @@ async function approve(b: Record<string, string>, txId: string | null, sum: numb
   const env = Deno.env.get('GROW_SANDBOX') === 'false' ? 'secure' : 'sandbox'
   const form = new URLSearchParams({ userId, pageCode, transactionId: txId, transactionToken: pick(b, 'transactionToken') ?? '', sum: String(sum ?? '') })
   await fetch(`https://${env}.meshulam.co.il/api/light/server/1.0/approveTransaction`, { method: 'POST', body: form }).catch(e => console.error('approve failed', e))
+}
+
+async function requestCertificate(id: string, table: 'sponsorships' | 'gifts') {
+  const endpoint = Deno.env.get('CERT_ENDPOINT'), secret = Deno.env.get('INTERNAL_SECRET')
+  if (!endpoint || !secret) return
+  const { data } = await db.from(table).select('certificate_sent_at').eq('id', id).maybeSingle()
+  if (data?.certificate_sent_at) return // monthly charges don't resend it
+  await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-internal-secret': secret }, body: JSON.stringify({ id }) })
+    .then(r => { if (!r.ok) console.error('certificate request failed', r.status) })
+    .catch(e => console.error('certificate request error', e))
 }
 
 Deno.serve(async req => {
@@ -106,5 +117,9 @@ Deno.serve(async req => {
   }
   if (after) await after()
   await approve(b, txId, sum)
+  // first confirmed payment of an adoption / a paid gift → email the certificate (fire-and-forget)
+  const certId = (row.sponsorship_id ?? row.gift_id) as string | undefined
+  // runs after the response is sent, so Grow isn't kept waiting while the PDF is rendered
+  if (certId) EdgeRuntime.waitUntil(requestCertificate(certId, row.sponsorship_id ? 'sponsorships' : 'gifts'))
   return new Response('ok')
 })

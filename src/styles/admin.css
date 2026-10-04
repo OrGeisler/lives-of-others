@@ -158,3 +158,5 @@
 .ad-focus-previews img { width: 100%; object-fit: cover; border-radius: 12px; }
 .pv-wide { aspect-ratio: 4 / 3; } .pv-sq { aspect-ratio: 1 / 1; }
 @media (max-width: 860px) { .ad-focus { grid-template-columns: 1fr; } .ad-focus-previews { flex-direction: row; flex-wrap: wrap; } .ad-focus-previews img { width: calc(50% - 4px); } .ad-focus-previews .ad-hint { display: none; } }
+.ad-cert-box { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; background: #FFF8E1; border-radius: 12px; padding: 10px 12px; font-weight: 700; }
+.ad-cert-box span { flex: 1; min-width: 160px; }

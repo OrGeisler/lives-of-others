@@ -6,6 +6,7 @@ import Modal from '../Modal'
 import { SOURCES, STATUS, type Sponsorship } from '../types'
 import { Empty, Field, Help, PageHead, fail, toast } from '../ui'
 import { useDogsLite } from '../useDogsLite'
+import { sendCertificate } from '../certificate'
 import { fmtDate, shekel, waLink } from '../util'
 
 type Form = {
@@ -25,6 +26,8 @@ export default function Sponsors() {
   const [q, setQ] = useState('')
   const [form, setForm] = useState<Form | null>(null)
   const [err, setErr] = useState(false)
+  const [sending, setSending] = useState(false)
+  const sentAt = (id: string) => list?.find(s => s.id === id)?.certificate_sent_at ?? null
   const status = params.get('status') ?? 'active'
   const dogF = params.get('dog') ?? ''
 
@@ -156,6 +159,16 @@ export default function Sponsors() {
             </Field>
             <label className="ad-check"><input type="checkbox" checked={form.consent_marketing} onChange={e => set('consent_marketing', e.target.checked)} /> מסכים/ה לקבל עדכונים ודיוור</label>
             <Field label="הערות"><textarea rows={2} value={form.notes} onChange={e => set('notes', e.target.value)} /></Field>
+            {form.sponsorship_id && form.status === 'active' && (
+              <div className="ad-cert-box">
+                <span>📜 תעודת אימוץ{sentAt(form.sponsorship_id) ? ` · נשלחה ${fmtDate(sentAt(form.sponsorship_id))}` : ' · עוד לא נשלחה'}</span>
+                <a className="ad-btn sm ghost" href={`/certificate/${form.sponsorship_id}`} target="_blank" rel="noopener">צפייה</a>
+                <button type="button" className="ad-btn sm" disabled={sending} onClick={async () => {
+                  setSending(true); const err = await sendCertificate(form.sponsorship_id!); setSending(false)
+                  if (err) toast(err, true); else { toast('התעודה נשלחה במייל ✓'); refresh() }
+                }}>{sending ? 'שולח…' : '📧 שליחה במייל'}</button>
+              </div>
+            )}
             <div className="ad-form-actions">
               <button className="ad-btn primary big">שמירה</button>
               <button type="button" className="ad-btn ghost" onClick={() => setForm(null)}>ביטול</button>

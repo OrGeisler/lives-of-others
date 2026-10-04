@@ -4,6 +4,7 @@ import Modal from '../Modal'
 import type { Gift } from '../types'
 import { Empty, Field, Help, PageHead, fail, toast } from '../ui'
 import { useDogsLite } from '../useDogsLite'
+import { sendCertificate } from '../certificate'
 import { fmtDate, waLink } from '../util'
 import { localDate } from '../../lib/constants'
 
@@ -85,6 +86,12 @@ export default function Gifts() {
           <span>מאת {g.donors?.honor_name ?? '—'} · {g.dogs?.name ?? 'ללא כלב'} · {g.sent_at ? `נשלח ${fmtDate(g.sent_at)}` : `לשליחה ב-${fmtDate(g.send_at)}`}</span>
           {g.greeting && <span className="ad-muted">"{g.greeting}"</span>}
         </div>
+        {(g.status === 'paid' || g.status === 'sent') && (
+          <div className="ad-row-actions" onClick={e => e.stopPropagation()}>
+            <a className="ad-btn sm ghost" href={`/certificate/${g.id}`} target="_blank" rel="noopener" title={g.certificate_sent_at ? `נשלחה ${fmtDate(g.certificate_sent_at)}` : 'עוד לא נשלחה'}>📜 תעודה</a>
+            <button className="ad-btn sm" onClick={async () => { const e = await sendCertificate(g.id); if (e) toast(e, true); else { toast('התעודה נשלחה לקונה במייל ✓'); refresh() } }}>📧</button>
+          </div>
+        )}
         {actions && (
           <div className="ad-row-actions" onClick={e => e.stopPropagation()}>
             {wa ? <a className="ad-btn wa" href={wa} target="_blank" rel="noopener">💬 שליחה</a> : <span className="ad-muted">חסר טלפון</span>}

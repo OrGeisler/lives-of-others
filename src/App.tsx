@@ -21,6 +21,7 @@ const BirthdayThanks = lazy(() => import('./pages/BirthdayThanks'))
 const Privacy = lazy(() => import('./pages/Privacy'))
 const English = lazy(() => import('./pages/English'))
 const AdminApp = lazy(() => import('./admin/AdminApp'))
+const Certificate = lazy(() => import('./pages/Certificate'))
 
 // Old static-site addresses (shared on WhatsApp/Grow/Facebook) keep working
 const LEGACY: Record<string, string> = {
@@ -60,6 +61,7 @@ export default function App() {
       </Route>
       <Route path="birthday-thanks" element={page(<BirthdayThanks />)} />
       <Route path="en" element={page(<English />)} />
+      <Route path="certificate/:id" element={page(<Certificate />)} />
       <Route path="admin/*" element={page(<AdminApp />)} />
     </Routes>
   )

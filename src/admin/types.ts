@@ -4,6 +4,7 @@ export type Sponsorship = {
   id: string; donor_id: string; dog_id: string | null; tier: number | null
   status: 'pending' | 'active' | 'canceled' | 'failed'
   started_at: string | null; canceled_at: string | null; last_payment_at: string | null; created_at: string
+  certificate_sent_at?: string | null
   donors?: Donor | null; dogs?: DogLite | null
 }
 export type Gift = {
@@ -11,6 +12,7 @@ export type Gift = {
   recipient_name: string | null; recipient_phone: string | null; recipient_email: string | null
   greeting: string | null; send_at: string | null; sent_at: string | null
   status: 'pending' | 'paid' | 'sent' | 'canceled'; created_at: string
+  certificate_sent_at?: string | null
   donors?: Donor | null; dogs?: DogLite | null
 }
 export { SOURCES } from '../lib/constants'

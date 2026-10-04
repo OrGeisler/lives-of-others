@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&display=swap');
+/* ===== Adoption certificate — A4 landscape (297×210mm) ===== */
+@page { size: A4 landscape; margin: 0; }
+.cert-page { min-height: 100vh; background: #e9e4da; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 24px 12px; box-sizing: border-box; }
+.cert-page.pdf { padding: 0; background: #fff; min-height: 0; display: block; }
+.cert { width: 297mm; height: 210mm; box-sizing: border-box; padding: 9mm; color: #1d2d3a;
+  background: radial-gradient(ellipse at 50% 35%, #fffdf7 0%, #fbf5e6 60%, #f3ead2 100%); box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+.cert-page.pdf .cert { box-shadow: none; }
+.cert-frame { position: relative; height: 100%; box-sizing: border-box; border: 2.2mm double #123A5A; padding: 8mm 14mm 6mm; display: flex; flex-direction: column; outline: .5mm solid #c8a24a; outline-offset: -4mm; }
+.cert-corner { position: absolute; width: 16mm; height: 16mm; border-color: #c8a24a; border-style: solid; }
+.cert-corner.tl { top: 3mm; left: 3mm; border-width: 1mm 0 0 1mm; } .cert-corner.tr { top: 3mm; right: 3mm; border-width: 1mm 1mm 0 0; }
+.cert-corner.bl { bottom: 3mm; left: 3mm; border-width: 0 0 1mm 1mm; } .cert-corner.br { bottom: 3mm; right: 3mm; border-width: 0 1mm 1mm 0; }
+.cert-head { display: flex; flex-direction: column; align-items: center; gap: 1.5mm; }
+.cert-logo { width: 22mm; height: 22mm; border-radius: 50%; border: .8mm solid #c8a24a; }
+.cert-org { font: 700 5mm 'Frank Ruhl Libre', serif; color: #123A5A; letter-spacing: .3mm; }
+.cert-body { flex: 1; display: grid; grid-template-columns: 1fr 62mm; gap: 10mm; align-items: center; }
+.cert-text { text-align: center; display: flex; flex-direction: column; align-items: center; }
+.cert-kicker { font: 700 4.2mm 'Assistant', sans-serif; color: #b03a63; letter-spacing: .8mm; }
+.cert-title { margin: 1mm 0 0; font: 900 15mm/1 'Frank Ruhl Libre', serif; color: #123A5A; }
+.cert-rule { width: 70%; height: 0; border-top: .4mm solid #c8a24a; margin: 4mm 0 3mm; position: relative; }
+.cert-rule span { position: absolute; top: -3.4mm; left: 50%; transform: translateX(-50%); background: #fcf7ea; padding: 0 3mm; color: #c8a24a; font-size: 5mm; }
+.cert-line { margin: 1.5mm 0; font: 500 5mm 'Frank Ruhl Libre', serif; color: #4a5a66; }
+.cert-name { font: 900 11mm/1.15 'Frank Ruhl Libre', serif; color: #1E6E9C; margin: 1mm 0 2mm; }
+.cert-dog { font: 900 13mm/1.1 'Frank Ruhl Libre', serif; color: #b03a63; margin: 1mm 0 2mm; }
+.cert-thanks, .cert-from { margin: 2mm 0 0; font: 500 4.2mm/1.5 'Assistant', sans-serif; color: #4a5a66; max-width: 175mm; text-wrap: balance; }
+.cert-greeting { margin: 2mm 0 0; font: italic 500 4.4mm/1.5 'Frank Ruhl Libre', serif; color: #123A5A; max-width: 175mm; text-wrap: balance; }
+.cert-photo { position: relative; width: 62mm; height: 62mm; border-radius: 50%; padding: 1.5mm; background: conic-gradient(#c8a24a, #f1dc9c, #c8a24a, #f1dc9c, #c8a24a); box-shadow: 0 3mm 8mm rgba(0,0,0,.18); }
+.cert-photo img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 1.2mm solid #fffdf7; box-sizing: border-box; display: block; }
+.cert-paw { position: absolute; bottom: 1mm; left: 1mm; font-size: 9mm; filter: drop-shadow(0 1mm 1mm rgba(0,0,0,.25)); }
+.cert-foot { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 10mm; padding: 0 6mm; }
+.cert-sign { display: flex; flex-direction: column; align-items: center; gap: 1.5mm; font: 600 3.6mm 'Assistant', sans-serif; color: #4a5a66; }
+.cert-sign-line { width: 55mm; border-top: .3mm solid #4a5a66; }
+.cert-date { font: 700 4.4mm 'Frank Ruhl Libre', serif; color: #123A5A; border-bottom: .3mm solid #4a5a66; padding: 0 6mm 1mm; }
+.cert-seal { width: 24mm; height: 24mm; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-align: center;
+  background: radial-gradient(circle, #d9b45a 0%, #c8a24a 55%, #a8842f 100%); color: #fff8e1; font: 900 3.3mm/1.15 'Frank Ruhl Libre', serif;
+  box-shadow: inset 0 0 0 1mm #f1dc9c, inset 0 0 0 1.6mm #a8842f, 0 1.5mm 3mm rgba(0,0,0,.2); transform: rotate(-8deg); }
+.cert-legal { text-align: center; margin-top: 2mm; font: 500 2.8mm 'Assistant', sans-serif; color: #8a96a0; }
+.cert-actions { display: flex; gap: 10px; }
+.cert-missing { min-height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; padding: 20px; }
+.cert-wait { min-height: 100vh; }
+@media print { .cert-actions { display: none; } .cert-page { padding: 0; background: #fff; display: block; } .cert { box-shadow: none; } }
