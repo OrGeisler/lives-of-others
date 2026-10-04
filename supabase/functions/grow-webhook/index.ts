@@ -6,6 +6,13 @@ import { createClient } from 'npm:@supabase/supabase-js@2'
 
 const db = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, { auth: { persistSession: false } })
 const GIFT_SUM = 180
+// Grow page reference numbers ("אסמכתא" of each payment page) → what the payment is for
+const PAGE_REFS: Record<string, 'virtual' | 'gift' | 'birthday'> = { '3842221': 'virtual', '4080981': 'gift', '4080999': 'birthday' }
+// Where exactly Grow puts the page reference isn't documented — look for it in every value of the notification
+const pageKind = (b: Record<string, string>) => {
+  for (const v of Object.values(b)) for (const [ref, kind] of Object.entries(PAGE_REFS)) if (v === ref || v.includes(ref)) return kind
+  return null
+}
 const PAID = '2'
 
 // Grow may post JSON or form-encoded ("data[fullName]=…"). Flatten both into { fullName: … }.
@@ -74,18 +81,20 @@ Deno.serve(async req => {
   // Auto-match only successful payments, by phone. One person may have several donor rows (one per checkout).
   // Priority: an existing (active/failed) sponsorship with this monthly sum → a pending one from our checkout → a pending 180 ₪ gift.
   let after: (() => Promise<unknown>) | null = null
-  if (paid && phone && sum) {
+  const page = pageKind(b)
+  if (page === 'birthday') Object.assign(row, { kind: 'birthday', needs_review: false }) // never an adoption, even at 25/50
+  if (paid && phone && sum && page !== 'birthday') {
     const { data: donors } = await db.from('donors').select('id').eq('phone_norm', phone)
     const ids = (donors ?? []).map(d => d.id)
     if (ids.length) {
       const { data: sps } = await db.from('sponsorships').select('id, donor_id, dog_id, tier, status, started_at, created_at')
         .in('donor_id', ids).in('status', ['active', 'failed', 'pending']).eq('tier', sum)
       const rank = (s: string) => (s === 'active' ? 0 : s === 'failed' ? 1 : 2)
-      const sp = (sps ?? []).sort((a, c) => rank(a.status) - rank(c.status) || c.created_at.localeCompare(a.created_at))[0]
+      const sp = page === 'gift' ? undefined : (sps ?? []).sort((a, c) => rank(a.status) - rank(c.status) || c.created_at.localeCompare(a.created_at))[0]
       if (sp) {
         Object.assign(row, { kind: 'virtual', donor_id: sp.donor_id, dog_id: sp.dog_id, sponsorship_id: sp.id, needs_review: false })
         after = () => db.from('sponsorships').update({ status: 'active', last_payment_at: paidAt, started_at: sp.started_at ?? paidAt }).eq('id', sp.id)
-      } else if (sum === GIFT_SUM) {
+      } else if (sum === GIFT_SUM || page === 'gift') {
         const { data: gifts } = await db.from('gifts').select('id, buyer_donor_id, dog_id')
           .in('buyer_donor_id', ids).eq('status', 'pending').order('created_at', { ascending: false }).limit(1)
         const g = gifts?.[0]
