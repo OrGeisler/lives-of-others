@@ -3,9 +3,12 @@
 @page { size: A4 landscape; margin: 0; }
 .cert-page { min-height: 100vh; background: #e9e4da; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 24px 12px; box-sizing: border-box; }
 .cert-page.pdf { padding: 0; background: #fff; min-height: 0; display: block; }
-.cert { width: 297mm; height: 210mm; box-sizing: border-box; padding: 9mm; color: #1d2d3a;
+.cert-fit { position: relative; flex: none; }
+.cert-page.pdf .cert-fit { width: auto; height: auto; }
+.cert { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; transform-origin: 0 0; position: absolute; top: 0; left: 0;
+  width: 297mm; height: 210mm; box-sizing: border-box; padding: 9mm; color: #1d2d3a;
   background: radial-gradient(ellipse at 50% 35%, #fffdf7 0%, #fbf5e6 60%, #f3ead2 100%); box-shadow: 0 20px 60px rgba(0,0,0,.25); }
-.cert-page.pdf .cert { box-shadow: none; }
+.cert-page.pdf .cert { box-shadow: none; position: static; }
 .cert-frame { position: relative; height: 100%; box-sizing: border-box; border: 2.2mm double #123A5A; padding: 8mm 14mm 6mm; display: flex; flex-direction: column; outline: .5mm solid #c8a24a; outline-offset: -4mm; }
 .cert-corner { position: absolute; width: 16mm; height: 16mm; border-color: #c8a24a; border-style: solid; }
 .cert-corner.tl { top: 3mm; left: 3mm; border-width: 1mm 0 0 1mm; } .cert-corner.tr { top: 3mm; right: 3mm; border-width: 1mm 1mm 0 0; }
@@ -38,4 +41,11 @@
 .cert-actions { display: flex; gap: 10px; }
 .cert-missing { min-height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; padding: 20px; }
 .cert-wait { min-height: 100vh; }
-@media print { .cert-actions { display: none; } .cert-page { padding: 0; background: #fff; display: block; } .cert { box-shadow: none; } }
+@media print {
+  .cert-actions { display: none; }
+  .cert-page { padding: 0; background: #fff; display: block; min-height: 0; }
+  .cert-fit { width: auto !important; height: auto !important; }
+  .cert { box-shadow: none; position: static; transform: none !important; }
+}
+.cert-actions { flex-wrap: wrap; justify-content: center; }
+.cert-seal span { white-space: nowrap; }

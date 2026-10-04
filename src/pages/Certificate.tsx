@@ -19,9 +19,11 @@ export default function Certificate() {
   const [c, setC] = useState<Cert | null>(null)
   const [state, setState] = useState<'loading' | 'ok' | 'missing'>('loading')
   const [scale, setScale] = useState(1)
+  const [downloading, setDownloading] = useState(false)
+  useEffect(() => { if (!downloading) return; const t = setTimeout(() => setDownloading(false), 12000); return () => clearTimeout(t) }, [downloading])
   useEffect(() => {
     if (pdf) return
-    const fit = () => setScale(Math.min(1, (window.innerWidth - 24) / 1123))
+    const fit = () => setScale(Math.min(1, (window.innerWidth - 24) / 1123)) // A4 landscape = 1123×794 css px
     fit(); window.addEventListener('resize', fit)
     return () => window.removeEventListener('resize', fit)
   }, [pdf])
@@ -47,7 +49,8 @@ export default function Certificate() {
   const gift = c.type === 'gift'
   return (
     <div className={`cert-page${pdf ? ' pdf' : ''}`} dir="rtl" lang="he">
-      <article className="cert" style={scale < 1 ? { zoom: scale } : undefined}>
+      <div className="cert-fit" style={pdf ? undefined : { width: 1123 * scale, height: 794 * scale }}>
+      <article className="cert" style={pdf || scale === 1 ? undefined : { transform: `scale(${scale})` }}>
         <div className="cert-frame">
           <span className="cert-corner tl" /><span className="cert-corner tr" /><span className="cert-corner bl" /><span className="cert-corner br" />
           <header className="cert-head">
@@ -84,9 +87,11 @@ export default function Certificate() {
           <div className="cert-legal">עמותה רשומה ע"ר 580754083 · lives-of-others.com</div>
         </div>
       </article>
+      </div>
       {!pdf && (
         <div className="cert-actions">
-          <button className="btn btn-gold" onClick={() => window.print()}>⬇ הורדה / הדפסה</button>
+          <a className="btn btn-gold" href={`/api/certificate-pdf?id=${c.id}`} onClick={() => setDownloading(true)}>{downloading ? 'מכין את הקובץ…' : '⬇ הורדת התעודה (PDF להדפסה)'}</a>
+          <button className="btn btn-outline-green" onClick={() => window.print()}>🖨 הדפסה</button>
           <a className="btn btn-outline-green" href="/">לאתר העמותה</a>
         </div>
       )}

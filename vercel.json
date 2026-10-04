@@ -9,6 +9,10 @@
     "api/send-certificate.ts": {
       "maxDuration": 60,
       "memory": 1024
+    },
+    "api/certificate-pdf.ts": {
+      "maxDuration": 60,
+      "memory": 1024
     }
   }
 }
