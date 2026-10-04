@@ -28,42 +28,34 @@ const NAV = [
   { to: '/admin/guide', icon: '📖', label: 'מדריך' },
 ]
 
+// TEMPORARY (requested): password-only login into the main admin account, no email step.
+// Before real donor data goes live this must become a personal login per staff member with a strong password.
+const ADMIN_LOGIN_EMAIL = 'orgeisler@bula.co.il'
+
 function Login() {
-  const [email, setEmail] = useState('')
-  const [sent, setSent] = useState(false)
+  const [password, setPassword] = useState('')
   const [err, setErr] = useState('')
   const [busy, setBusy] = useState(false)
   const send = async (e: React.FormEvent) => {
     e.preventDefault()
     setBusy(true); setErr('')
-    const { error } = await supabase.auth.signInWithOtp({ email: email.trim(), options: { emailRedirectTo: `${location.origin}/admin` } })
+    const { error } = await supabase.auth.signInWithPassword({ email: ADMIN_LOGIN_EMAIL, password })
     setBusy(false)
-    if (error) setErr(error.message.includes('rate') ? 'נשלחו יותר מדי מיילים. נסו שוב בעוד כמה דקות.' : error.message)
-    else setSent(true)
+    if (error) setErr(error.message.includes('Invalid') ? 'הסיסמה לא נכונה' : error.message.includes('rate') ? 'יותר מדי ניסיונות. נסו שוב בעוד כמה דקות.' : error.message)
   }
   return (
     <div className="ad-login">
       <img src="/assets/img/logo.jpg" alt="" />
       <h1>מערכת הניהול</h1>
       <p className="ad-login-sub">חיים של אחרים 🐾</p>
-      {sent ? (
-        <div className="ad-login-sent">
-          <p className="big">📬 שלחנו לך מייל!</p>
-          <p>פתחו את המייל <b>{email}</b> ולחצו על הקישור — וזהו, אתם בפנים.</p>
-          <p className="ad-hint">המייל מגיע באנגלית, בשם "Supabase Auth" עם הכותרת "Your Magic Link" או "Confirm Your Signup". לא הגיע? בדקו בספאם.</p>
-          <button className="ad-btn ghost" onClick={() => setSent(false)}>שליחה שוב / מייל אחר</button>
-        </div>
-      ) : (
-        <form onSubmit={send}>
-          <label className="ad-field">
-            <span className="ad-label">כתובת המייל שלכם</span>
-            <input type="email" required autoComplete="email" dir="ltr" value={email} onChange={e => setEmail(e.target.value)} placeholder="name@gmail.com" />
-          </label>
-          <button className="ad-btn primary big" disabled={busy}>{busy ? 'שולח…' : 'שלחו לי קישור כניסה'}</button>
-          {err && <p className="ad-error">{err}</p>}
-          <p className="ad-hint">אין סיסמה לזכור — בכל כניסה נשלח קישור למייל.</p>
-        </form>
-      )}
+      <form onSubmit={send}>
+        <label className="ad-field">
+          <span className="ad-label">סיסמה</span>
+          <input type="password" required autoFocus autoComplete="current-password" dir="ltr" value={password} onChange={e => setPassword(e.target.value)} />
+        </label>
+        <button className="ad-btn primary big" disabled={busy}>{busy ? 'נכנס…' : 'כניסה'}</button>
+        {err && <p className="ad-error">{err}</p>}
+      </form>
     </div>
   )
 }
