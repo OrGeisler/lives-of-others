@@ -30,7 +30,7 @@ export default function Gifts() {
   const [err, setErr] = useState('')
 
   const refresh = async () => {
-    const { data, error } = await supabase.from('gifts').select('*, donors(*), dogs(id,slug,name,main_image)').neq('status', 'canceled').order('send_at')
+    const { data, error } = await supabase.from('gifts').select('*, donors(*), dogs(id,slug,name,main_image)').order('send_at')
     setErr(error ? 'לא הצלחנו לטעון את המתנות. בדקו את החיבור לאינטרנט ונסו לרענן.' : '')
     setList((data ?? []) as Gift[])
   }
@@ -40,7 +40,11 @@ export default function Gifts() {
   const toSend = useMemo(() => (list ?? []).filter(g => g.status === 'paid' && !g.sent_at && g.send_at && new Date(g.send_at) <= today), [list])
   const later = useMemo(() => (list ?? []).filter(g => g.status === 'paid' && !g.sent_at && (!g.send_at || new Date(g.send_at) > today)), [list])
   const unpaid = useMemo(() => (list ?? []).filter(g => g.status === 'pending'), [list])
-  const sent = useMemo(() => (list ?? []).filter(g => g.sent_at), [list])
+  const canceled = useMemo(() => (list ?? []).filter(g => g.status === 'canceled'), [list])
+  const restore = async (g: Gift) => {
+    if (!fail((await supabase.from('gifts').update({ status: g.sent_at ? 'sent' : 'paid' }).eq('id', g.id)).error, 'השחזור')) { toast('המתנה שוחזרה ✓'); refresh() }
+  }
+  const sent = useMemo(() => (list ?? []).filter(g => g.sent_at && g.status !== 'canceled'), [list])
 
   const markSent = async (g: Gift) => {
     if (!fail((await supabase.from('gifts').update({ sent_at: new Date().toISOString(), status: 'sent' }).eq('id', g.id)).error, 'הסימון')) {
@@ -130,6 +134,18 @@ export default function Gifts() {
               <summary>⏳ מילאו טופס אבל התשלום עוד לא הגיע ({unpaid.length})</summary>
               <p className="ad-hint">כשהתשלום יגיע מ-Grow המתנה תעבור לבד לרשימה למעלה. אפשר לפתוח מתנה ולשנות סטטוס ידנית (למשל אם שילמו בביט), או לבטל.</p>
               <div className="ad-list">{unpaid.map(g => card(g, false))}</div>
+            </details>
+          )}
+          {canceled.length > 0 && (
+            <details className="ad-box">
+              <summary>🚫 בוטלו ({canceled.length})</summary>
+              <p className="ad-hint">מתנות שבוטלו לא נמחקות — הן רק מוסתרות מהרשימות. אפשר להחזיר אותן.</p>
+              <div className="ad-list">{canceled.map(g => (
+                <div key={g.id} className="ad-row done">
+                  <div className="ad-row-main"><b>🎁 ל{g.recipient_name ?? '—'}</b><span>מאת {g.donors?.honor_name ?? '—'} · {g.dogs?.name ?? ''}</span></div>
+                  <button className="ad-link" onClick={() => restore(g)}>↩ החזרה</button>
+                </div>
+              ))}</div>
             </details>
           )}
           {sent.length > 0 && <details className="ad-box"><summary>נשלחו ({sent.length})</summary><div className="ad-list">{sent.map(g => card(g, false))}</div></details>}
