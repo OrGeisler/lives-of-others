@@ -37,10 +37,11 @@ export function SiteHeader() {
             {NAV.map(n => (
               <NavLink key={n.to} to={n.to} end={n.end} className={({ isActive }) => (isActive ? 'active' : undefined)}>{n.label}</NavLink>
             ))}
+                      <Link className="nav-lang" to="/en" lang="en">English 🇬🇧</Link>
           </nav>
           <div className="header-actions">
             <Link className="lang-switch" to="/en" lang="en">EN</Link>
-            <a className="btn-donate-top btn-donate-life" href={DONATE_URL} target="_blank" rel="noopener">לתרומה מצילת חיים ❤</a>
+            <a className="btn-donate-top btn-donate-life" href={DONATE_URL} target="_blank" rel="noopener">לתרומה<span className="donate-long"> מצילת חיים</span> ❤</a>
             <button className="nav-toggle" aria-label="תפריט" aria-expanded={open} onClick={() => setOpen(o => !o)}>☰</button>
           </div>
         </div>

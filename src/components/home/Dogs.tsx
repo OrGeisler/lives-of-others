@@ -1,3 +1,4 @@
+import { focusStyle } from '../../lib/focus'
 import { Link } from 'react-router-dom'
 import { useDogs } from '../../lib/data'
 
@@ -13,7 +14,7 @@ export default function Dogs() {
       <div className="dogs-grid">
         {dogs.data?.map(d => (
           <Link to={`/dogs/${d.slug}`} className="dog-card reveal" key={d.id}>
-            {d.main_image && <img src={d.main_image} alt={d.name} loading="lazy" />}
+            {d.main_image && <img src={d.main_image} style={focusStyle(d)} alt={d.name} loading="lazy" />}
             <div className="dog-card-body">
               <div className="dog-name-row"><span className="dog-name">{d.name}</span><span className="dog-meta">{d.age_text}</span></div>
               <span className="dog-open-hint">להכיר אותי ←</span>

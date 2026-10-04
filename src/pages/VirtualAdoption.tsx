@@ -1,3 +1,4 @@
+import { focusStyle } from '../lib/focus'
 import { Link } from 'react-router-dom'
 import { VaAccordions, VaTiers } from '../components/VirtualAdoptionDetails'
 import { WA_ADOPT, wa } from '../lib/links'
@@ -52,7 +53,7 @@ export default function VirtualAdoption() {
         <div className="va-gallery">
           {vdogs?.map(d => (
             <Link key={d.id} to={`/virtual-adoption/${d.slug}`} className="va-gdog reveal">
-              {d.main_image && <img src={d.main_image} alt={d.name} loading="lazy" />}
+              {d.main_image && <img src={d.main_image} style={focusStyle(d)} alt={d.name} loading="lazy" />}
               <span className="va-gdog-body"><b>{d.name}</b><span>{d.tagline}</span><em>לאמץ וירטואלית ←</em></span>
             </Link>
           ))}

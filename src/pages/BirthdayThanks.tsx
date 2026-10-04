@@ -1,3 +1,4 @@
+import { focusStyle } from '../lib/focus'
 import { Link, useLocation } from 'react-router-dom'
 import { monthFromQuery, useBirthdayDogFor, useTitle } from '../lib/pagesData'
 import { Confetti } from './Birthday'
@@ -25,7 +26,7 @@ export default function BirthdayThanks() {
           <Confetti items={CARD_CONFETTI} />
           <div className="ty-inner">
             <span className="ty-hat" aria-hidden="true">🥳</span>
-            {dog?.main_image && <img className="ty-photo" src={dog.main_image} alt="" />}
+            {dog?.main_image && <img className="ty-photo" src={dog.main_image} style={focusStyle(dog)} alt="" />}
             <h1>תודה על המתנה! 🎁</h1>
             <p className="ty-to">{donor ? `ל${donor} היקרים,` : ''}</p>
             <p>בזכותכם יום ההולדת שלי היה הכי שמח בבית המחסה! פינקתם אותי, ועשיתם לי את הלב (ואת הזנב 🐕) לכשכש בלי הפסקה.</p>

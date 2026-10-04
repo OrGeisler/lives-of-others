@@ -1,3 +1,4 @@
+import { focusStyle } from '../lib/focus'
 import '../styles/checkout.css'
 import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -60,7 +61,7 @@ export default function GiftAdoption() {
             const on = chosen?.id === d.id
             return (
               <article className={`gdog${on ? ' on' : ''}`} key={d.id}>
-                {d.main_image && <img src={d.main_image} alt={d.name} loading="lazy" onClick={() => pick(d)} />}
+                {d.main_image && <img src={d.main_image} style={focusStyle(d)} alt={d.name} loading="lazy" onClick={() => pick(d)} />}
                 <div className="gdog-body">
                   <h3>{d.name}</h3>
                   <span className="gdog-age">{d.age_text}</span>

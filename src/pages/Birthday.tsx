@@ -1,3 +1,4 @@
+import { focusStyle } from '../lib/focus'
 import { Link, useLocation } from 'react-router-dom'
 import { GROW_VIRTUAL } from '../lib/links'
 import { monthFromQuery, useBirthdayDogFor, useTitle } from '../lib/pagesData'
@@ -52,7 +53,7 @@ export default function Birthday() {
       </section>
 
       {dog && <section className="bd-dog reveal">
-        {dog?.main_image && <img src={dog.main_image} alt={`${name} חוגג/ת יום הולדת`} />}
+        {dog?.main_image && <img src={dog.main_image} style={focusStyle(dog)} alt={`${name} חוגג/ת יום הולדת`} />}
         <div>
           <span className="bd-badge">🎉 חוגג/ת החודש</span>
           <h2>בואו לחגוג עם {name}! 🥳</h2>

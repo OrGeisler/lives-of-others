@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import type { Dog } from '../../lib/types'
 import { uploadImage } from '../image'
+import { DEFAULT_FOCUS } from '../../lib/focus'
 import { Field, Help, PageHead, fail, toast } from '../ui'
 import { slugify } from '../util'
 
@@ -64,7 +65,7 @@ export default function DogEdit() {
     const { error } = await supabase.from('dogs').update({
       name: d.name, slug, age_text: d.age_text, tagline: d.tagline, story: d.story, main_image: d.main_image, gallery: photos,
       available_for_adoption: d.available_for_adoption, available_for_virtual: d.available_for_virtual,
-      available_for_gift: d.available_for_gift, active: d.active, grow_virtual_link: d.grow_virtual_link,
+      available_for_gift: d.available_for_gift, active: d.active, grow_virtual_link: d.grow_virtual_link, image_focus: d.image_focus ?? null,
     }).eq('id', d.id)
     setBusy(false)
     if (!fail(error, 'השמירה')) { toast('נשמר — האתר מתעדכן מיד ✓'); setD(x => x && { ...x, slug }); setDirty(false) }
@@ -119,6 +120,30 @@ export default function DogEdit() {
           </label>
         </div>
       </div>
+
+      {d.main_image && (
+        <div className="ad-box">
+          <h2 className="ad-h2">🎯 איפה הפנים של הכלב?</h2>
+          <p className="ad-hint">לחצו על הפנים של {d.name} בתמונה הראשית — כך באתר התמונה תמיד תיחתך סביב הפנים. מימין רואים איך זה ייראה.</p>
+          <div className="ad-focus">
+            <div className="ad-focus-pick" onClick={e => {
+              const r = (e.currentTarget.querySelector('img') as HTMLImageElement).getBoundingClientRect()
+              const x = Math.round(Math.min(100, Math.max(0, ((e.clientX - r.left) / r.width) * 100)))
+              const y = Math.round(Math.min(100, Math.max(0, ((e.clientY - r.top) / r.height) * 100)))
+              set('image_focus', `${x}% ${y}%`)
+            }}>
+              <img src={d.main_image} alt="" />
+              <span className="ad-focus-dot" style={{ left: (d.image_focus ?? DEFAULT_FOCUS).split(' ')[0], top: (d.image_focus ?? DEFAULT_FOCUS).split(' ')[1] }} />
+            </div>
+            <div className="ad-focus-previews">
+              <span className="ad-hint">כרטיס במחשב</span>
+              <img className="pv-wide" src={d.main_image} alt="" style={{ objectPosition: d.image_focus ?? DEFAULT_FOCUS }} />
+              <span className="ad-hint">כרטיס בטלפון</span>
+              <img className="pv-sq" src={d.main_image} alt="" style={{ objectPosition: d.image_focus ?? DEFAULT_FOCUS }} />
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="ad-sticky-save">
         <button className="ad-btn primary big" onClick={save} disabled={busy || uploading > 0}>{busy ? 'שומר…' : '💾 שמירה'}</button>

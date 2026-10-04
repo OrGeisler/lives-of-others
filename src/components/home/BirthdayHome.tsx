@@ -1,3 +1,4 @@
+import { focusStyle } from '../../lib/focus'
 import { Link } from 'react-router-dom'
 import { useBirthdayDog } from '../../lib/data'
 
@@ -19,7 +20,7 @@ export default function BirthdayHome() {
         ))}
       </div>
       <div className="dom-inner reveal">
-        {dog.main_image && <img src={dog.main_image} alt={`${dog.name} חוגג/ת יום הולדת`} />}
+        {dog.main_image && <img src={dog.main_image} style={focusStyle(dog)} alt={`${dog.name} חוגג/ת יום הולדת`} />}
         <div className="dom-body">
           <span className="dom-tag">🎂 יום הולדת החודש</span>
           <h2>ל<span>{dog.name}</span> יש יום הולדת! 🎉</h2>

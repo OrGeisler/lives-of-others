@@ -28,3 +28,45 @@
 .page-hero h1 { margin: 0; font: 900 42px 'Rubik', sans-serif; color: var(--navy); }
 .page-hero p { margin: 0; color: var(--muted); font-size: 19px; max-width: 760px; }
 @media (max-width: 720px) { .page-hero-inner { padding-block: 26px 22px; } .page-hero h1 { font-size: 32px; } .page-hero p { font-size: 17px; } }
+
+/* ===== Phone header: name on one line, nothing overlaps (EN moves into the menu) ===== */
+.nav-lang { display: none; }
+@media (max-width: 560px) {
+  .header-inner { gap: 10px; }
+  .brand { min-width: 0; flex: 1 1 auto; gap: 8px; }
+  .brand img { width: 42px; height: 42px; flex: none; }
+  .brand-name { font-size: 17px; white-space: nowrap; }
+  .header-actions { gap: 8px; flex: none; }
+  .header-actions .lang-switch { display: none; }
+  .btn-donate-top { padding: 9px 14px; font-size: 14px; }
+  .main-nav.open .nav-lang { display: block; }
+}
+@media (max-width: 380px) {
+  .btn-donate-top.btn-donate-life { font-size: 13px; padding: 8px 11px; }
+  .brand-name { font-size: 15.5px; }
+}
+
+/* ===== Dog photos: never cut the face =====
+   Upper-centre by default (overridden per dog with the focus point set in the admin),
+   and on phones the cards are taller so a portrait photo isn't sliced into a strip. */
+.dog-card img, .va-gdog img, .gdog img, .bd-dog img, .dom-inner img { object-position: 50% 18%; }
+.door img { object-position: 50% 30%; }
+@media (max-width: 720px) {
+  .dog-card img, .va-gdog img, .gdog img { height: auto; aspect-ratio: 1 / 1; }
+  .bd-dog img, .dom-inner img { height: auto; aspect-ratio: 4 / 5; }
+}
+@media (max-width: 560px) {
+  .donate-long { display: none; }          /* "לתרומה ❤" on phones so the name has room */
+  .brand-text { min-width: 0; }
+  .brand-name { overflow: hidden; text-overflow: ellipsis; }
+}
+@media (max-width: 400px) {
+  .header-inner { gap: 6px; }
+  .brand { gap: 6px; }
+  .brand img { width: 36px; height: 36px; }
+  .brand-name { font-size: 16px; }
+  .header-actions { gap: 4px; }
+  .btn-donate-top { padding: 8px 12px; }
+  .nav-toggle { padding: 4px; }
+}
+@media (max-width: 340px) { .brand img { display: none; } }

@@ -150,3 +150,11 @@
 .ad-pick { width: 100%; border: 2px solid transparent; font: inherit; text-align: inherit; }
 .ad-pick:hover { border-color: #1E6E9C; }
 .ad-unsaved { color: #b03a63; font-weight: 800; align-self: center; }
+.ad-focus { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 18px; align-items: start; }
+.ad-focus-pick { position: relative; cursor: crosshair; border-radius: 14px; overflow: hidden; background: #eef3f7; line-height: 0; max-width: 380px; }
+.ad-focus-pick img { width: 100%; height: auto; display: block; } /* the box is exactly the photo, so click % = photo % */
+.ad-focus-dot { position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 0 0 3px #E0678F, 0 4px 12px rgba(0,0,0,.4); pointer-events: none; }
+.ad-focus-previews { display: flex; flex-direction: column; gap: 6px; }
+.ad-focus-previews img { width: 100%; object-fit: cover; border-radius: 12px; }
+.pv-wide { aspect-ratio: 4 / 3; } .pv-sq { aspect-ratio: 1 / 1; }
+@media (max-width: 860px) { .ad-focus { grid-template-columns: 1fr; } .ad-focus-previews { flex-direction: row; flex-wrap: wrap; } .ad-focus-previews img { width: calc(50% - 4px); } .ad-focus-previews .ad-hint { display: none; } }

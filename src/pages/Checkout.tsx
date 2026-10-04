@@ -1,3 +1,4 @@
+import { focusStyle } from '../lib/focus'
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { submitCheckout } from '../lib/checkout'
@@ -46,7 +47,7 @@ export default function Checkout() {
         <aside className="co-summary">
           <h2>{type === 'gift' ? 'המתנה שלכם' : 'האימוץ שלכם'}</h2>
           <div className="co-item">
-            {dog.main_image && <img src={dog.main_image} alt={dog.name} />}
+            {dog.main_image && <img src={dog.main_image} style={focusStyle(dog)} alt={dog.name} />}
             <div>
               <b>{type === 'gift' ? `אימוץ וירטואלי של ${dog.name} במתנה` : `המלאך השומר של ${dog.name}`}</b>
               <span>{type === 'gift' ? 'תרומה חד-פעמית' : 'הוראת קבע חודשית'}</span>
