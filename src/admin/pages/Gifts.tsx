@@ -85,6 +85,7 @@ export default function Gifts() {
           <b>🎁 ל{g.recipient_name ?? '—'}</b>
           <span>מאת {g.donors?.honor_name ?? '—'} · {g.dogs?.name ?? 'ללא כלב'} · {g.sent_at ? `נשלח ${fmtDate(g.sent_at)}` : `לשליחה ב-${fmtDate(g.send_at)}`}</span>
           {g.greeting && <span className="ad-muted">"{g.greeting}"</span>}
+          {(g.status === 'paid' || g.status === 'sent') && !g.certificate_sent_at && <span className="ad-tag gold">📜 תעודה עוד לא נשלחה</span>}
         </div>
         {(g.status === 'paid' || g.status === 'sent') && (
           <div className="ad-row-actions" onClick={e => e.stopPropagation()}>

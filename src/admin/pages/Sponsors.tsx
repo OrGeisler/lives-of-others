@@ -30,6 +30,7 @@ export default function Sponsors() {
   const sentAt = (id: string) => list?.find(s => s.id === id)?.certificate_sent_at ?? null
   const status = params.get('status') ?? 'active'
   const dogF = params.get('dog') ?? ''
+  const certF = params.get('cert') === 'pending'
 
   const refresh = async () => {
     const { data, error } = await supabase.from('sponsorships').select('*, donors(*), dogs(id,slug,name,main_image)').order('created_at', { ascending: false })
@@ -39,9 +40,9 @@ export default function Sponsors() {
   useEffect(() => { refresh() }, [])
 
   const shown = useMemo(() => (list ?? []).filter(s =>
-    (status === 'all' || s.status === status) && (!dogF || s.dog_id === dogF) &&
+    (certF ? s.status === 'active' && !s.certificate_sent_at : (status === 'all' || s.status === status)) && (!dogF || s.dog_id === dogF) &&
     (!q || [s.donors?.honor_name, s.donors?.phone, s.donors?.email, s.dogs?.name].some(v => v?.toLowerCase().includes(q.toLowerCase())))
-  ), [list, status, dogF, q])
+  ), [list, status, dogF, certF, q])
 
   const setParam = (k: string, v: string) => { const p = new URLSearchParams(params); if (v) p.set(k, v); else p.delete(k); setParams(p) }
 
@@ -89,6 +90,9 @@ export default function Sponsors() {
         כאן רואים את כל מי שמאמץ כלב וירטואלית. כשמגיע תשלום מ-Grow הוא יופיע אוטומטית (ממתין לחיבור ל-Grow).
         בינתיים — אפשר להוסיף מאמצים ידנית בכפתור <b>➕ מאמץ חדש</b>. לחיצה על שורה פותחת עריכה.
       </Help>
+      {certF && (
+        <div className="ad-help"><span aria-hidden="true">📜</span><div>מאמצים פעילים שעוד לא קיבלו תעודת אימוץ. לחצו <b>📜 שליחת תעודה</b> בשורה — התעודה נשלחת למייל של המאמץ. <button className="ad-link" onClick={() => setParam('cert', '')}>הצגת כל המאמצים</button></div></div>
+      )}
       <div className="ad-filters">
         <input type="search" placeholder="🔍 חיפוש לפי שם, טלפון, מייל או כלב" value={q} onChange={e => setQ(e.target.value)} />
         <select value={status} onChange={e => setParam('status', e.target.value)} aria-label="סטטוס">
@@ -115,6 +119,12 @@ export default function Sponsors() {
                   <span className="ad-muted" dir="ltr">{[s.donors?.phone, s.donors?.email].filter(Boolean).join(' · ')}</span>
                 </div>
                 <span className={`ad-tag st-${s.status}`}>{STATUS[s.status]}</span>
+                {s.status === 'active' && !s.certificate_sent_at && (
+                  <button className="ad-btn sm primary" disabled={sending} title="שליחת תעודת האימוץ במייל"
+                    onClick={async e => { e.stopPropagation(); setSending(true); const err = await sendCertificate(s.id); setSending(false); if (err) toast(err, true); else { toast(`התעודה נשלחה ל${s.donors?.honor_name ?? ''} ✓`); refresh() } }}>
+                    📜 שליחת תעודה
+                  </button>
+                )}
                 {wa && <a className="ad-btn wa sm" href={wa} target="_blank" rel="noopener" onClick={e => e.stopPropagation()} aria-label="וואטסאפ">💬</a>}
               </div>
             )

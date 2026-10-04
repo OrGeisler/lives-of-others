@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { Help, PageHead } from '../ui'
 import { HE_MONTHS, monthStart, shekel } from '../util'
 
-type Stats = { active: number; monthly: number; toSend: number; giftsToday: number; review: number; failed: number; stalePending: number; bday: string | null }
+type Stats = { certs: number; active: number; monthly: number; toSend: number; giftsToday: number; review: number; failed: number; stalePending: number; bday: string | null }
 
 export default function Dashboard() {
   const [s, setS] = useState<Stats | null>(null)
@@ -13,11 +13,12 @@ export default function Dashboard() {
     (async () => {
       const period = monthStart()
       const endOfToday = new Date(); endOfToday.setHours(23, 59, 59, 999)
-      const [sp, logs, gifts, pay, bd] = await Promise.all([
-        supabase.from('sponsorships').select('id,tier,status,created_at'),
+      const [sp, logs, gifts, pay, giftCerts, bd] = await Promise.all([
+        supabase.from('sponsorships').select('id,tier,status,created_at,certificate_sent_at'),
         supabase.from('updates_log').select('sponsorship_id').eq('period', period).not('sponsorship_id', 'is', null),
         supabase.from('gifts').select('id').is('sent_at', null).eq('status', 'paid').lte('send_at', endOfToday.toISOString()),
         supabase.from('payments').select('id').eq('needs_review', true),
+        supabase.from('gifts').select('id').in('status', ['paid', 'sent']).is('certificate_sent_at', null),
         supabase.from('birthday_schedule').select('dogs(name)').eq('month', new Date().getMonth() + 1).maybeSingle(),
       ])
       if ([sp, logs, gifts, pay].some(r => r.error)) { setErr(true); return }
@@ -25,6 +26,7 @@ export default function Dashboard() {
       const active = all.filter(x => x.status === 'active')
       const sent = new Set((logs.data ?? []).map(l => l.sponsorship_id))
       setS({
+        certs: active.filter(x => !x.certificate_sent_at).length + (giftCerts.data?.length ?? 0),
         active: active.length,
         monthly: active.reduce((a, x) => a + (x.tier ?? 0), 0),
         toSend: active.filter(x => !sent.has(x.id)).length,
@@ -54,6 +56,13 @@ export default function Dashboard() {
             <span className="ad-card-label">מתנות שצריך לשלוח היום</span>
             <span className="ad-card-go">{s.giftsToday ? 'למתנות ←' : 'אין מתנות לשליחה ✓'}</span>
           </Link>
+          {s.certs > 0 && (
+            <Link to="/admin/sponsors?cert=pending" className="ad-card alert">
+              <span className="ad-card-num">{s.certs}</span>
+              <span className="ad-card-label">תעודות אימוץ שמחכות לשליחה</span>
+              <span className="ad-card-go">לשליחת תעודות ←</span>
+            </Link>
+          )}
           {s.review > 0 && (
             <Link to="/admin/payments" className="ad-card alert">
               <span className="ad-card-num">{s.review}</span>
