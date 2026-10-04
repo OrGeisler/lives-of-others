@@ -70,3 +70,9 @@
   .nav-toggle { padding: 4px; }
 }
 @media (max-width: 340px) { .brand img { display: none; } }
+
+/* per-photo framing so no face is cut (checked crop by crop at desktop + phone sizes) */
+img[src$="/memorial-adi-tzur.jpg"] { object-position: 50% 6% !important; }
+.door img[src$="/dog-shuki-1.jpg"] { object-position: 50% 18%; }
+img[src$="/tali-malinois.jpg"] { object-position: 50% 0% !important; }
+img[src$="/memorial-yair-bruce.jpg"] { object-position: 50% 25% !important; }
