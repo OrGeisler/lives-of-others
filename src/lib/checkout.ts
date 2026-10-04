@@ -17,6 +17,7 @@ export type CheckoutPayload = {
   type: 'virtual' | 'gift'; dog: string; tier?: number
   honor_name: string; phone: string; email: string; source: string
   consent_terms: boolean; consent_marketing: boolean; website: string
+  test?: boolean
   gift?: { name: string; phone: string; email: string; greeting: string; send_at: string }
 }
 

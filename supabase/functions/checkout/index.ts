@@ -73,7 +73,7 @@ Deno.serve(async req => {
   }
 
   const { data: links } = await db.from('site_settings').select('value').eq('key', 'links').maybeSingle()
-  const L = (links?.value ?? {}) as { grow_virtual?: string; grow_gift?: string }
-  const redirect = type === 'gift' ? L.grow_gift : (dog.grow_virtual_link || L.grow_virtual)
+  const L = (links?.value ?? {}) as { grow_virtual?: string; grow_gift?: string; grow_test?: string }
+  const redirect = b.test === true ? L.grow_test : type === 'gift' ? L.grow_gift : (dog.grow_virtual_link || L.grow_virtual)
   return new Response(JSON.stringify({ redirect, sum: type === 'gift' ? GIFT_SUM : tier }), { headers })
 })

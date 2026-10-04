@@ -2,6 +2,7 @@ import { focusStyle } from '../lib/focus'
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { submitCheckout } from '../lib/checkout'
+import { isTestMode } from '../lib/links'
 import { GIFT_SUM, SOURCES, localDate } from '../lib/constants'
 import { useDog } from '../lib/data'
 import { useTitle } from '../lib/pagesData'
@@ -32,7 +33,7 @@ export default function Checkout() {
     e.preventDefault()
     if (busy || payUrl) return
     setBusy(true); setErr('')
-    const r = await submitCheckout({ type, dog: dog.slug, tier, ...f, gift: type === 'gift' ? g : undefined })
+    const r = await submitCheckout({ type, dog: dog.slug, tier, ...f, test: isTestMode(), gift: type === 'gift' ? g : undefined })
     if (r.error || !r.redirect) { setBusy(false); setErr(r.error ?? 'משהו השתבש, נסו שוב'); return }
     setPayUrl(r.redirect) // stays busy until the browser leaves for the payment page
   }
@@ -42,6 +43,7 @@ export default function Checkout() {
 
   return (
     <section className="co">
+      {isTestMode() && <p className="co-error" style={{ textAlign: 'center' }}>🧪 מצב בדיקה — התשלום יעבור לדף הבדיקות (1/2/3 ₪). לחזרה למצב רגיל: ‎?test=0</p>}
       <h1 className="co-title">{type === 'gift' ? 'השלמת המתנה 🎁' : 'השלמת האימוץ 😇'}</h1>
       <div className="co-grid">
         <aside className="co-summary">

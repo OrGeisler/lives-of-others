@@ -1,11 +1,13 @@
 import { useEffect } from 'react'
 import { useLocation, useNavigationType } from 'react-router-dom'
+import { isTestMode } from './links'
 
 // Scroll-reveal for any `.reveal` element (also ones rendered later, after data loads),
 // and scroll to #hash targets once they exist (content is async).
 export function usePageEffects() {
   const { pathname, hash } = useLocation()
   const navType = useNavigationType()
+  useEffect(() => { isTestMode() }, [pathname])
 
   useEffect(() => {
     const io = new IntersectionObserver(entries => {
