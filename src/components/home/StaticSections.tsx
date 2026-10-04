@@ -19,7 +19,7 @@ export function Story() {
           <p><strong>בעמותת חיים של אחרים אנחנו נלחמים להצלת כלבים מהשטח</strong>, ופועלים כדי שהרגע הזה לא יהיה סוף הסיפור שלהם — אלא רק שלב בדרך להתחלה חדשה.</p>
           {/* 24.9: כפתור תרומה אחד. הטקסט הסופי ("לתרומה לשיקום של...") ייקבע כשיגיע הסרטון הערוך של ברי */}
           <div className="cta-row">
-            <a href="#donate" className="btn btn-gold">לתרומה לשיקום הכלבים ←</a>
+            <Link to="/donate" className="btn btn-gold">לתרומה לשיקום הכלבים ←</Link>
           </div>
         </div>
       </section>
@@ -59,33 +59,11 @@ export function Unique() {
         <p className="reveal"><strong>במקום כלובים — בתים.</strong> בפרויקט הדגל הייחודי שלנו אנחנו משכנים את הכלבים <strong>בבתים קסומים</strong>. הבתים הקסומים הם פרויקט הנצחה לזכר יקירים שנפלו ונרצחו במלחמת ה־7 באוקטובר — בבתים אלו מורשתם של סמ״ר עדי צור, רס״ם במילואים יאיר כץ ושני גבאי ממשיכה לחיות דרך הצלת כלבים ונתינה לבעלי חיים.</p>
         {/* 24.9 עמ' 5: כאן ייכנס "סרטון דבורה – במקום כלובים בתים" (ממתינים לקובץ). ערוץ 12 עבר לעמוד הראשי */}
         <div className="cta-row reveal" style={{ justifyContent: 'center' }}>
-          <a href="#dogs" className="btn btn-orange">אני רוצה לאמץ כלב</a>
-          <a href="#donate" className="btn btn-gold">אני רוצה לתרום</a>
-          <a href="#volunteer" className="btn btn-green">אני רוצה להתנדב</a>
+          <Link to="/dogs" className="btn btn-orange">אני רוצה לאמץ כלב</Link>
+          <Link to="/donate" className="btn btn-gold">אני רוצה לתרום</Link>
+          <Link to="/volunteer" className="btn btn-green">אני רוצה להתנדב</Link>
         </div>
         <AngelButton className="reveal" />
-      </section>
-    </>
-  )
-}
-
-export function GiftBanner() {
-  return (
-    <>
-      <section className="gift-banner">
-        <div className="gift-ribbon-v" aria-hidden="true"></div>
-        <div className="gift-banner-inner reveal">
-          <div className="gift-bow" aria-hidden="true">🎀</div>
-          <h2>אימוץ במתנה 🎁</h2>
-          <p className="gb-lead">מחפשים מתנה מרגשת? מתנה עם משמעות? רוצים להפתיע אדם שאוהב כלבים?</p>
-          <p>העניקו לאדם קרוב אימוץ וירטואלי של אחד מהכלבים המתוקים שהצלנו — מתנה שלא תישכח, ובו זמנית מתנת החיים לכלב שזקוק לכם.</p>
-          <div className="gift-occasions">
-            <div className="gift-occ"><div className="go-ic">🎂</div><strong>יום הולדת</strong><p>מתנה מקורית ומרגשת במקום עוד גאדג'ט.</p></div>
-            <div className="gift-occ"><div className="go-ic">🕎</div><strong>חג</strong><p>מתנה שממשיכה לתת לאורך כל השנה.</p></div>
-            <div className="gift-occ"><div className="go-ic">🥂</div><strong>אירוע מיוחד</strong><p>חתונה, בר/בת מצווה, או סתם כי בא לכם לשמח.</p></div>
-          </div>
-          <Link to="/gift-adoption" className="gift-cta"><span>🎁</span> לאימוץ במתנה ←</Link>
-        </div>
       </section>
     </>
   )
@@ -104,12 +82,12 @@ export function Press() {
               <span>הדוגמנית שלומית מלכה הצטלמה עם כלבים שלנו בקמפיין של קסטרו, בפרויקט להעלאת המודעות לאימוץ.</span>
               <em>לכתבה ←</em>
             </a>
-            <a className="press-card" href="#top">
+            <Link className="press-card" to="/">
               <span className="press-src">ערוץ 12</span>
               <strong>הכתבה ששודרה בערוץ 12</strong>
-              <span>הכתבה על העמותה ששודרה בערוץ 12 — מתנגנת בראש העמוד.</span>
+              <span>הכתבה על העמותה ששודרה בערוץ 12 — מתנגנת בראש עמוד הבית.</span>
               <em>לצפייה ←</em>
-            </a>
+            </Link>
             <a className="press-card" href="https://youtu.be/jO9JChY_ETM" target="_blank" rel="noopener">
               <span className="press-src">YouTube · Give Together</span>
               <strong>הם ננטשו. אנחנו לא ננטוש אותם 🐾</strong>
@@ -197,7 +175,7 @@ export function Volunteer() {
           <div className="vol-cta reveal">
             <a className="btn btn-green" href={wa(WA_ADOPT, 'היי! אני רוצה להתנדב בעמותת חיים של אחרים 🐾')} target="_blank" rel="noopener">אני רוצה להתנדב</a>
           </div>
-          <p className="vol-more reveal">רוצים לעזור בתחומים נוספים — שיווק, גיוס תרומות, או שיפוץ ותחזוקה של הבתים שלנו? <a href="#contact">מלאו את הפרטים וציינו כיצד תרצו לעזור ←</a></p>
+          <p className="vol-more reveal">רוצים לעזור בתחומים נוספים — שיווק, גיוס תרומות, או שיפוץ ותחזוקה של הבתים שלנו? <Link to="/contact">מלאו את הפרטים וציינו כיצד תרצו לעזור ←</Link></p>
         </div>
       </section>
     </>

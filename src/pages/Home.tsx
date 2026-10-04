@@ -1,37 +1,33 @@
+import { useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useTitle } from '../lib/pagesData'
 import BirthdayHome from '../components/home/BirthdayHome'
-import Contact from '../components/home/Contact'
-import Dogs from '../components/home/Dogs'
+import Doors, { CtaBand } from '../components/home/Doors'
 import Hero from '../components/home/Hero'
-import Homes from '../components/home/Homes'
-import RescueNumbers from '../components/home/RescueNumbers'
-import { About, Donate, GiftBanner, Press, Rescues, Story, Unique, Updates, Volunteer } from '../components/home/StaticSections'
-import Team from '../components/home/Team'
-import VirtualAdoptionHome from '../components/home/VirtualAdoptionHome'
+import { CountersBand } from '../components/home/RescueNumbers'
+import { Press } from '../components/home/StaticSections'
 import '../styles/home.css'
 
-// Home page — same sections and order as the static site (index.html on main, after the 24.9 round)
+// Old one-page anchors (shared links like lives-of-others.com/#dogs) → the new pages
+const MOVED: Record<string, string> = {
+  '#dogs': '/dogs', '#about': '/about', '#team': '/about', '#stories': '/about', '#homes': '/homes',
+  '#volunteer': '/volunteer', '#donate': '/donate', '#contact': '/contact', '#sponsor': '/virtual-adoption',
+}
+
+// Short home page: hero, numbers, doors to every area, birthday, press, closing CTA
 export default function Home() {
   useTitle('חיים של אחרים — הצלת כלבים נטושים, טיפול ושיקום')
+  const { hash } = useLocation()
+  const nav = useNavigate()
+  useEffect(() => { if (MOVED[hash]) nav(MOVED[hash], { replace: true }) }, [hash, nav])
   return (
     <>
       <Hero />
-      <RescueNumbers />
-      <Story />
-      <About />
-      <Team />
-      <Unique />
-      <Homes />
-      <Dogs />
-      <VirtualAdoptionHome />
-      <GiftBanner />
+      <CountersBand />
+      <Doors />
       <BirthdayHome />
       <Press />
-      <Rescues />
-      <Volunteer />
-      <Donate />
-      <Updates />
-      <Contact />
+      <CtaBand />
     </>
   )
 }

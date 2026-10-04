@@ -6,6 +6,12 @@ import { useTitle } from './lib/pagesData'
 
 // Everything except the home page is loaded on demand (smaller first load). Admin is never loaded by visitors.
 const DogPage = lazy(() => import('./pages/DogPage'))
+const DogsPage = lazy(() => import('./pages/site/DogsPage'))
+const AboutPage = lazy(() => import('./pages/site/AboutPage'))
+const HomesPage = lazy(() => import('./pages/site/HomesPage'))
+const VolunteerPage = lazy(() => import('./pages/site/VolunteerPage'))
+const DonatePage = lazy(() => import('./pages/site/DonatePage'))
+const ContactPage = lazy(() => import('./pages/site/ContactPage'))
 const VirtualAdoption = lazy(() => import('./pages/VirtualAdoption'))
 const VaDog = lazy(() => import('./pages/VaDog'))
 const Checkout = lazy(() => import('./pages/Checkout'))
@@ -37,7 +43,13 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />
+        <Route path="dogs" element={page(<DogsPage />)} />
         <Route path="dogs/:slug" element={page(<DogPage />)} />
+        <Route path="about" element={page(<AboutPage />)} />
+        <Route path="homes" element={page(<HomesPage />)} />
+        <Route path="volunteer" element={page(<VolunteerPage />)} />
+        <Route path="donate" element={page(<DonatePage />)} />
+        <Route path="contact" element={page(<ContactPage />)} />
         <Route path="virtual-adoption" element={page(<VirtualAdoption />)} />
         <Route path="virtual-adoption/:slug" element={page(<VaDog />)} />
         <Route path="checkout" element={page(<Checkout />)} />

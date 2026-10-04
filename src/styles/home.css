@@ -44,3 +44,32 @@ a.dog-card:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; 
   .counters-strip .counter + .counter { border-top: 0; }
 }
 .counters-strip .counter-num { font-size: clamp(34px, 4.2vw, 54px); white-space: nowrap; }
+
+/* home: counters band (counters only — before/after moved to /about) */
+.counters-band .wrap { padding-block: 36px; }
+
+/* home: doors to every area of the site */
+.doors .wrap { padding-block: 64px; }
+.doors-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 10px; }
+.door { position: relative; display: block; border-radius: 22px; overflow: hidden; aspect-ratio: 4 / 3; text-decoration: none; color: #fff; box-shadow: 0 8px 24px rgba(18,58,90,.14); transition: transform .18s ease, box-shadow .18s ease; }
+.door img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.door::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(10,28,45,.82) 100%); }
+.door-pink::after { background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(150,30,80,.85) 100%); }
+.door-rose::after { background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(180,40,100,.85) 100%); }
+.door-green::after { background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(20,90,60,.85) 100%); }
+.door-teal::after { background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(15,95,110,.85) 100%); }
+.door:hover { transform: translateY(-4px); box-shadow: 0 16px 34px rgba(18,58,90,.22); }
+.door:hover img { transform: scale(1.05); }
+.door:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.door-body { position: absolute; inset-inline: 0; bottom: 0; z-index: 1; padding: 18px 20px; display: flex; flex-direction: column; gap: 2px; }
+.door-body strong { font: 800 23px 'Rubik', sans-serif; }
+.door-body span { font-size: 16px; opacity: .95; }
+.door-body em { position: absolute; bottom: 18px; inset-inline-end: 20px; font-style: normal; font-size: 24px; font-weight: 800; }
+@media (max-width: 900px) { .doors-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .doors-grid { grid-template-columns: 1fr; } .door { aspect-ratio: 16 / 9; } .doors .wrap { padding-block: 44px; } }
+
+/* home: closing CTA band */
+.cta-band { background: var(--cream); }
+.cta-band-inner { padding-block: 34px; display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+.cta-band-inner p { margin: 0; font-size: 19px; color: var(--ink); }
+@media (max-width: 720px) { .cta-band-inner { flex-direction: column; text-align: center; } }

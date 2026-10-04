@@ -12,7 +12,7 @@ export default function DogPage() {
   useTitle(dog ? `${dog.name} — חיים של אחרים` : 'חיים של אחרים')
 
   if (loading) return <div className="wrap" style={{ padding: '80px 0' }}>טוען…</div>
-  if (error || !dog) return <div className="wrap" style={{ padding: '80px 0' }}>לא מצאנו את הכלב הזה. <Link to="/#dogs">לכל הכלבים ←</Link></div>
+  if (error || !dog) return <div className="wrap" style={{ padding: '80px 0' }}>לא מצאנו את הכלב הזה. <Link to="/dogs">לכל הכלבים ←</Link></div>
 
   const images = dog.gallery.length ? dog.gallery : dog.main_image ? [dog.main_image] : []
 
@@ -20,7 +20,7 @@ export default function DogPage() {
     <section className="dog-page">
       <div className="dog-page-gallery"><Carousel images={images} alt={dog.name} /></div>
       <div className="dog-page-body dog-modal-body">
-        <Link to="/#dogs" className="dog-page-back">→ לכל הכלבים</Link>
+        <Link to="/dogs" className="dog-page-back">→ לכל הכלבים</Link>
         <h1>{dog.name}</h1>
         <p className="dog-modal-meta">{[dog.tagline, dog.age_text].filter(Boolean).join(' · ')}</p>
         {dog.story?.split(/\n\s*\n/).map((p, i) => <p key={i}>{p}</p>)}

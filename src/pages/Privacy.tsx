@@ -80,7 +80,7 @@ export default function Privacy() {
         <li>בתי מחסה: רמת אפעל וקרית גת</li>
         <li>טלפון: 054-6881116 · וואטסאפ: 052-8296622</li>
         <li>דוא"ל: <span className="placeholder">[להשלים כתובת מייל רשמית]</span></li>
-        <li>דרך <Link to="/#contact">טופס יצירת הקשר באתר</Link></li>
+        <li>דרך <Link to="/contact">טופס יצירת הקשר באתר</Link></li>
       </ul>
 
     </div>
