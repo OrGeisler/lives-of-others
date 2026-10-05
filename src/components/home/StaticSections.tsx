@@ -158,7 +158,7 @@ export function Volunteer() {
             <h2>אנחנו צריכים אתכם</h2>
             <p>רוצים להתנדב אצלנו? הכלבים שלנו מחכים לכם — מחכים שהשער ייפתח, שייצאו לטייל במרחב הפתוח ויזכו בליטוף. עבורם, טיול אתכם הוא השיא של היום; ועבורכם, הזדמנות מושלמת להתנתק מהשגרה, למלא את הלב ולחזור הביתה עם חיוך.</p>
           </div>
-          <img className="vol-banner reveal" src="/assets/img/dog-pil-1.jpg" alt="פיל מחכה למתנדבים" style={{ objectPosition: "50% 8%" }} />
+          <img className="vol-banner reveal" src="/assets/img/dog-pil-1.jpg" alt="פיל מחכה למתנדבים" style={{ objectPosition: "50% 17%" }} />
           <div className="vol-info reveal">
             <div className="vol-info-card"><span className="vol-icon">📍</span><strong>איפה?</strong><p>בית המחסה של עמותת חיים של אחרים, רמת אפעל.<br /><span className="vol-map-note">🗺️ בוויז חפשו: <a href={WAZE_SHELTER} target="_blank" rel="noopener"><strong>״הבית הקסום ע״ש עדי צור״</strong></a></span></p></div>
             <div className="vol-info-card"><span className="vol-icon">🗓️</span><strong>מתי?</strong><p>בכל ימות השבוע, בתיאום מראש.</p></div>

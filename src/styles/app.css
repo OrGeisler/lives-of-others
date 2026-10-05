@@ -97,3 +97,50 @@ img[src$="/memorial-yair-bruce.jpg"] { object-position: 50% 25% !important; }
 .tiers-info .tier-card p { margin: 0; grid-column: 2 / -1; font-size: 16px; }
 .tiers-info .tc-badge { position: static; transform: none; justify-self: start; font-size: 12px; padding: 2px 10px; }
 @media (min-width: 721px) { .tiers-info { grid-template-columns: 1fr; max-width: 640px; } }
+
+/* desktop nav never wraps (7 items): tighten between 1021–1240px */
+.main-nav a { white-space: nowrap; }
+.brand-sub { white-space: nowrap; }
+@media (min-width: 1021px) and (max-width: 1240px) {
+  .main-nav { gap: 13px; font-size: 14.5px; }
+  .brand-sub { display: none; }
+  .header-actions .btn-donate-top { padding: 9px 14px; font-size: 14px; }
+}
+
+/* phone menu: dark backdrop (tap to close) + ✕ on the toggle */
+.nav-backdrop { display: none; }
+@media (max-width: 1020px) {
+  .nav-backdrop { display: block; position: fixed; inset: 0; background: rgba(10,25,40,.45); z-index: 40; }
+  .site-header { z-index: 50; }
+  .main-nav.open { z-index: 51; max-height: calc(100dvh - 70px); overflow-y: auto; box-shadow: 0 16px 30px rgba(0,0,0,.18); }
+  .nav-toggle { position: relative; z-index: 52; min-width: 44px; min-height: 44px; }
+}
+
+/* ===== Footer: clear columns with headings (links underline on hover, one donate button) ===== */
+.ft { padding: 0; }
+.ft-inner { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 32px; padding-block: 48px 30px; align-items: start; }
+.ft-brand { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.ft-brand img { width: 64px; height: 64px; border-radius: 50%; }
+.ft-brand strong { font: 800 20px 'Rubik', sans-serif; color: #fff; }
+.ft-brand span { color: #a9bfd0; font-size: 14.5px; line-height: 1.7; }
+.ft-donate { margin-top: 6px; background: #25D366; color: #fff; text-decoration: none; font-weight: 800; padding: 10px 20px; border-radius: 999px; }
+.ft-donate:hover { background: #1EBE5A; }
+.ft-col { display: flex; flex-direction: column; gap: 9px; }
+.ft-col h3 { margin: 0 0 4px; font: 800 16px 'Rubik', sans-serif; color: #fff; }
+.ft-col a { color: #c8d7e2; text-decoration: none; font-size: 15.5px; width: fit-content; }
+.ft-col a:hover { color: #fff; text-decoration: underline; }
+.ft-bottom { border-top: 1px solid rgba(255,255,255,.12); text-align: center; padding: 14px; color: #8fa6b8; font-size: 13.5px; }
+@media (max-width: 720px) {
+  .ft-inner { grid-template-columns: 1fr 1fr; gap: 26px 18px; padding-block: 36px 24px; }
+  .ft-brand { grid-column: 1 / -1; align-items: center; text-align: center; }
+}
+
+/* WhatsApp float: closable, smaller on phones */
+.wa-float-wrap { position: fixed; bottom: 22px; inset-inline-start: 22px; z-index: 60; }
+.wa-float-wrap .wa-float { position: static; }
+.wa-float-x { position: absolute; top: -8px; right: -8px; width: 24px; height: 24px; border-radius: 50%; border: 0; background: #fff; color: #333; font-size: 12px; line-height: 1; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,.3); z-index: 2; }
+@media (max-width: 720px) {
+  .wa-float-wrap { bottom: 14px; inset-inline-start: 14px; }
+  .wa-float-wrap .wa-float { width: 48px; height: 48px; }
+  .wa-float-wrap .wa-float svg { width: 24px; height: 24px; }
+}

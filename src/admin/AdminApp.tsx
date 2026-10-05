@@ -15,9 +15,11 @@ import SiteContent from './pages/SiteContent'
 import Payments from './pages/Payments'
 import Staff from './pages/Staff'
 import Guide from './pages/Guide'
+import Inbox from './pages/Inbox'
 
 const NAV = [
   { to: '/admin', icon: '🏠', label: 'ראשי', end: true },
+  { to: '/admin/inbox', icon: '📨', label: 'פניות' },
   { to: '/admin/to-send', icon: '💬', label: 'לשליחה' },
   { to: '/admin/sponsors', icon: '😇', label: 'מאמצים' },
   { to: '/admin/gifts', icon: '🎁', label: 'מתנות' },
@@ -100,6 +102,7 @@ function Shell() {
       <main className="ad-main">
         <Routes>
           <Route index element={<Dashboard />} />
+          <Route path="inbox" element={<Inbox />} />
           <Route path="to-send" element={<ToSend />} />
           <Route path="sponsors" element={<Sponsors />} />
           <Route path="gifts" element={<Gifts />} />

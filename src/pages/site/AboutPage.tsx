@@ -1,6 +1,5 @@
 import PageHero from '../../components/PageHero'
-import { BeforeAfterSection } from '../../components/home/RescueNumbers'
-import { About, Rescues, Story, Unique } from '../../components/home/StaticSections'
+import { About, Story, Unique } from '../../components/home/StaticSections'
 import Team from '../../components/home/Team'
 import { useTitle } from '../../lib/pagesData'
 import '../../styles/home.css'
@@ -14,8 +13,6 @@ export default function AboutPage() {
       <About />
       <Team />
       <Unique />
-      <BeforeAfterSection />
-      <Rescues />
     </>
   )
 }
