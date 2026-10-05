@@ -166,3 +166,6 @@
 .ad-tab.on { background: var(--navy); border-color: var(--navy); color: #fff; }
 .ad-tab-n { display: inline-block; min-width: 20px; padding: 0 6px; border-radius: 999px; background: rgba(0,0,0,.08); font-size: 13px; margin-inline-start: 4px; }
 .ad-tab.on .ad-tab-n { background: rgba(255,255,255,.25); }
+
+.ad-linkrow { display: flex; gap: 8px; align-items: center; }
+.ad-linkrow input { flex: 1; }

@@ -1,6 +1,7 @@
 import { focusStyle } from '../lib/focus'
 import { Link, useLocation } from 'react-router-dom'
-import { GROW_BIRTHDAY, GROW_TEST, isTestMode } from '../lib/links'
+import { isTestMode } from '../lib/links'
+import { usePayLinks } from '../lib/useLinks'
 import { monthFromQuery, useBirthdayDogFor, useTitle } from '../lib/pagesData'
 import '../styles/pages.css'
 
@@ -36,6 +37,7 @@ export default function Birthday() {
   useTitle('יום הולדת לכלב 🎂 — חיים של אחרים')
   const { search } = useLocation()
   const { dog, text, loading } = useBirthdayDogFor(monthFromQuery(search))
+  const pay = usePayLinks()
   const name = dog?.name ?? ''
   // the month's own text from the admin (ימי הולדת) wins; otherwise the first paragraph of the dog's story
   const story = text || (dog?.story?.split(/\n\s*\n/)[0] ?? '')
@@ -75,7 +77,7 @@ export default function Birthday() {
           </div>
           <div className="bd-menu reveal">
             {GIFTS.map(g => (
-              <a className="bd-gift" key={g.name} href={isTestMode() ? GROW_TEST : GROW_BIRTHDAY} target="_blank" rel="noopener">
+              <a className="bd-gift" key={g.name} href={isTestMode() ? pay.grow_test : pay.grow_birthday} target="_blank" rel="noopener">
                 <span className="bg-ico">{g.ico}</span><strong>{g.name}</strong>
                 <span className="bg-price">{g.price}</span><span className="bg-desc">{g.desc}</span>
               </a>

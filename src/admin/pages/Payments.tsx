@@ -10,6 +10,7 @@ type Payment = {
   id: string; kind: string; sum: number | null; status: string | null; asmachta: string | null; receipt_url: string | null
   payer_name: string | null; payer_phone: string | null; payer_email: string | null; needs_review: boolean
   paid_at: string | null; created_at: string; dogs?: { name: string } | null
+  source_link?: string | null; raw?: { paymentDesc?: string; transactionType?: string } | null
 }
 const KIND: Record<string, string> = { virtual: 'אימוץ וירטואלי', gift: 'מתנה', birthday: 'יום הולדת', donation: 'תרומה', memorial: 'הנצחה', items: 'ציוד' }
 
@@ -59,16 +60,16 @@ export default function Payments() {
     <>
       <PageHead title="תשלומים" />
       <Help>
-        כל תשלום שמגיע מ-Grow נרשם כאן אוטומטית <b>(יופעל אחרי החיבור ל-Grow)</b>.
+        כל תשלום שמגיע מ-Grow נרשם כאן אוטומטית — כולל תרומות כלליות מאתר התרומות.
         כשהמערכת לא יודעת לשייך תשלום לבד — הוא מופיע למעלה עם <b>"צריך שיוך"</b>, ובוחרים אם זה אימוץ וירטואלי (ולאיזה כלב) או תרומה רגילה.
       </Help>
-      {!list ? <p>טוען…</p> : list.length === 0 ? <Empty>עדיין אין תשלומים. אחרי החיבור ל-Grow הם יופיעו כאן לבד.</Empty> : (
+      {!list ? <p>טוען…</p> : list.length === 0 ? <Empty>עדיין אין תשלומים.</Empty> : (
         <div className="ad-list">
           {list.map(p => (
             <div key={p.id} className={`ad-row${p.needs_review ? ' review' : ''}`}>
               <div className="ad-row-main">
                 <b>{p.payer_name ?? '—'} · {shekel(p.sum)}</b>
-                <span>{KIND[p.kind] ?? p.kind}{p.dogs?.name ? ` · ${p.dogs.name}` : ''} · {fmtDate(p.paid_at ?? p.created_at)}{p.asmachta ? ` · אסמכתא ${p.asmachta}` : ''}</span>
+                <span>{p.source_link === 'TEST' && <span className="ad-tag gray">🧪 בדיקה</span>}{KIND[p.kind] ?? p.kind}{p.raw?.paymentDesc ? ` · ${p.raw.paymentDesc}` : ''}{p.raw?.transactionType ? ` · ${p.raw.transactionType}` : ''}{p.dogs?.name ? ` · ${p.dogs.name}` : ''} · {fmtDate(p.paid_at ?? p.created_at)}{p.asmachta ? ` · אסמכתא ${p.asmachta}` : ''}</span>
                 <span className="ad-muted" dir="ltr">{[p.payer_phone, p.payer_email].filter(Boolean).join(' · ')}</span>
               </div>
               {p.receipt_url && <a className="ad-btn ghost sm" href={p.receipt_url} target="_blank" rel="noopener">🧾 קבלה</a>}

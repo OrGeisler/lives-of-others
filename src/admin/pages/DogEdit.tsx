@@ -65,7 +65,7 @@ export default function DogEdit() {
     const { error } = await supabase.from('dogs').update({
       name: d.name, slug, age_text: d.age_text, tagline: d.tagline, story: d.story, main_image: d.main_image, gallery: photos,
       available_for_adoption: d.available_for_adoption, available_for_virtual: d.available_for_virtual,
-      available_for_gift: d.available_for_gift, active: d.active, grow_virtual_link: d.grow_virtual_link, image_focus: d.image_focus ?? null,
+      available_for_gift: d.available_for_gift, active: d.active, image_focus: d.image_focus ?? null,
     }).eq('id', d.id)
     setBusy(false)
     if (!fail(error, 'השמירה')) { toast('נשמר — האתר מתעדכן מיד ✓'); setD(x => x && { ...x, slug }); setDirty(false) }
@@ -94,9 +94,6 @@ export default function DogEdit() {
           <label className="ad-check"><input type="checkbox" checked={d.available_for_virtual} onChange={e => set('available_for_virtual', e.target.checked)} /> זמין לאימוץ וירטואלי</label>
           <label className="ad-check"><input type="checkbox" checked={d.available_for_gift} onChange={e => set('available_for_gift', e.target.checked)} /> מופיע בעמוד "אימוץ במתנה"</label>
         </div>
-        <Field label="קישור Grow אישי לכלב (לא חובה)" hint="אם פתחתם ב-Grow דף תשלום נפרד לכלב הזה — הדביקו כאן, והאימוץ הווירטואלי שלו יעבור לשם. ריק = דף האימוץ הכללי">
-          <input dir="ltr" placeholder="https://pay.grow.link/..." value={d.grow_virtual_link ?? ''} onChange={e => set('grow_virtual_link', e.target.value.trim() || null)} />
-        </Field>
       </div>
 
       <div className="ad-box">

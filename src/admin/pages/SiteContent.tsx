@@ -12,19 +12,27 @@ export default function SiteContent() {
   const [team, setTeam] = useState<Member[]>([])
   const [fallen, setFallen] = useState<Fallen[]>([])
   const [asking, setAsking] = useState(false)
+  const [links, setLinks] = useState<Record<string, string>>({})
 
   const refresh = async () => {
-    const [c, t, f] = await Promise.all([
+    const [c, t, f, l] = await Promise.all([
       supabase.from('site_settings').select('value').eq('key', 'counters').maybeSingle(),
       supabase.from('team').select('*').order('sort'),
       supabase.from('fallen').select('*').order('sort'),
+      supabase.from('site_settings').select('value').eq('key', 'links').maybeSingle(),
     ])
     setCounters((c.data?.value as Counter[]) ?? [])
     setTeam((t.data ?? []) as Member[])
     setFallen((f.data ?? []) as Fallen[])
+    setLinks((l.data?.value as Record<string, string>) ?? {})
   }
   useEffect(() => { refresh() }, [])
 
+  const saveLinks = async () => {
+    const bad = Object.entries(links).find(([k, v]) => k.startsWith('grow_') && v && !/^https:\/\/pay\.grow\.link\//.test(v))
+    if (bad) { toast('קישור Grow צריך להתחיל ב-https://pay.grow.link/', true); return }
+    if (!fail((await supabase.from('site_settings').upsert({ key: 'links', value: links })).error, 'השמירה')) toast('הקישורים עודכנו ✓')
+  }
   const saveCounters = async () => {
     if (!fail((await supabase.from('site_settings').upsert({ key: 'counters', value: counters })).error, 'השמירה')) toast('המספרים עודכנו ✓')
   }
@@ -53,6 +61,20 @@ export default function SiteContent() {
     <>
       <PageHead title="תוכן האתר" />
       <Help>כאן מעדכנים חלקים קבועים באתר: המספרים בראש העמוד, הצוות, ודפי ההנצחה. כל שינוי נשמר בכפתור השמירה שלו.</Help>
+
+      <section className="ad-box">
+        <h2 className="ad-h2">💳 קישורי תשלום (Grow)</h2>
+        <p className="ad-hint">לאן האתר שולח לתשלום. אם יוצרים ב-Grow דף חדש במקום הקיים — מדביקים כאן את הקישור החדש. אחרי שינוי שם הדף ב-Grow, עדכנו את אור (המערכת מזהה תשלומים לפי שם הדף).</p>
+        {([['grow_virtual', 'אימוץ וירטואלי (הוראת קבע 25/50/100)'], ['grow_gift', 'אימוץ במתנה (180 ₪)'], ['grow_birthday', 'מתנת יום הולדת לכלב'], ['grow_test', '🧪 דף בדיקות (1/2/3 ₪)']] as const).map(([k, label]) => (
+          <Field key={k} label={label}>
+            <div className="ad-linkrow">
+              <input dir="ltr" value={links[k] ?? ''} onChange={e => setLinks(x => ({ ...x, [k]: e.target.value.trim() }))} />
+              {links[k] && <a className="ad-btn sm ghost" href={links[k]} target="_blank" rel="noopener">פתיחה ↗</a>}
+            </div>
+          </Field>
+        ))}
+        <button className="ad-btn primary" onClick={saveLinks}>שמירת הקישורים</button>
+      </section>
 
       <section className="ad-box">
         <h2 className="ad-h2">📊 המספרים בעמוד הראשי</h2>
