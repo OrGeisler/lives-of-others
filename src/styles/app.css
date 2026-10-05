@@ -76,3 +76,13 @@ img[src$="/memorial-adi-tzur.jpg"] { object-position: 50% 6% !important; }
 .door img[src$="/dog-shuki-1.jpg"] { object-position: 50% 18%; }
 img[src$="/tali-malinois.jpg"] { object-position: 50% 0% !important; }
 img[src$="/memorial-yair-bruce.jpg"] { object-position: 50% 25% !important; }
+
+/* RTL: hamburger on the RIGHT on phones (feedback 5.10) — brand moves to its left */
+@media (max-width: 1020px) {
+  .header-inner { position: relative; }
+  .header-actions { display: contents; }
+  .nav-toggle { order: -1; margin-inline-start: 0; }
+  .brand { order: 0; }
+  .header-actions .btn-donate-top { order: 1; margin-inline-start: auto; }
+  .header-actions .lang-switch { order: 1; }
+}
