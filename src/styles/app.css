@@ -86,3 +86,14 @@ img[src$="/memorial-yair-bruce.jpg"] { object-position: 50% 25% !important; }
   .header-actions .btn-donate-top { order: 1; margin-inline-start: auto; }
   .header-actions .lang-switch { order: 1; }
 }
+
+/* plan tiers are information, not buttons (feedback 5.10): flat list rows, no card shadow/border */
+.tiers-info { gap: 0; background: #fff; border-radius: 20px; padding: 6px 22px; box-shadow: none; border: 1px solid #e3edf3; }
+.tiers-info .tier-card { background: none; box-shadow: none; border: 0; border-radius: 0; padding: 18px 4px; display: grid; grid-template-columns: 44px auto 1fr; align-items: center; gap: 4px 14px; text-align: right; cursor: default; }
+.tiers-info .tier-card + .tier-card { border-top: 1px solid #e3edf3; }
+.tiers-info .tier-card.featured { border-color: #e3edf3; box-shadow: none; }
+.tiers-info .tc-ico { font-size: 28px; grid-row: span 2; }
+.tiers-info .tc-amt { font-size: 26px; margin: 0; white-space: nowrap; }
+.tiers-info .tier-card p { margin: 0; grid-column: 2 / -1; font-size: 16px; }
+.tiers-info .tc-badge { position: static; transform: none; justify-self: start; font-size: 12px; padding: 2px 10px; }
+@media (min-width: 721px) { .tiers-info { grid-template-columns: 1fr; max-width: 640px; } }

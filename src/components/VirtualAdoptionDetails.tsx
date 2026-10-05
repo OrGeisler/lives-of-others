@@ -66,9 +66,9 @@ export function VaTiers() {
     <div className="tiers-info reveal">
       {TIERS.map(t => (
         <div className={`tier-card${t.featured ? ' featured' : ''}`} key={t.amt}>
-          {t.featured && <span className="tc-badge">הכי פופולרי</span>}
           <div className="tc-ico">{t.ico}</div>
           <div className="tc-amt">{t.amt} ₪ <small>/ חודש</small></div>
+          {t.featured && <span className="tc-badge">הכי פופולרי</span>}
           <p>{t.desc}</p>
         </div>
       ))}
