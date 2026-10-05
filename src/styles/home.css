@@ -92,3 +92,8 @@ section.bday-home { background: var(--cream, #F7F3EC); color: inherit; overflow:
   .bday-body h2 { font-size: 28px; }
   .bday-body .bday-btn { align-self: stretch; }
 }
+
+/* hero chip is a statement, not a button: no pill background — a quiet highlighted line with side rules */
+.hero .hero-chip { background: none; border: 0; box-shadow: none; padding: 0; border-radius: 0; color: var(--navy); font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 12px; max-width: 560px; }
+.hero .hero-chip::before, .hero .hero-chip::after { content: ""; flex: 1; min-width: 24px; height: 2px; background: linear-gradient(90deg, transparent, #45BEC9); }
+.hero .hero-chip::after { background: linear-gradient(270deg, transparent, #45BEC9); }
