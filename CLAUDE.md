@@ -34,7 +34,8 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - Vercel is connected to this repo: **every push to `main` deploys production**. Never push to `main`
   directly. Work on a branch → PR (Vercel posts a preview URL on it) → merge once `npm run build` passes.
   Each developer's Claude (Or's and Lev's) merges its own PRs: no approval needed.
-- DB migrations (`supabase db push`) and edge-function deploys hit production immediately: get Or's go first.
+- Same for DB migrations (`supabase db push`) and edge-function deploys: once the change was agreed in
+  chat, ship it (they hit production immediately, so run `npm run build` / `scripts/test-rls.mjs` first).
 
 ## Payments flow (how money is matched)
 1. Our form (`/checkout`, `checkout` fn) saves donor + sponsorship/gift as `pending`, then redirects to Grow.
