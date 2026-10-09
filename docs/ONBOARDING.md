@@ -19,7 +19,7 @@ npm install && npm run dev        # http://localhost:5173
 ## 2. How changes reach production
 | What changed | How it deploys | Who / go needed |
 | --- | --- | --- |
-| `src/`, `public/`, `api/`, `vercel.json` | PR → merge to `main` → Vercel builds and deploys production automatically. Every PR gets a Vercel preview URL. | Or's Claude merges its own PRs; Lev opens PRs for Or to merge. Never push to `main` directly. |
+| `src/`, `public/`, `api/`, `vercel.json` | PR → merge to `main` → Vercel builds and deploys production automatically. Every PR gets a Vercel preview URL. | Each developer's Claude merges its own PRs (no approval needed). Never push to `main` directly. |
 | `supabase/migrations/*` | `supabase db push` (applies to production immediately) | Or's go first |
 | `supabase/functions/*` | `supabase functions deploy <name> --no-verify-jwt --use-api --project-ref faycqdiwkafubfmnoazw` | Or's go first |
 | Vercel / Supabase secrets | Vercel dashboard (Or only, Hobby plan has no team seats) / `supabase secrets set` | Or |
