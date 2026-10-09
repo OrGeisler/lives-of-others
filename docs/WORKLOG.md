@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-10-09 · Lev+Claude · .gitignore: also ignore `*.env` files.
 - 2026-10-09 · Or+Claude · Rule: each dev's Claude (Or, Lev) merges its own PRs (no go needed); since extended to migrations/functions: agreed in chat → ship.
 - 2026-10-09 · Or+Claude · docs/ONBOARDING.md: setup, deploy matrix, secrets map (names only), accounts.
 - 2026-10-09 · Or+Claude · Vercel connected to GitHub (production = `main`); deploy flow is now PR → merge.
