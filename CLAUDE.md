@@ -32,7 +32,8 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 ## Branches & deploy
 - `main` = this app (production). `static-site` = the OLD static site, archive only: never merge the two.
 - Vercel is connected to this repo: **every push to `main` deploys production**. Never push to `main`
-  directly. Work on a branch → PR (Vercel posts a preview URL on it) → Or merges = his go to deploy.
+  directly. Work on a branch → PR (Vercel posts a preview URL on it) → merge once `npm run build` passes.
+  Or's Claude merges its own PRs. Lev: open the PR; Or (or his Claude) merges.
 - DB migrations (`supabase db push`) and edge-function deploys hit production immediately: get Or's go first.
 
 ## Payments flow (how money is matched)
