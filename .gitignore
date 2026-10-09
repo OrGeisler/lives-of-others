@@ -28,6 +28,7 @@ supabase/.temp/
 supabase/.branches/
 .vercel
 .env*
+*.env
 
 # Claude Code agent worktrees
 .claude/worktrees/
