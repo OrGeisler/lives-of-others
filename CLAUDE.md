@@ -30,9 +30,9 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 
 ## Branches & deploy
 - `main` = this app (production). `static-site` = the OLD static site, archive only: never merge the two.
-- Work on a branch → PR → merge to `main`. Vercel deploys `main` to production (once Git is connected;
-  until then Or deploys with the Vercel CLI).
-- Production deploys and DB migrations: get Or's go first.
+- Vercel is connected to this repo: **every push to `main` deploys production**. Never push to `main`
+  directly. Work on a branch → PR (Vercel posts a preview URL on it) → Or merges = his go to deploy.
+- DB migrations (`supabase db push`) and edge-function deploys hit production immediately: get Or's go first.
 
 ## Payments flow (how money is matched)
 1. Our form (`/checkout`, `checkout` fn) saves donor + sponsorship/gift as `pending`, then redirects to Grow.
