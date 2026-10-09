@@ -1,6 +1,7 @@
 # lives-of-others — site + admin for עמותת חיים של אחרים
 
 Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), each with Claude Code.
+**New here? Read `docs/ONBOARDING.md`** (setup, how each kind of change deploys, secrets map, accounts).
 
 ## Keep this file and the log current (both of you, and your Claude)
 - After every task: add ONE line to `docs/WORKLOG.md` (newest first: date · who · what).

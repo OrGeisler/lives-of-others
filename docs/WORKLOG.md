@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-10-09 · Or+Claude · docs/ONBOARDING.md: setup, deploy matrix, secrets map (names only), accounts.
 - 2026-10-09 · Or+Claude · Vercel connected to GitHub (production = `main`); deploy flow is now PR → merge.
 - 2026-10-09 · Or+Claude · Repo split clean: `main` = app, `static-site` = old site (GitHub Pages disabled). Lev has write access. Open items moved to Issues #1–#10.
 - 2026-10-09 · Or+Claude · Added CLAUDE.md, this log, .env.example for a second developer.
