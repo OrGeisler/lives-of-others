@@ -1,6 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
-- 2026-10-09 · Or+Claude · Rule: Or's Claude merges its own PRs (no go needed); migrations/functions still need Or's go.
+- 2026-10-09 · Or+Claude · Rule: each dev's Claude (Or, Lev) merges its own PRs (no go needed); migrations/functions still need Or's go.
 - 2026-10-09 · Or+Claude · docs/ONBOARDING.md: setup, deploy matrix, secrets map (names only), accounts.
 - 2026-10-09 · Or+Claude · Vercel connected to GitHub (production = `main`); deploy flow is now PR → merge.
 - 2026-10-09 · Or+Claude · Repo split clean: `main` = app, `static-site` = old site (GitHub Pages disabled). Lev has write access. Open items moved to Issues #1–#10.
