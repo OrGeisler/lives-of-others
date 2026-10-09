@@ -31,3 +31,4 @@ supabase/.branches/
 
 # Claude Code agent worktrees
 .claude/worktrees/
+!.env.example
