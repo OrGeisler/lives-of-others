@@ -58,3 +58,7 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - Facts/numbers on the site come from the nonprofit or the DB; don't invent copy figures.
 - SEO: each public route gets a static head + text from `scripts/prerender-meta.mjs` (postbuild, also writes
   sitemap.xml). New public route → add it there. The SPA fallback is `spa.html`, not `index.html`.
+- Old phones: `vite.config.ts` uses `@vitejs/plugin-legacy` (Safari 13 / Chrome 80 + polyfills). Without it Vite 8
+  targets 2023+ browsers and older iPhones get a white screen. Check after build: `npx es-check@8 es2020 'dist/assets/*.js' --module`.
+- Google Search Console (Or's Google account, property `https://lives-of-others.com/`) is verified by
+  `public/google90aab82532d797ee.html`. Never delete it.
