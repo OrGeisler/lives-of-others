@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-10-13 · Or+Claude · White screen on older phones (iOS < 16.4): build now targets Safari 13/Chrome 80 + polyfills (@vitejs/plugin-legacy).
 - 2026-10-13 · Or+Claude · SEO: robots.txt, sitemap.xml, per-route static title/description/canonical/og + text (prerender), NGO JSON-LD, www→apex 308, IndexNow key.
 - 2026-10-09 · Or+Claude · Lev onboarding verified: fresh clone of main builds, Lev has write; his PR #16 merged.
 - 2026-10-09 · Lev+Claude · .gitignore: also ignore `*.env` files.
