@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-10-13 · Or+Claude · AI search (GEO): public/llms.txt, richer NGO JSON-LD (ע"ר, founders, 2016, Ramat Efal, phone), FAQ (FAQPage JSON-LD + static text) on / and /about, English facts on /en. Facts only from site copy.
 - 2026-10-13 · Or+Claude · Google Search Console: URL-prefix property https://lives-of-others.com/ (Or's Google account, separate from bula.co.il), verified by public/google90aab82532d797ee.html (keep it). Sitemap submitted; indexing requested for / and /virtual-adoption. Google had picked www as canonical (duplicate) before the www→apex redirect.
 - 2026-10-13 · Or+Claude · White screen on older phones (iOS < 16.4): build now targets Safari 13/Chrome 80 + polyfills (@vitejs/plugin-legacy).
 - 2026-10-13 · Or+Claude · SEO: robots.txt, sitemap.xml, per-route static title/description/canonical/og + text (prerender), NGO JSON-LD, www→apex 308, IndexNow key.
