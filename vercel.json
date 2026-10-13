@@ -1,8 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.lives-of-others.com" }],
+      "destination": "https://lives-of-others.com/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/((?!assets/|api/).*)",
-      "destination": "/index.html"
+      "destination": "/spa.html"
     }
   ],
   "functions": {

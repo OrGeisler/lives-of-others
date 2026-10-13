@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /checkout
+Disallow: /certificate/
+Disallow: /birthday-thanks
+
+Sitemap: https://lives-of-others.com/sitemap.xml
