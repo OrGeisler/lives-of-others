@@ -12,6 +12,7 @@ export type Dog = {
   available_for_gift: boolean
   active?: boolean
   image_focus?: string | null
+  thanks_video_url?: string | null
   grow_virtual_link: string | null
   sort: number
 }

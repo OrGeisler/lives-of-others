@@ -8,6 +8,7 @@ import { Empty, Field, Help, PageHead, fail, toast } from '../ui'
 import { useDogsLite } from '../useDogsLite'
 import { sendCertificate } from '../certificate'
 import { fmtDate, shekel, waLink } from '../util'
+import WaShare, { sponsorCertText } from '../WaShare'
 
 type Form = {
   sponsorship_id?: string; donor_id?: string; canceled_at?: string | null
@@ -31,9 +32,14 @@ export default function Sponsors() {
   const status = params.get('status') ?? 'active'
   const dogF = params.get('dog') ?? ''
   const certF = params.get('cert') === 'pending'
+  // sending on WhatsApp counts as "certificate sent" (clears the dashboard reminder)
+  const markCert = async (id: string) => {
+    if (sentAt(id)) return
+    if (!fail((await supabase.from('sponsorships').update({ certificate_sent_at: new Date().toISOString() }).eq('id', id)).error, 'הסימון')) refresh()
+  }
 
   const refresh = async () => {
-    const { data, error } = await supabase.from('sponsorships').select('*, donors(*), dogs(id,slug,name,main_image)').order('created_at', { ascending: false })
+    const { data, error } = await supabase.from('sponsorships').select('*, donors(*), dogs(id,slug,name,main_image,thanks_video_url)').order('created_at', { ascending: false })
     setErr(!!error)
     setList((data ?? []) as Sponsorship[])
   }
@@ -125,7 +131,11 @@ export default function Sponsors() {
                     📜 שליחת תעודה
                   </button>
                 )}
-                {wa && <a className="ad-btn wa sm" href={wa} target="_blank" rel="noopener" onClick={e => e.stopPropagation()} aria-label="וואטסאפ">💬</a>}
+                {s.status === 'active'
+                  ? <WaShare phone={s.donors?.phone} to={s.donors?.honor_name ?? ''} dog={s.dogs?.name} certId={s.id} video={s.dogs?.thanks_video_url}
+                      text={sponsorCertText(s.donors?.honor_name ?? '', s.dogs?.name ?? '', s.id, s.dogs?.thanks_video_url)}
+                      label="💬 תעודה" sent={!!s.certificate_sent_at} onSent={() => markCert(s.id)} />
+                  : wa && <a className="ad-btn wa sm" href={wa} target="_blank" rel="noopener" onClick={e => e.stopPropagation()} aria-label="וואטסאפ">💬</a>}
               </div>
             )
           })}
@@ -177,6 +187,11 @@ export default function Sponsors() {
                   setSending(true); const err = await sendCertificate(form.sponsorship_id!); setSending(false)
                   if (err) toast(err, true); else { toast('התעודה נשלחה במייל ✓'); refresh() }
                 }}>{sending ? 'שולח…' : '📧 שליחה במייל'}</button>
+                {(() => { const sp = list?.find(x => x.id === form.sponsorship_id); return sp && (
+                  <WaShare phone={form.phone || sp.donors?.phone} to={form.honor_name || sp.donors?.honor_name || ''} dog={sp.dogs?.name} certId={sp.id} video={sp.dogs?.thanks_video_url}
+                    text={sponsorCertText(form.honor_name || sp.donors?.honor_name || '', sp.dogs?.name ?? '', sp.id, sp.dogs?.thanks_video_url)}
+                    label="💬 בוואטסאפ" className="ad-btn wa sm" onSent={() => markCert(sp.id)} />
+                ) })()}
               </div>
             )}
             <div className="ad-form-actions">

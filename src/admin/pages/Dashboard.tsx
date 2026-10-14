@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { Help, PageHead } from '../ui'
 import { HE_MONTHS, monthStart, shekel } from '../util'
 
-type Stats = { inbox: number; certs: number; active: number; monthly: number; toSend: number; giftsToday: number; review: number; failed: number; stalePending: number; bday: string | null }
+type Stats = { inbox: number; certs: number; active: number; monthly: number; toSend: number; giftsToday: number; bdThanks: number; review: number; failed: number; stalePending: number; bday: string | null }
 
 export default function Dashboard() {
   const [s, setS] = useState<Stats | null>(null)
@@ -13,7 +13,7 @@ export default function Dashboard() {
     (async () => {
       const period = monthStart()
       const endOfToday = new Date(); endOfToday.setHours(23, 59, 59, 999)
-      const [sp, logs, gifts, pay, giftCerts, inbox, bd] = await Promise.all([
+      const [sp, logs, gifts, pay, giftCerts, inbox, bd, bdPay] = await Promise.all([
         supabase.from('sponsorships').select('id,tier,status,created_at,certificate_sent_at'),
         supabase.from('updates_log').select('sponsorship_id').eq('period', period).not('sponsorship_id', 'is', null),
         supabase.from('gifts').select('id').is('sent_at', null).eq('status', 'paid').lte('send_at', endOfToday.toISOString()),
@@ -21,6 +21,8 @@ export default function Dashboard() {
         supabase.from('gifts').select('id').in('status', ['paid', 'sent']).is('certificate_sent_at', null),
         supabase.from('contact_messages').select('id').is('handled_at', null),
         supabase.from('birthday_schedule').select('dogs(name)').eq('month', new Date().getMonth() + 1).maybeSingle(),
+        supabase.from('payments').select('id').eq('kind', 'birthday').is('thanks_sent_at', null).or('source_link.is.null,source_link.neq.TEST')
+          .gte('created_at', new Date(Date.now() - 90 * 864e5).toISOString()),
       ])
       if ([sp, logs, gifts, pay].some(r => r.error)) { setErr(true); return }
       const all = sp.data ?? []
@@ -33,6 +35,7 @@ export default function Dashboard() {
         monthly: active.reduce((a, x) => a + (x.tier ?? 0), 0),
         toSend: active.filter(x => !sent.has(x.id)).length,
         giftsToday: gifts.data?.length ?? 0,
+        bdThanks: bdPay.data?.length ?? 0,
         review: pay.data?.length ?? 0,
         failed: all.filter(x => x.status === 'failed').length,
         stalePending: all.filter(x => x.status === 'pending' && Date.now() - new Date(x.created_at).getTime() > 2 * 86400e3).length,
@@ -70,6 +73,13 @@ export default function Dashboard() {
               <span className="ad-card-num">{s.certs}</span>
               <span className="ad-card-label">תעודות אימוץ שמחכות לשליחה</span>
               <span className="ad-card-go">לשליחת תעודות ←</span>
+            </Link>
+          )}
+          {s.bdThanks > 0 && (
+            <Link to="/admin/birthdays" className="ad-card alert">
+              <span className="ad-card-num">{s.bdThanks}</span>
+              <span className="ad-card-label">מתנות יום הולדת שמחכות לתודה</span>
+              <span className="ad-card-go">לשליחת תודה בוואטסאפ ←</span>
             </Link>
           )}
           {s.review > 0 && (

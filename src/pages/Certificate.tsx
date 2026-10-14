@@ -6,7 +6,7 @@ import '../styles/certificate.css'
 
 type Cert = {
   type: 'virtual' | 'gift'; id: string; name: string | null; from?: string | null; greeting?: string | null
-  dog: string | null; image: string | null; focus: string | null; date: string
+  dog: string | null; image: string | null; focus: string | null; date: string; video?: string | null
 }
 
 const heDate = (s: string) => new Date(s).toLocaleDateString('he-IL', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -111,6 +111,12 @@ export default function Certificate() {
         </div>
       </article>
       </div>
+      {!pdf && c.video && (
+        <section className="cert-video">
+          <h2>🎬 סרטון תודה מ{c.dog}</h2>
+          <video src={c.video} controls playsInline preload="metadata" />
+        </section>
+      )}
       {!pdf && (
         <div className="cert-actions">
           <a className="btn btn-gold" href={`/api/certificate-pdf?id=${c.id}`} onClick={() => setDownloading(true)}>{downloading ? 'מכין את הקובץ…' : '⬇ הורדת התעודה (PDF להדפסה)'}</a>

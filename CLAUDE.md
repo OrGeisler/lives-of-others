@@ -46,6 +46,8 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
    "בדיקות מערכת"=test (1/2/3 ₪). Renaming a Grow page title breaks this: update `ITEM_KIND`.
 5. Test mode: add `?test=1` to any site URL → forms go to the Grow test page.
 - Grow custom fields (e.g. dog name) are NOT in the webhook payload.
+- Only the site's own pages (virtual/gift/birthday/test) are matched or flagged "צריך שיוך"; any other Grow page
+  (general donations, memorials, campaigns) is stored as `donation` with no review. Payments page filters to the site's kinds.
 
 ## Rules & gotchas
 - Secrets never in git or chat. Each dev gets their own Supabase/Resend access; `VITE_*` keys are public.
@@ -54,6 +56,8 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - `style.css` loads after page CSS: overrides often need a more specific selector.
 - Dog photos: crop keeps the face (`dogs.image_focus`, set in admin "איפה הפנים"); default 50% 18%.
 - Admin login is a TEMPORARY shared password (see Issues): replace with per-person logins before real donor data.
+- WhatsApp from admin: `src/admin/WaShare.tsx` (wa.me = text only; files go via the phone's share sheet).
+  Marking "sent" there sets the same `*_certificate_sent_at` fields as the email button.
 - Never use emoji in the certificate (server Chromium has no emoji font): use SVG.
 - Facts/numbers on the site come from the nonprofit or the DB; don't invent copy figures.
 - SEO: each public route gets a static head + text from `scripts/prerender-meta.mjs` (postbuild, also writes
