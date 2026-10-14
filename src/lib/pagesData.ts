@@ -13,7 +13,7 @@ export function useTitle(title: string) {
 }
 
 // Order requested in the 24.9 doc for the gift page
-const GIFT_ORDER = ['micha', 'cooper', 'gili', 'junior', 'pil', 'shuki']
+const GIFT_ORDER = ['micha', 'cooper', 'gili', 'junior', 'pil', 'shuki', 'bella', 'laura', 'bobi']
 
 export function useGiftDogs() {
   const [dogs, setDogs] = useState<Dog[] | null>(null)

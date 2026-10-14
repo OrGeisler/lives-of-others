@@ -16,7 +16,7 @@ export default function Dogs() {
           <Link to={`/dogs/${d.slug}`} className="dog-card reveal" key={d.id}>
             {d.main_image && <img src={d.main_image} style={focusStyle(d)} alt={d.name} loading="lazy" />}
             <div className="dog-card-body">
-              <div className="dog-name-row"><span className="dog-name">{d.name}</span><span className="dog-meta">{d.age_text}</span></div>
+              <div className="dog-name-row"><span className="dog-name">{d.name}</span><span className="dog-meta dog-tag">{d.tagline}</span></div>
               <span className="dog-open-hint">להכיר אותי ←</span>
             </div>
           </Link>

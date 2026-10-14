@@ -17,4 +17,6 @@ export const SOURCES: Record<string, string> = {
 export const localDate = (d = new Date()) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 
-export const WAZE_SHELTER = 'https://waze.com/ul?q=%D7%94%D7%91%D7%99%D7%AA%20%D7%94%D7%A7%D7%A1%D7%95%D7%9D%20%D7%A2%22%D7%A9%20%D7%A2%D7%93%D7%99%20%D7%A6%D7%95%D7%A8&navigate=yes'
+// 13.10: the shelter's exact pin (from the nonprofit). The old Waze name search landed on a Tel Aviv street.
+export const WAZE_SHELTER = 'https://waze.com/ul?ll=32.0381544,34.8339597&navigate=yes'
+export const MAPS_SHELTER = 'https://www.google.com/maps/search/?api=1&query=32.0381544,34.8339597'

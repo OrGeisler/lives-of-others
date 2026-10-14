@@ -13,6 +13,7 @@ export type Dog = {
   active?: boolean
   image_focus?: string | null
   thanks_video_url?: string | null
+  sex?: 'm' | 'f' | null
   grow_virtual_link: string | null
   sort: number
 }

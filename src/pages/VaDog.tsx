@@ -6,6 +6,7 @@ import { TIERS } from '../lib/constants'
 import { useDog } from '../lib/data'
 import { useTitle } from '../lib/pagesData'
 import '../styles/checkout.css'
+import { ageLabel } from '../lib/dogAge'
 
 // Personal virtual-adoption page per dog (24.9 item 8, Freedom-Farm style):
 // story + photos, 4 "+" accordions, choose a monthly plan, continue to checkout.
@@ -28,8 +29,9 @@ export default function VaDog() {
           <Link to="/virtual-adoption#choose" className="dog-page-back">→ לכל הכלבים לאימוץ וירטואלי</Link>
           <span className="vd-eyebrow">😇 להיות המלאך השומר של</span>
           <h1>{dog.name}</h1>
-          <p className="dog-modal-meta">{[dog.tagline, dog.age_text].filter(Boolean).join(' · ')}</p>
+          {dog.tagline && <p className="dog-modal-meta">{dog.tagline}</p>}
           {dog.story?.split(/\n\s*\n/).map((p, i) => <p key={i}>{p}</p>)}
+          {ageLabel(dog) && <p className="dog-age-end">🐾 {dog.name} {ageLabel(dog)}</p>}
         </div>
       </section>
 

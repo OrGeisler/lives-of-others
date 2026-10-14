@@ -66,7 +66,7 @@ export default function Birthday() {
       </section>}
 
       <div className="bd-fact reveal">
-        <div className="card">✨ <strong>ידעתם?</strong> גם מפורסמים אוהבים כלבים — מחקרים מראים שחיבוק לכלב משחרר אוקסיטוצין (הורמון האהבה) גם אצל האדם וגם אצל הכלב. אז מתנה ל{name} = קצת אושר גם לכם 🐾</div>
+        <div className="card">✨ <strong>הידעתם?</strong> מחקרים מראים שחיבוק לכלב משחרר אוקסיטוצין (הורמון האהבה) גם אצל האדם וגם אצל הכלב. אז מתנה ל{name} = קצת אושר גם לכם 🐾</div>
       </div>
 
       <section className="bd-menu-sec">

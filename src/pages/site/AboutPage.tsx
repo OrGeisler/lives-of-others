@@ -9,10 +9,11 @@ export default function AboutPage() {
   return (
     <>
       <PageHero title="על העמותה" sub="מאז 2016 מצילים, מטפלים ומשקמים כלבים — והכלבים גרים בבתים, לא בכלובים." />
-      <Story />
+      {/* 13.10: על העמותה → הצוות → מה מייחד → "בדרך להתחלה חדשה" */}
       <About />
       <Team />
       <Unique />
+      <Story />
     </>
   )
 }

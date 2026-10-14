@@ -64,7 +64,7 @@ export default function DogEdit() {
     setBusy(true)
     const slug = d.slug.startsWith('dog-') && /^\d+$/.test(d.slug.slice(4)) ? slugify(d.name) : d.slug
     const { error } = await supabase.from('dogs').update({
-      name: d.name, slug, age_text: d.age_text, tagline: d.tagline, story: d.story, main_image: d.main_image, gallery: photos,
+      name: d.name, slug, age_text: d.age_text, sex: d.sex ?? null, tagline: d.tagline, story: d.story, main_image: d.main_image, gallery: photos,
       available_for_adoption: d.available_for_adoption, available_for_virtual: d.available_for_virtual,
       available_for_gift: d.available_for_gift, active: d.active, image_focus: d.image_focus ?? null, thanks_video_url: d.thanks_video_url ?? null,
     }).eq('id', d.id)
@@ -84,7 +84,12 @@ export default function DogEdit() {
         <label className="ad-switch big"><input type="checkbox" checked={d.active} onChange={e => set('active', e.target.checked)} /> <span>{d.active ? '✅ מוצג באתר' : '🙈 מוסתר מהאתר'}</span></label>
         <div className="ad-grid2">
           <Field label="שם"><input value={d.name} onChange={e => set('name', e.target.value)} /></Field>
-          <Field label="גיל" hint='למשל: "שנתיים ו-5 חודשים"'><input value={d.age_text ?? ''} onChange={e => set('age_text', e.target.value)} /></Field>
+          <Field label="גיל" hint='למשל: "8 שנים" או "שנתיים ו-5 חודשים" — באתר יופיע "בן 8" / "בת שנתיים…"'><input value={d.age_text ?? ''} onChange={e => set('age_text', e.target.value)} /></Field>
+          <Field label="זכר / נקבה" hint="קובע אם באתר כתוב בן או בת">
+            <select value={d.sex ?? ''} onChange={e => set('sex', (e.target.value || null) as D['sex'])}>
+              <option value="">—</option><option value="m">זכר (בן)</option><option value="f">נקבה (בת)</option>
+            </select>
+          </Field>
         </div>
         <Field label="משפט קצר (כותרת משנה)" hint='למשל: "המלך של בית המחסה"'><input value={d.tagline ?? ''} onChange={e => set('tagline', e.target.value)} /></Field>
         <Field label="הסיפור של הכלב" hint="שורה ריקה בין פסקאות = פסקה חדשה באתר">

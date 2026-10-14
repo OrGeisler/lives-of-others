@@ -4,10 +4,12 @@ import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGiftDogs, useTitle } from '../lib/pagesData'
 import type { Dog } from '../lib/types'
+import { ageLabel } from '../lib/dogAge'
 import '../styles/pages.css'
 
 // First paragraph of the dog's story, as on the static gift page
 const firstPara = (d: Dog) => d.story?.split(/\n\s*\n/)[0] ?? ''
+const restParas = (d: Dog) => d.story?.split(/\n\s*\n/).slice(1) ?? []
 
 export default function GiftAdoption() {
   useTitle('אימוץ במתנה — חיים של אחרים')
@@ -16,6 +18,7 @@ export default function GiftAdoption() {
   const payRef = useRef<HTMLButtonElement>(null)
   const nav = useNavigate()
   const [needPick, setNeedPick] = useState(false)
+  const [open, setOpen] = useState<Set<string>>(new Set())
 
   const pick = (d: Dog) => {
     setChosen(d)
@@ -64,9 +67,11 @@ export default function GiftAdoption() {
                 {d.main_image && <img src={d.main_image} style={focusStyle(d)} alt={d.name} loading="lazy" onClick={() => pick(d)} />}
                 <div className="gdog-body">
                   <h3>{d.name}</h3>
-                  <span className="gdog-age">{d.age_text}</span>
                   <span className="gdog-tag">{d.tagline}</span>
                   <p>{firstPara(d)}</p>
+                  {open.has(d.id)
+                    ? <>{restParas(d).map((p, i) => <p key={i}>{p}</p>)}{ageLabel(d) && <p className="dog-age-end">🐾 {d.name} {ageLabel(d)}</p>}</>
+                    : <button className="gdog-more" type="button" onClick={() => setOpen(o => new Set(o).add(d.id))}>רוצה להכיר אותי יותר? ↓</button>}
                   <button className="gdog-pick" type="button" onClick={() => pick(d)}>{on ? '✓ נבחרתי!' : 'בחרו אותי'}</button>
                 </div>
               </article>

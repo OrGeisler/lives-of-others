@@ -6,7 +6,7 @@ import { Empty, Field, Help, PageHead, fail, toast } from '../ui'
 import { useDogsLite } from '../useDogsLite'
 import { sendCertificate } from '../certificate'
 import { fmtDate } from '../util'
-import WaShare, { certUrl } from '../WaShare'
+import WaShare, { SITE, certUrl } from '../WaShare'
 import { localDate } from '../../lib/constants'
 
 const GIFT_STATUS: Record<Gift['status'], string> = { pending: 'ממתין לתשלום', paid: 'שולם', sent: 'נשלח', canceled: 'בוטל' }
@@ -21,8 +21,20 @@ const blank = (): Form => ({
   recipient_email: '', greeting: '', send_at: localDate(),
 })
 
-const giftMessage = (g: Gift) =>
-  `היי ${g.recipient_name ?? ''}! 🎁\n${g.donors?.honor_name ?? 'מישהו שאוהב אותך'} העניק/ה לך מתנה מיוחדת: אימוץ וירטואלי של ${g.dogs?.name ?? 'אחד הכלבים'} מעמותת חיים של אחרים 🐾\n\n${g.greeting ? `"${g.greeting}"\n\n` : ''}במשך השנה הקרובה ${g.dogs?.name ?? 'הכלב'} ישלח לך עדכון פעם בחודש 💛`
+// 13.10: the nonprofit's own wording, in the dog's voice
+const giftMessage = (g: Gift) => {
+  const dog = g.dogs?.name ?? 'הכלב'
+  return [
+    `היי ${g.recipient_name ?? ''},`,
+    `כאן ${dog}, אני ושאר הכלבים ממש נרגשים ש${g.donors?.honor_name ?? 'מישהו שאוהב אותך'} העניק/ה לך מתנה מיוחדת – אימוץ וירטואלי מעמותת "חיים של אחרים" 🐾`,
+    'אנחנו תמיד שמחים לצרף חברים חדשים ללהקה ❤️',
+    'מרגע זה הפכת להיות "המלאך השומר שלי", ואני אדאג לספר לך מדי פעם על החוויות שלי ושל שאר החברים.',
+    ...(g.greeting ? ['', `"${g.greeting}"`, ''] : []),
+    'תודה מכל הלב על התמיכה בי — בזכותך אני והחברים שאיתי מטופלים, מוגנים ואהובים.',
+    '',
+    `רוצה להכיר אותי טוב יותר? ${SITE}/virtual-adoption`,
+  ].join('\n')
+}
 
 const giftWithCert = (g: Gift) =>
   `${giftMessage(g)}\n\nתעודת האימוץ שלך${g.dogs?.thanks_video_url ? ` וסרטון תודה מ${g.dogs.name} 🎬` : ''}:\n${certUrl(g.id)}`
