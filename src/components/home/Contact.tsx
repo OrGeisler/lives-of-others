@@ -25,7 +25,9 @@ export default function Contact() {
     const text = ['היי! הגעתי דרך האתר 🐾', `שם: ${name}`, phone && `טלפון: ${phone}`, `נושא: ${topic}`, msg && `פירוט: ${msg}`]
       .filter(Boolean)
       .join('\n')
-    void supabase.from('contact_messages').insert({ name: name.slice(0, 80), phone: phone.slice(0, 20) || null, topic, message: msg.slice(0, 2000) || null })
+    // supabase-js only sends when the query is awaited/then-ed: a bare `void insert()` never reached the DB
+    supabase.from('contact_messages').insert({ name: name.slice(0, 80), phone: phone.slice(0, 20) || null, topic, message: msg.slice(0, 2000) || null })
+      .then(({ error }) => { if (error) console.error('contact save failed', error.message) })
     window.open(wa(WA_ADOPT, text), '_blank', 'noopener')
     setSent(true); form.reset()
   }

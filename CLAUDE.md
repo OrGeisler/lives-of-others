@@ -59,6 +59,7 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - Admin login is a TEMPORARY shared password (see Issues): replace with per-person logins before real donor data.
 - WhatsApp from admin: `src/admin/WaShare.tsx` (wa.me = text only; files go via the phone's share sheet).
   Marking "sent" there sets the same `*_certificate_sent_at` fields as the email button.
+- supabase-js queries are lazy: a fire-and-forget `void supabase.from(...).insert()` never runs. Always `await` or `.then()`.
 - Never use emoji in the certificate (server Chromium has no emoji font): use SVG.
 - Facts/numbers on the site come from the nonprofit or the DB; don't invent copy figures.
 - SEO: each public route gets a static head + text from `scripts/prerender-meta.mjs` (postbuild, also writes
