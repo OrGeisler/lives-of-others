@@ -59,6 +59,7 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - SEO: each public route gets a static head + text from `scripts/prerender-meta.mjs` (postbuild, also writes
   sitemap.xml). New public route → add it there. The SPA fallback is `spa.html`, not `index.html`.
   Nonprofit facts for search/AI live in that script (ORG, FAQ, EN_HTML) and `public/llms.txt`: change both together.
+- Pages are lazy chunks renamed on every deploy: always load pages via `lazyPage` (src/lib/staleChunks.tsx), never bare `lazy`, or open tabs go white after a deploy.
 - Old phones: `vite.config.ts` uses `@vitejs/plugin-legacy` (Safari 13 / Chrome 80 + polyfills). Without it Vite 8
   targets 2023+ browsers and older iPhones get a white screen. Check after build: `npx es-check@8 es2020 'dist/assets/*.js' --module`.
 - Google Search Console (Or's Google account, property `https://lives-of-others.com/`) is verified by
