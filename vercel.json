@@ -2,12 +2,21 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.lives-of-others.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.lives-of-others.com"
+        }
+      ],
       "destination": "https://lives-of-others.com/:path*",
       "permanent": true
     }
   ],
   "rewrites": [
+    {
+      "source": "/certificate/:id",
+      "destination": "/api/certificate-og?id=:id"
+    },
     {
       "source": "/((?!assets/|api/).*)",
       "destination": "/spa.html"

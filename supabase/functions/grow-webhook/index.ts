@@ -101,7 +101,7 @@ Deno.serve(async req => {
     row.source_link = 'TEST'
   }
   if (page === 'birthday') Object.assign(row, { kind: 'birthday', needs_review: false }) // never an adoption, even at 25/50
-  if (paid && phone && sum && page !== 'birthday') {
+  if (paid && phone && sum && (page === 'virtual' || page === 'gift')) {
     const { data: donors } = await db.from('donors').select('id').eq('phone_norm', phone)
     const ids = (donors ?? []).map(d => d.id)
     if (ids.length) {
@@ -125,7 +125,10 @@ Deno.serve(async req => {
     }
   }
 
-  if (row.needs_review && !page && sum && ![25, 50, 100, 180].includes(sum)) row.needs_review = false // a regular donation
+  // Only the site's own Grow pages (adoption / gift / birthday / test) are ever matched or flagged.
+  // Every other page (general donations, memorial pages, campaigns) is a regular donation, no review.
+  if (!page) row.needs_review = false
+  else if (row.needs_review) row.kind = page // ours but not matched yet: keep which page it came from
 
   // Insert first (unique grow_transaction_id): if a parallel duplicate won the race, skip the side effects.
   const { error } = await db.from('payments').insert(row)

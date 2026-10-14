@@ -5,7 +5,8 @@ import type { Gift } from '../types'
 import { Empty, Field, Help, PageHead, fail, toast } from '../ui'
 import { useDogsLite } from '../useDogsLite'
 import { sendCertificate } from '../certificate'
-import { fmtDate, waLink } from '../util'
+import { fmtDate } from '../util'
+import WaShare, { certUrl } from '../WaShare'
 import { localDate } from '../../lib/constants'
 
 const GIFT_STATUS: Record<Gift['status'], string> = { pending: 'ממתין לתשלום', paid: 'שולם', sent: 'נשלח', canceled: 'בוטל' }
@@ -23,6 +24,11 @@ const blank = (): Form => ({
 const giftMessage = (g: Gift) =>
   `היי ${g.recipient_name ?? ''}! 🎁\n${g.donors?.honor_name ?? 'מישהו שאוהב אותך'} העניק/ה לך מתנה מיוחדת: אימוץ וירטואלי של ${g.dogs?.name ?? 'אחד הכלבים'} מעמותת חיים של אחרים 🐾\n\n${g.greeting ? `"${g.greeting}"\n\n` : ''}במשך השנה הקרובה ${g.dogs?.name ?? 'הכלב'} ישלח לך עדכון פעם בחודש 💛`
 
+const giftWithCert = (g: Gift) =>
+  `${giftMessage(g)}\n\nתעודת האימוץ שלך${g.dogs?.thanks_video_url ? ` וסרטון תודה מ${g.dogs.name} 🎬` : ''}:\n${certUrl(g.id)}`
+const buyerMessage = (g: Gift) =>
+  `היי ${g.donors?.honor_name ?? ''}! 🎁\nתודה על המתנה המיוחדת ל${g.recipient_name ?? ''}: אימוץ וירטואלי של ${g.dogs?.name ?? 'אחד הכלבים'} 💛\n\nהנה תעודת המתנה:\n${certUrl(g.id)}\n\nבאהבה, עמותת חיים של אחרים 🐾`
+
 export default function Gifts() {
   const dogs = useDogsLite()
   const [list, setList] = useState<Gift[] | null>(null)
@@ -30,7 +36,7 @@ export default function Gifts() {
   const [err, setErr] = useState('')
 
   const refresh = async () => {
-    const { data, error } = await supabase.from('gifts').select('*, donors(*), dogs(id,slug,name,main_image)').order('send_at')
+    const { data, error } = await supabase.from('gifts').select('*, donors(*), dogs(id,slug,name,main_image,thanks_video_url)').order('send_at')
     setErr(error ? 'לא הצלחנו לטעון את המתנות. בדקו את החיבור לאינטרנט ונסו לרענן.' : '')
     setList((data ?? []) as Gift[])
   }
@@ -57,6 +63,11 @@ export default function Gifts() {
     if (!fail((await supabase.from('gifts').update({ status: g.sent_at ? 'sent' : 'paid' }).eq('id', g.id)).error, 'השחזור')) { toast('המתנה שוחזרה ✓'); refresh() }
   }
 
+  // sending on WhatsApp counts as "certificate sent" (same field as the email button)
+  const mark = async (g: Gift, field: 'certificate_sent_at' | 'recipient_certificate_sent_at') => {
+    if (g[field]) return
+    if (!fail((await supabase.from('gifts').update({ [field]: new Date().toISOString() }).eq('id', g.id)).error, 'הסימון')) refresh()
+  }
   const markSent = async (g: Gift) => {
     if (!fail((await supabase.from('gifts').update({ sent_at: new Date().toISOString(), status: 'sent' }).eq('id', g.id)).error, 'הסימון')) {
       toast('המתנה סומנה כנשלחה ✓ — מעכשיו היא תופיע גם בעדכונים החודשיים'); refresh()
@@ -92,7 +103,10 @@ export default function Gifts() {
   const set = <K extends keyof Form>(k: K, v: Form[K]) => setForm(f => f && { ...f, [k]: v })
 
   const card = (g: Gift, actions: boolean) => {
-    const wa = waLink(g.recipient_phone, giftMessage(g))
+    const toRecipient = (label: string, cls?: string) => (
+      <WaShare phone={g.recipient_phone} to={g.recipient_name ?? 'מקבל/ת המתנה'} dog={g.dogs?.name} certId={g.id} video={g.dogs?.thanks_video_url}
+        text={giftWithCert(g)} label={label} className={cls} sent={!!g.recipient_certificate_sent_at} onSent={() => mark(g, 'recipient_certificate_sent_at')} />
+    )
     return (
       <div key={g.id} className="ad-row clickable" role="button" tabIndex={0} onClick={() => edit(g)} onKeyDown={e => { if (e.key === 'Enter') edit(g) }}>
         {g.dogs?.main_image && <img className="ad-thumb" src={g.dogs.main_image} alt="" />}
@@ -105,6 +119,9 @@ export default function Gifts() {
         {(g.status === 'paid' || g.status === 'sent') && (
           <div className="ad-row-actions" onClick={e => e.stopPropagation()}>
             <a className="ad-btn sm ghost" href={`/certificate/${g.id}`} target="_blank" rel="noopener" title={g.certificate_sent_at ? `נשלחה ${fmtDate(g.certificate_sent_at)}` : 'עוד לא נשלחה'}>📜 תעודה</a>
+            {g.recipient_phone && toRecipient('💬 למקבל/ת')}
+            {g.donors?.phone && <WaShare phone={g.donors.phone} to={g.donors.honor_name ?? 'הקונה'} dog={g.dogs?.name} certId={g.id}
+              text={buyerMessage(g)} label="💬 לקונה" sent={!!g.certificate_sent_at} onSent={() => mark(g, 'certificate_sent_at')} />}
             <button className="ad-btn sm" title="שליחת התעודה לקונה במייל" onClick={async () => { const e = await sendCertificate(g.id); if (e) toast(e, true); else { toast('התעודה נשלחה לקונה במייל ✓'); refresh() } }}>📧 לקונה</button>
             {g.recipient_email && (
               <button className="ad-btn sm primary" title={g.recipient_certificate_sent_at ? `נשלחה ${fmtDate(g.recipient_certificate_sent_at)}` : 'שליחת התעודה והברכה ישירות למקבל/ת המתנה'}
@@ -116,7 +133,7 @@ export default function Gifts() {
         )}
         {actions && (
           <div className="ad-row-actions" onClick={e => e.stopPropagation()}>
-            {wa ? <a className="ad-btn wa" href={wa} target="_blank" rel="noopener">💬 שליחה</a> : <span className="ad-muted">חסר טלפון</span>}
+            {g.recipient_phone ? toRecipient('💬 שליחה', 'ad-btn wa') : <span className="ad-muted">חסר טלפון</span>}
             <button className="ad-btn ok" onClick={() => markSent(g)}>✓ נשלח</button>
           </div>
         )}

@@ -1,4 +1,4 @@
-export type DogLite = { id: string; slug: string; name: string; main_image: string | null }
+export type DogLite = { id: string; slug: string; name: string; main_image: string | null; thanks_video_url?: string | null }
 export type Donor = { id: string; honor_name: string | null; phone: string | null; email: string | null; source: string | null; consent_marketing: boolean; notes: string | null }
 export type Sponsorship = {
   id: string; donor_id: string; dog_id: string | null; tier: number | null

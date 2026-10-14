@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import type { Dog } from '../../lib/types'
-import { uploadImage } from '../image'
+import { VIDEO_MAX_MB, uploadImage, uploadVideo } from '../image'
 import { DEFAULT_FOCUS } from '../../lib/focus'
 import { Field, Help, PageHead, fail, toast } from '../ui'
 import { slugify } from '../util'
@@ -15,6 +15,7 @@ export default function DogEdit() {
   const [d, setD] = useState<D | null>(null)
   const [busy, setBusy] = useState(false)
   const [uploading, setUploading] = useState(0)
+  const [videoBusy, setVideoBusy] = useState(false)
   const [dirty, setDirty] = useState(false)
   const [missing, setMissing] = useState(false)
 
@@ -65,7 +66,7 @@ export default function DogEdit() {
     const { error } = await supabase.from('dogs').update({
       name: d.name, slug, age_text: d.age_text, tagline: d.tagline, story: d.story, main_image: d.main_image, gallery: photos,
       available_for_adoption: d.available_for_adoption, available_for_virtual: d.available_for_virtual,
-      available_for_gift: d.available_for_gift, active: d.active, image_focus: d.image_focus ?? null,
+      available_for_gift: d.available_for_gift, active: d.active, image_focus: d.image_focus ?? null, thanks_video_url: d.thanks_video_url ?? null,
     }).eq('id', d.id)
     setBusy(false)
     if (!fail(error, 'השמירה')) { toast('נשמר — האתר מתעדכן מיד ✓'); setD(x => x && { ...x, slug }); setDirty(false) }
@@ -118,6 +119,25 @@ export default function DogEdit() {
         </div>
       </div>
 
+      <div className="ad-box">
+        <h2 className="ad-h2">🎬 סרטון תודה</h2>
+        <p className="ad-hint">סרטון קצר של {d.name} שאומר תודה. נשלח בוואטסאפ למי שאימץ את {d.name} או קיבל אותו במתנה, ומופיע גם בדף התעודה. עד {VIDEO_MAX_MB}MB.</p>
+        {d.thanks_video_url && <video className="ad-video" src={d.thanks_video_url} controls playsInline preload="metadata" />}
+        <div className="ad-row-actions">
+          <label className="ad-btn">
+            <input type="file" accept="video/*" hidden onChange={async e => {
+              const f = e.target.files?.[0]; e.target.value = ''
+              if (!f) return
+              setVideoBusy(true)
+              try { set('thanks_video_url', await uploadVideo(f, `dogs/${d.slug}/video`)); toast('הסרטון הועלה — לא לשכוח ללחוץ שמירה') } catch (err) { toast(`העלאה נכשלה: ${(err as Error).message}`, true) }
+              setVideoBusy(false)
+            }} />
+            {videoBusy ? 'מעלה…' : d.thanks_video_url ? '🔄 החלפת סרטון' : '➕ העלאת סרטון'}
+          </label>
+          {d.thanks_video_url && <button className="ad-btn ghost" onClick={() => { if (confirm('להסיר את הסרטון?')) set('thanks_video_url', null) }}>🗑 הסרה</button>}
+        </div>
+      </div>
+
       {d.main_image && (
         <div className="ad-box">
           <h2 className="ad-h2">🎯 איפה הפנים של הכלב?</h2>
@@ -143,7 +163,7 @@ export default function DogEdit() {
       )}
 
       <div className="ad-sticky-save">
-        <button className="ad-btn primary big" onClick={save} disabled={busy || uploading > 0}>{busy ? 'שומר…' : '💾 שמירה'}</button>
+        <button className="ad-btn primary big" onClick={save} disabled={busy || uploading > 0 || videoBusy}>{busy ? 'שומר…' : '💾 שמירה'}</button>
         <button className="ad-btn ghost" onClick={() => { if (!dirty || confirm('יש שינויים שלא נשמרו. לצאת בלי לשמור?')) nav('/admin/dogs') }}>חזרה</button>
         {dirty && <span className="ad-unsaved">● יש שינויים שלא נשמרו</span>}
       </div>

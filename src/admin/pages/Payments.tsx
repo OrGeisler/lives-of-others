@@ -12,20 +12,25 @@ type Payment = {
   paid_at: string | null; created_at: string; dogs?: { name: string } | null
   source_link?: string | null; raw?: { paymentDesc?: string; transactionType?: string } | null
 }
+// Grow pages the site sends people to (matched by page title in grow-webhook); everything else is a general donation
+const SITE_KINDS = ['virtual', 'gift', 'birthday']
 const KIND: Record<string, string> = { virtual: 'אימוץ וירטואלי', gift: 'מתנה', birthday: 'יום הולדת', donation: 'תרומה', memorial: 'הנצחה', items: 'ציוד' }
 
 export default function Payments() {
   const dogs = useDogsLite()
   const [list, setList] = useState<Payment[] | null>(null)
+  const [all, setAll] = useState(false) // default: only the site's own Grow pages
   const [match, setMatch] = useState<Payment | null>(null)
   const [dogId, setDogId] = useState('')
   const [tier, setTier] = useState(50)
 
   const refresh = async () => {
-    const { data } = await supabase.from('payments').select('*, dogs(name)').order('needs_review', { ascending: false }).order('created_at', { ascending: false }).limit(200)
+    let q = supabase.from('payments').select('*, dogs(name)')
+    if (!all) q = q.in('kind', SITE_KINDS)
+    const { data } = await q.order('needs_review', { ascending: false }).order('created_at', { ascending: false }).limit(200)
     setList((data ?? []) as Payment[])
   }
-  useEffect(() => { refresh() }, [])
+  useEffect(() => { refresh() }, [all]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Candidates a payment can be linked to: adoptions/gifts that filled our form but are still waiting for payment
   type Cand = { id: string; label: string; sub: string; phone: string | null }
@@ -60,9 +65,13 @@ export default function Payments() {
     <>
       <PageHead title="תשלומים" />
       <Help>
-        כל תשלום שמגיע מ-Grow נרשם כאן אוטומטית — כולל תרומות כלליות מאתר התרומות.
-        כשהמערכת לא יודעת לשייך תשלום לבד — הוא מופיע למעלה עם <b>"צריך שיוך"</b>, ובוחרים אם זה אימוץ וירטואלי (ולאיזה כלב) או תרומה רגילה.
+        כאן מופיעים התשלומים מדפי התשלום <b>שהאתר שולח אליהם</b>: אימוץ וירטואלי, אימוץ במתנה ויום הולדת.
+        כשהמערכת לא יודעת לשייך תשלום לבד — הוא מופיע למעלה עם <b>"צריך שיוך"</b>, ובוחרים לאיזה אימוץ או מתנה הוא שייך.
       </Help>
+      <div className="ad-filters">
+        <button className={`ad-btn sm${all ? ' ghost' : ' primary'}`} onClick={() => setAll(false)}>מדפי האתר</button>
+        <button className={`ad-btn sm${all ? ' primary' : ' ghost'}`} onClick={() => setAll(true)}>כל התשלומים מ-Grow (כולל תרומות כלליות)</button>
+      </div>
       {!list ? <p>טוען…</p> : list.length === 0 ? <Empty>עדיין אין תשלומים.</Empty> : (
         <div className="ad-list">
           {list.map(p => (

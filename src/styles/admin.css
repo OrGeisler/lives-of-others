@@ -169,3 +169,4 @@
 
 .ad-linkrow { display: flex; gap: 8px; align-items: center; }
 .ad-linkrow input { flex: 1; }
+.ad-video { width: 100%; max-width: 420px; max-height: 360px; border-radius: 12px; background: #000; display: block; margin: 8px 0; }
