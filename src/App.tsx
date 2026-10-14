@@ -1,8 +1,9 @@
-import { lazy, Suspense } from 'react'
+import { Suspense } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 import { useTitle } from './lib/pagesData'
+import { PageErrorBoundary, lazyPage as lazy } from './lib/staleChunks'
 
 // Everything except the home page is loaded on demand (smaller first load). Admin is never loaded by visitors.
 const DogPage = lazy(() => import('./pages/DogPage'))
@@ -37,7 +38,7 @@ function NotFound() {
   return <div className="wrap" style={{ padding: '80px 0', textAlign: 'center' }}><h1>העמוד לא נמצא 🐾</h1><a href="/">לעמוד הבית ←</a></div>
 }
 
-const page = (el: React.ReactNode) => <Suspense fallback={<div style={{ minHeight: '60vh' }} />}>{el}</Suspense>
+const page = (el: React.ReactNode) => <PageErrorBoundary><Suspense fallback={<div style={{ minHeight: '60vh' }} />}>{el}</Suspense></PageErrorBoundary>
 
 export default function App() {
   return (
