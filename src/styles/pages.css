@@ -116,3 +116,7 @@
 .legal .toc { background: var(--cream); border-radius: 14px; padding: 16px 22px; margin: 0 0 24px; }
 .legal .toc a { display: inline-block; margin: 4px 10px 4px 0; font-weight: 600; }
 .legal .placeholder { background: #FFF4CE; color: #7a5b00; border-radius: 6px; padding: 1px 6px; font-weight: 700; }
+/* 13.10 gift gallery: "רוצה להכיר אותי יותר?", and room for the bow so it doesn't cover the chosen dog's name */
+.gdog-body .gdog-more { background: none; border: 0; padding: 0; color: #E0678F; font: 800 15.5px 'Assistant', sans-serif; cursor: pointer; text-decoration: underline; align-self: flex-start; }
+.gift-sec .gift-pay .gb-chosen { margin-bottom: 44px; }
+.dog-age-end { font-weight: 800; color: #E0678F; }

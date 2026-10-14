@@ -37,7 +37,6 @@ export default function DonatePage() {
           <p>מאחורי כל פרצוף כאן יש סיפור של נטישה — ושל הצלה. התרומה שלכם היא האוכל, הטיפול והבית שלהם, כל יום מחדש.</p>
           <div className="dn-cta">
             <a className="btn dn-main" href={DONATE_URL} target="_blank" rel="noopener">לתרומה מאובטחת ❤</a>
-            <Link className="btn dn-second" to="/virtual-adoption">לאמץ כלב וירטואלית</Link>
           </div>
         </div>
       </section>

@@ -1,9 +1,10 @@
-import { WAZE_SHELTER } from '../../lib/constants'
+import { useState } from 'react'
+import { MAPS_SHELTER, WAZE_SHELTER } from '../../lib/constants'
+import { VOLUNTEER_STORIES } from '../../lib/volunteerStories'
 // Static home-page sections, converted 1:1 from the static site (index.html on main).
 // Texts are kept verbatim; dynamic sections (team, memorials, dogs, birthday, counters, contact) live in their own files.
 import { Link } from 'react-router-dom'
 import { DONATE_URL, GROW_ITEMS, WA_ADOPT, wa } from '../../lib/links'
-import AngelButton from './AngelButton'
 
 export function Story() {
   return (
@@ -15,6 +16,7 @@ export function Story() {
         </div>
 
         <div className="story-copy reveal">
+          <h2>בדרך להתחלה חדשה</h2>
           <p className="story-lead">יש רגע אחד שבו הכלב מבין שהוא נשאר לבד. זהו רגע שבו האמון נשבר והלב שלו נסגר.</p>
           <p><strong>בעמותת חיים של אחרים אנחנו נלחמים להצלת כלבים מהשטח</strong>, ופועלים כדי שהרגע הזה לא יהיה סוף הסיפור שלהם — אלא רק שלב בדרך להתחלה חדשה.</p>
           {/* 24.9: כפתור תרומה אחד. הטקסט הסופי ("לתרומה לשיקום של...") ייקבע כשיגיע הסרטון הערוך של ברי */}
@@ -57,13 +59,7 @@ export function Unique() {
       <section className="unique">
         <h2 className="reveal">מה מייחד את עמותת חיים של אחרים</h2>
         <p className="reveal"><strong>במקום כלובים — בתים.</strong> בפרויקט הדגל הייחודי שלנו אנחנו משכנים את הכלבים <strong>בבתים קסומים</strong>. הבתים הקסומים הם פרויקט הנצחה לזכר יקירים שנפלו ונרצחו במלחמת ה־7 באוקטובר — בבתים אלו מורשתם של סמ״ר עדי צור, רס״ם במילואים יאיר כץ ושני גבאי ממשיכה לחיות דרך הצלת כלבים ונתינה לבעלי חיים.</p>
-        {/* 24.9 עמ' 5: כאן ייכנס "סרטון דבורה – במקום כלובים בתים" (ממתינים לקובץ). ערוץ 12 עבר לעמוד הראשי */}
-        <div className="cta-row reveal" style={{ justifyContent: 'center' }}>
-          <Link to="/dogs" className="btn btn-orange">אני רוצה לאמץ כלב</Link>
-          <Link to="/donate" className="btn btn-gold">אני רוצה לתרום</Link>
-          <Link to="/volunteer" className="btn btn-green">אני רוצה להתנדב</Link>
-        </div>
-        <AngelButton className="reveal" />
+        {/* 13.10: כאן ייכנס "סרטון דבורה – במקום כלובים בתים" (ממתינים לקובץ). 4 כפתורי הפעולה הוסרו לבקשת העמותה */}
       </section>
     </>
   )
@@ -156,11 +152,11 @@ export function Volunteer() {
         <div className="wrap volunteer">
           <div className="section-head reveal">
             <h2>אנחנו צריכים אתכם</h2>
-            <p>רוצים להתנדב אצלנו? הכלבים שלנו מחכים לכם — מחכים שהשער ייפתח, שייצאו לטייל במרחב הפתוח ויזכו בליטוף. עבורם, טיול אתכם הוא השיא של היום; ועבורכם, הזדמנות מושלמת להתנתק מהשגרה, למלא את הלב ולחזור הביתה עם חיוך.</p>
+            <p>רוצים להתנדב אצלנו? הכלבים שלנו מחכים לכם — מחכים שהשער ייפתח, שייצאו לטייל במרחב הפתוח ויזכו בליטוף. עבורם, טיול אתכם הוא השיא של היום. ועבורכם, הזדמנות מושלמת להתנתק מהשגרה, למלא את הלב ולחזור הביתה עם חיוך.</p>
           </div>
           <img className="vol-banner reveal" src="/assets/img/dog-pil-1.jpg" alt="פיל מחכה למתנדבים" style={{ objectPosition: "50% 17%" }} />
           <div className="vol-info reveal">
-            <div className="vol-info-card"><span className="vol-icon">📍</span><strong>איפה?</strong><p>בית המחסה של עמותת חיים של אחרים, רמת אפעל.<br /><span className="vol-map-note">🗺️ בוויז חפשו: <a href={WAZE_SHELTER} target="_blank" rel="noopener"><strong>״הבית הקסום ע״ש עדי צור״</strong></a></span></p></div>
+            <div className="vol-info-card"><span className="vol-icon">📍</span><strong>איפה?</strong><p>בית המחסה של עמותת חיים של אחרים, רמת אפעל.<br /><span className="vol-map-note">🗺️ <strong>הבית הקסום לזכרו של סמ״ר עדי צור</strong> · ניווט: <a href={WAZE_SHELTER} target="_blank" rel="noopener">Waze</a> · <a href={MAPS_SHELTER} target="_blank" rel="noopener">Google Maps</a></span></p></div>
             <div className="vol-info-card"><span className="vol-icon">🗓️</span><strong>מתי?</strong><p>בכל ימות השבוע, בתיאום מראש.</p></div>
             <div className="vol-info-card"><span className="vol-icon">👥</span><strong>למי זה מתאים?</strong><p>מתנדבים מגיל 16 ומעלה. בימי שבת יוצאים טיולים משפחתיים המשלבים הורים וילדים.</p></div>
           </div>
@@ -172,13 +168,36 @@ export function Volunteer() {
               <li>ניתן ואפילו מומלץ להביא חטיפי כלבים ולפנק אותנו במהלך הטיול.</li>
             </ul>
           </div>
+          <VolunteerStories />
           <div className="vol-cta reveal">
             <a className="btn btn-green" href={wa(WA_ADOPT, 'היי! אני רוצה להתנדב בעמותת חיים של אחרים 🐾')} target="_blank" rel="noopener">אני רוצה להתנדב</a>
           </div>
-          <p className="vol-more reveal">רוצים לעזור בתחומים נוספים — שיווק, גיוס תרומות, או שיפוץ ותחזוקה של הבתים שלנו? <Link to="/contact">מלאו את הפרטים וציינו כיצד תרצו לעזור ←</Link></p>
+          <div className="vol-more reveal">
+            <p>רוצים לעזור בתחומים נוספים — שיווק, גיוס תרומות, או שיפוץ ותחזוקה של הבתים שלנו? <strong>העזרה שלכם יכולה לשנות לכלבים את החיים</strong></p>
+            <Link to="/contact" className="btn btn-gold">ספרו לנו איך תרצו לעזור ←</Link>
+          </div>
         </div>
       </section>
     </>
+  )
+}
+
+function VolunteerStories() {
+  const [all, setAll] = useState(false)
+  const shown = all ? VOLUNTEER_STORIES : VOLUNTEER_STORIES.slice(0, 3)
+  return (
+    <div className="vol-stories reveal">
+      <h3>מה המתנדבים שלנו מספרים 💬</h3>
+      <div className="vol-stories-grid">
+        {shown.map(s => (
+          <figure key={s.name} className="vol-story">
+            <blockquote>{s.text}</blockquote>
+            <figcaption>— {s.name}</figcaption>
+          </figure>
+        ))}
+      </div>
+      {!all && <button type="button" className="btn btn-outline-green" onClick={() => setAll(true)}>לסיפורים נוספים ({VOLUNTEER_STORIES.length - 3}) ↓</button>}
+    </div>
   )
 }
 

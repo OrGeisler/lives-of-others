@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { VaAccordions, VaTiers } from '../components/VirtualAdoptionDetails'
 import { WA_ADOPT, wa } from '../lib/links'
 import { useVirtualDogs } from '../lib/checkout'
-import { WAZE_SHELTER } from '../lib/constants'
+import { MAPS_SHELTER, WAZE_SHELTER } from '../lib/constants'
 import '../styles/checkout.css'
 import { useTitle } from '../lib/pagesData'
 import '../styles/pages.css'
@@ -60,29 +60,24 @@ export default function VirtualAdoption() {
         </div>
       </section>
 
-      <section className="va-gift">
-        <div className="va-gift-inner" style={{ textAlign: 'center' }}>
-          <div className="section-head reveal"><h2>רוצים להעניק את זה במתנה? 🎁</h2><p>אימוץ וירטואלי של אחד הכלבים שלנו — מתנה מרגשת עם משמעות.</p></div>
-          <Link className="btn btn-gold" to="/gift-adoption">לאימוץ במתנה ←</Link>
-        </div>
-      </section>
-
       <section className="va-visit">
         <div className="va-visit-inner">
           <h2>בואו להכיר את הכלב שלכם 🐾</h2>
-          <p>מלווים כלב וירטואלית? אתם מוזמנים לבוא לבקר ולטייל איתו בבית המחסה ברמת אפעל — בתיאום מראש.</p>
+          <p>מלווים כלב וירטואלית? אתם מוזמנים לבוא לבקר ולטייל איתו בבית המחסה — בתיאום מראש.</p>
           <div className="va-visit-actions">
             <a className="btn btn-gold" href={wa(WA_ADOPT, 'היי! אני מלווה כלב וירטואלית ואשמח לתאם ביקור בבית המחסה 🐾')} target="_blank" rel="noopener">💬 קבעו ביקור בוואטסאפ</a>
             <a className="btn btn-outline-green" href={WAZE_SHELTER} target="_blank" rel="noopener">🗺️ ניווט בוויז</a>
+            <a className="btn btn-outline-green" href={MAPS_SHELTER} target="_blank" rel="noopener">📍 Google Maps</a>
           </div>
         </div>
       </section>
 
-      <section className="va-newsletter">
-        <div className="va-newsletter-inner reveal">
-          <h2>רוצים לקבל עדכונים? 💌</h2>
-          <p>הישארו מעודכנים בסיפורי הצלה, אימוצים מרגשים ורגעים קטנים של אושר — היישר לוואטסאפ שלכם.</p>
-          <a className="btn btn-gold" href={wa(WA_ADOPT, 'היי! אשמח להצטרף לרשימת העדכונים של העמותה 💌')} target="_blank" rel="noopener">הוסיפו אותי לרשימת העדכונים ←</a>
+      {/* 13.10: "רוצים לקבל עדכונים?" removed: nobody to manage the list for now */}
+      {/* 13.10: new wording, moved to the end of the page */}
+      <section className="va-gift">
+        <div className="va-gift-inner" style={{ textAlign: 'center' }}>
+          <div className="section-head reveal"><h2>רוצה להעניק מתנה מרגשת לאדם אהוב? 🎁</h2></div>
+          <Link className="btn btn-gold" to="/gift-adoption">לאימוץ במתנה ←</Link>
         </div>
       </section>
     </>

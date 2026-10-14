@@ -3,6 +3,7 @@ import Carousel from '../components/Carousel'
 import { WA_ADOPT, wa } from '../lib/links'
 import { useDog } from '../lib/data'
 import { useTitle } from '../lib/pagesData'
+import { ageLabel } from '../lib/dogAge'
 
 
 // Full-page dog profile (replaces the modal; 24.9 item 7.1, Freedom-Farm style)
@@ -22,8 +23,9 @@ export default function DogPage() {
       <div className="dog-page-body dog-modal-body">
         <Link to="/dogs" className="dog-page-back">→ לכל הכלבים</Link>
         <h1>{dog.name}</h1>
-        <p className="dog-modal-meta">{[dog.tagline, dog.age_text].filter(Boolean).join(' · ')}</p>
+        {dog.tagline && <p className="dog-modal-meta">{dog.tagline}</p>}
         {dog.story?.split(/\n\s*\n/).map((p, i) => <p key={i}>{p}</p>)}
+          {ageLabel(dog) && <p className="dog-age-end">🐾 {dog.name} {ageLabel(dog)}</p>}
         <div className="dog-modal-actions">
           {dog.available_for_adoption && <a className="btn btn-orange" href={wa(WA_ADOPT, `היי! אני רוצה לאמץ את ${dog.name} 🐾`)} target="_blank" rel="noopener">אמצו אותי</a>}
           {dog.available_for_virtual && <Link className="btn btn-gold" to={`/virtual-adoption/${dog.slug}`}>להיות המלאך השומר שלי – אימוץ וירטואלי</Link>}

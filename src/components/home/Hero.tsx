@@ -13,6 +13,13 @@ export default function Hero() {
     if (v.paused) v.play().catch(() => {}); else v.pause() // state follows the video's own play/pause events
   }
 
+  const restart = () => {
+    const v = video.current
+    if (!v) return
+    v.currentTime = 0
+    v.play().catch(() => {})
+  }
+
   const toggleSound = () => {
     const v = video.current
     if (!v) return
@@ -54,19 +61,17 @@ export default function Hero() {
               <video onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} ref={video} autoPlay muted loop playsInline preload="auto" poster="/assets/img/channel12-poster.jpg" aria-label="הכתבה ששודרה בערוץ 12">
                 <source src="/assets/video/channel12.mp4" type="video/mp4" />
               </video>
-              <div className="tv-controls">
-                <button className="tv-sound" type="button" aria-pressed={!playing} onClick={togglePlay}>
-                  {playing ? '⏸ עצירה' : '▶ הפעלה'}
-                </button>
-                <button className="tv-sound" type="button" aria-pressed={soundOn} onClick={toggleSound}>
-                  {soundOn ? '🔇 השתקה' : '🔊 להפעלת קול'}
-                </button>
-              </div>
             </div>
-            <div className="tv-panel" aria-hidden="true"><span className="tv-knob"></span><span className="tv-knob"></span><span className="tv-grill"></span></div>
+            {/* 13.10: the controls are the TV's knobs, so nothing covers the picture or the subtitles */}
+            <div className="tv-panel">
+              <button className="tv-knob tv-btn" type="button" onClick={togglePlay} aria-label={playing ? 'עצירה' : 'הפעלה'} title={playing ? 'עצירה' : 'הפעלה'}>{playing ? '⏸' : '▶'}</button>
+              <button className="tv-knob tv-btn" type="button" onClick={toggleSound} aria-pressed={soundOn} aria-label={soundOn ? 'השתקה' : 'הפעלת קול'} title={soundOn ? 'השתקה' : 'הפעלת קול'}>{soundOn ? '🔊' : '🔇'}</button>
+              <button className="tv-knob tv-btn" type="button" onClick={restart} aria-label="מההתחלה" title="מההתחלה">⏮</button>
+              <span className="tv-grill" aria-hidden="true"></span>
+            </div>
           </div>
           <div className="tv-legs" aria-hidden="true"><span></span><span></span></div>
-          <figcaption className="tv-caption">📺 הכתבה ששודרה בערוץ 12</figcaption>
+          <figcaption className="tv-caption">📺 הכתבה ששודרה בערוץ 12 · הכפתורים בצד הטלוויזיה: הפעלה, קול ומההתחלה</figcaption>
         </figure>
       </section>
       {/* wave divider into rescue-numbers */}

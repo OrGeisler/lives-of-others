@@ -50,7 +50,7 @@ export default function Certificate() {
   return (
     <div className={`cert-page${pdf ? ' pdf' : ''}`} dir="rtl" lang="he">
       <div className="cert-fit" style={pdf ? undefined : { width: 1123 * scale, height: 794 * scale }}>
-      <article className="cert" style={pdf || scale === 1 ? undefined : { transform: `scale(${scale})` }}>
+      <article className={`cert${gift ? ' cert-gift' : ''}`} style={pdf || scale === 1 ? undefined : { transform: `scale(${scale})` }}>
         <div className="cert-frame">
           <span className="cert-corner tl" /><span className="cert-corner tr" /><span className="cert-corner bl" /><span className="cert-corner br" />
           <header className="cert-head">
@@ -70,7 +70,7 @@ export default function Certificate() {
               </p>
               <div className="cert-dog">{c.dog}</div>
               {gift && c.from && <p className="cert-from">אימוץ במתנה, באהבה מ{c.from}</p>}
-              {gift && c.greeting && <p className="cert-greeting">"{c.greeting}"</p>}
+              {gift && c.greeting && <p className={`cert-greeting${c.greeting.length > 260 ? ' xl' : c.greeting.length > 130 ? ' l' : ''}`}>"{c.greeting}"</p>}
               {!gift && <p className="cert-thanks">בזכותך {c.dog} זוכה לקורת גג בטוחה, מזון איכותי, טיפול רפואי וים של אהבה — עד שימצא בית של ממש.</p>}
             </div>
             <div className="cert-photo">

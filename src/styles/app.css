@@ -144,3 +144,7 @@ img[src$="/memorial-yair-bruce.jpg"] { object-position: 50% 25% !important; }
   .wa-float-wrap .wa-float { width: 48px; height: 48px; }
   .wa-float-wrap .wa-float svg { width: 24px; height: 24px; }
 }
+/* 13.10: dog card caption = pink tagline (like the virtual-adoption gallery); age at the end of the story */
+.dog-name-row .dog-meta.dog-tag { color: #E0678F; font-weight: 700; font-size: 14.5px; }
+.dog-modal-body .dog-age-end { font-weight: 800; color: #E0678F; }
+.dog-card-body .dog-name-row { flex-wrap: wrap; row-gap: 2px; }
