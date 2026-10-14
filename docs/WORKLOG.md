@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-10-14 · Or+Claude · Payments "מדפי האתר" also shows the site's general donation page ("עמוד תרומה כללי- אתר" → kind site_donation), memorial pages and equipment page; never flagged for matching.
 - 2026-10-14 · Or+Claude · WhatsApp send window in admin (sponsors, gifts, birthday thanks): editable message with certificate link + share the certificate image / thank-you video as files from a phone. Dog thank-you video (DogEdit), shown on the certificate page; certificate link preview (og) for WhatsApp; /api/certificate-pdf?format=jpg. Payments page shows only the site's Grow pages; other pages never need matching. Dashboard: birthday gifts awaiting thanks.
 - 2026-10-14 · Or+Claude · White screen on link click after a deploy (stale lazy chunks 404): reload once on chunk-load failure + page error boundary with a refresh button.
 - 2026-10-13 · Or+Claude · AI search (GEO): public/llms.txt, richer NGO JSON-LD (ע"ר, founders, 2016, Ramat Efal, phone), FAQ (FAQPage JSON-LD + static text) on / and /about, English facts on /en. Facts only from site copy.
