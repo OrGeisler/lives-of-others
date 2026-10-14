@@ -19,7 +19,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       `<title>${esc(title)}</title>`, `<meta name="robots" content="noindex" />`,
       `<meta property="og:title" content="${esc(title)}" />`, `<meta property="og:description" content="${esc(desc)}" />`,
       `<meta property="og:url" content="${SITE}/certificate/${id}" />`,
-      cert.image ? `<meta property="og:image" content="${esc(cert.image)}" />` : '',
+      cert.image ? `<meta property="og:image" content="${esc(cert.image.startsWith('http') ? cert.image : SITE + cert.image)}" />` : '',
     ].join('\n    ')
     html = shell.replace(/<title>[\s\S]*?<\/title>/, '').replace(/\s*<meta (name="description"|property="og:[a-z]+")[^>]*>/g, '').replace('</head>', `    ${tags}\n  </head>`)
   }
