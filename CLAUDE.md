@@ -47,7 +47,8 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 5. Test mode: add `?test=1` to any site URL → forms go to the Grow test page.
 - Grow custom fields (e.g. dog name) are NOT in the webhook payload.
 - Only the site's own pages (virtual/gift/birthday/test) are matched or flagged "צריך שיוך"; any other Grow page
-  (general donations, memorials, campaigns) is stored as `donation` with no review. Payments page filters to the site's kinds.
+  is never flagged. Site-linked donation pages get kinds by title (`DONATION_PAGES`: site_donation / memorial / items);
+  any other page is `donation`. Payments page "מדפי האתר" = all site kinds. paymentDesc = the Grow page "title".
 
 ## Rules & gotchas
 - Secrets never in git or chat. Each dev gets their own Supabase/Resend access; `VITE_*` keys are public.

@@ -13,8 +13,8 @@ type Payment = {
   source_link?: string | null; raw?: { paymentDesc?: string; transactionType?: string } | null
 }
 // Grow pages the site sends people to (matched by page title in grow-webhook); everything else is a general donation
-const SITE_KINDS = ['virtual', 'gift', 'birthday']
-const KIND: Record<string, string> = { virtual: 'אימוץ וירטואלי', gift: 'מתנה', birthday: 'יום הולדת', donation: 'תרומה', memorial: 'הנצחה', items: 'ציוד' }
+const SITE_KINDS = ['virtual', 'gift', 'birthday', 'site_donation', 'memorial', 'items']
+const KIND: Record<string, string> = { virtual: 'אימוץ וירטואלי', gift: 'מתנה', birthday: 'יום הולדת', donation: 'תרומה (דף אחר ב-Grow)', site_donation: 'תרומה מהאתר', memorial: 'הנצחה', items: 'תרומה לציוד' }
 
 export default function Payments() {
   const dogs = useDogsLite()
@@ -65,7 +65,7 @@ export default function Payments() {
     <>
       <PageHead title="תשלומים" />
       <Help>
-        כאן מופיעים התשלומים מדפי התשלום <b>שהאתר שולח אליהם</b>: אימוץ וירטואלי, אימוץ במתנה ויום הולדת.
+        כאן מופיעים התשלומים מדפי התשלום <b>שהאתר שולח אליהם</b>: אימוץ וירטואלי, אימוץ במתנה, יום הולדת, דף התרומה הכללי, ההנצחות ותרומה לציוד.
         כשהמערכת לא יודעת לשייך תשלום לבד — הוא מופיע למעלה עם <b>"צריך שיוך"</b>, ובוחרים לאיזה אימוץ או מתנה הוא שייך.
       </Help>
       <div className="ad-filters">

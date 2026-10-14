@@ -18,6 +18,12 @@ const ITEM_KIND: [RegExp, 'virtual' | 'gift' | 'birthday' | 'test'][] = [
   [/יום הולדת/, 'birthday'],
   [/המלאך השומר|אימוץ וירטואלי/, 'virtual'],
 ]
+// Other Grow pages the site links to (donate page, memorial houses, equipment): shown in the admin, never matched
+const DONATION_PAGES: [RegExp, 'site_donation' | 'memorial' | 'items'][] = [
+  [/^עמוד תרומה כללי.*אתר/, 'site_donation'],
+  [/^פרויקט הנצחה/, 'memorial'],
+  [/^תרומה כללית - הוראת קבע$/, 'items'],
+]
 const pageKind = (b: Record<string, string>) => {
   for (const v of Object.values(b)) for (const [ref, kind] of Object.entries(PAGE_REFS)) if (v === ref) return kind
   const desc = pick(b, 'paymentDesc', 'productData.0.name', 'description') ?? ''
@@ -127,7 +133,11 @@ Deno.serve(async req => {
 
   // Only the site's own Grow pages (adoption / gift / birthday / test) are ever matched or flagged.
   // Every other page (general donations, memorial pages, campaigns) is a regular donation, no review.
-  if (!page) row.needs_review = false
+  if (!page) {
+    row.needs_review = false
+    const desc = pick(b, 'paymentDesc') ?? ''
+    row.kind = DONATION_PAGES.find(([re]) => re.test(desc))?.[1] ?? 'donation'
+  }
   else if (row.needs_review) row.kind = page // ours but not matched yet: keep which page it came from
 
   // Insert first (unique grow_transaction_id): if a parallel duplicate won the race, skip the side effects.
