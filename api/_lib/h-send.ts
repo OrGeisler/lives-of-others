@@ -1,13 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { createClient } from '@supabase/supabase-js'
-import { certificatePdf } from './_lib/pdf.js'
-import { SITE, birthdayThanksEmail, certificateEmail } from './_lib/notify.js'
+import { certificatePdf } from './pdf.js'
+import { SITE, birthdayThanksEmail, certificateEmail } from './notify.js'
 
 // POST, authorized by header x-internal-secret (grow-webhook, automatic) or a staff JWT (admin 📧 buttons).
 //   { id, to?: 'recipient', auto?: true }  → certificate email (virtual → adopter; gift → buyer or recipient)
 //   { payment_id, kind: 'birthday', auto?: true } → birthday thank-you email
 // auto = skip if already sent. Email texts live in ./_lib/notify.ts.
-export const config = { maxDuration: 60 }
 
 const db = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!, { auth: { persistSession: false } })
 
