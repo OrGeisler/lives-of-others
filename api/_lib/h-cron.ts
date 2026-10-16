@@ -1,10 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { createClient } from '@supabase/supabase-js'
-import { certificateEmail } from './_lib/notify.js'
+import { certificateEmail } from './notify.js'
 
 // Daily 09:00 (Israel) Vercel cron: email the gift recipients whose chosen day has come (if they left an email).
 // The WhatsApp to the recipient stays a staff click (admin → מתנות → לשליחה היום). Test payments are skipped.
-export const config = { maxDuration: 300 }
 
 const db = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!, { auth: { persistSession: false } })
 

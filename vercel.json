@@ -14,6 +14,18 @@
   ],
   "rewrites": [
     {
+      "source": "/api/certificate-pdf",
+      "destination": "/api/cert?op=pdf"
+    },
+    {
+      "source": "/api/send-certificate",
+      "destination": "/api/cert?op=send"
+    },
+    {
+      "source": "/api/cron-gift-recipients",
+      "destination": "/api/cert?op=cron"
+    },
+    {
       "source": "/certificate/:id",
       "destination": "/api/certificate-og?id=:id"
     },
@@ -23,15 +35,7 @@
     }
   ],
   "functions": {
-    "api/send-certificate.ts": {
-      "maxDuration": 60,
-      "memory": 1024
-    },
-    "api/certificate-pdf.ts": {
-      "maxDuration": 60,
-      "memory": 1024
-    },
-    "api/cron-gift-recipients.ts": {
+    "api/cert.ts": {
       "maxDuration": 300,
       "memory": 1024
     }

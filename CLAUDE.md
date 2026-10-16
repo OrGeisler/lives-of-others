@@ -15,6 +15,8 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - Supabase (project `faycqdiwkafubfmnoazw`, eu-central-1): Postgres + RLS, Auth, Storage bucket `media`,
   edge functions `checkout`, `grow-webhook` (`supabase/functions`).
 - Vercel: SPA + serverless `api/` (certificate PDF via puppeteer-core + @sparticuz/chromium; email via Resend).
+  Everything that needs Chromium is ONE function, `api/cert.ts` (handlers in `api/_lib/h-*.ts`; old URLs kept by
+  vercel.json rewrites). Never add another Chromium function: each deploy stores ~70MB per one (free 10GB quota).
 - Payments: Grow payment links (no API yet). Receipts: Grow/Morning.
 
 ## Layout
@@ -57,8 +59,8 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - `style.css` loads after page CSS: overrides often need a more specific selector.
 - Dog photos: crop keeps the face (`dogs.image_focus`, set in admin "איפה הפנים"); default 50% 18%.
 - Admin login is a TEMPORARY shared password (see Issues): replace with per-person logins before real donor data.
-- Emails are automatic (texts in `api/_lib/notify.ts`): grow-webhook → `/api/send-certificate` with `auto` after a paid,
-  non-test payment; gift recipients by the daily Vercel cron `api/cron-gift-recipients` (CRON_SECRET). WhatsApp stays manual.
+- Emails are automatic (texts in `api/_lib/notify.ts`): grow-webhook → `/api/send-certificate` (= `api/cert.ts?op=send`) with `auto` after a paid,
+  non-test payment; gift recipients by the daily Vercel cron `/api/cron-gift-recipients` (CRON_SECRET). WhatsApp stays manual.
 - WhatsApp from admin: `src/admin/WaShare.tsx` (wa.me = text only; files go via the phone's share sheet).
   Marking "sent" there sets the same `*_certificate_sent_at` fields as the email button.
 - supabase-js queries are lazy: a fire-and-forget `void supabase.from(...).insert()` never runs. Always `await` or `.then()`.

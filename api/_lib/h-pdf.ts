@@ -1,10 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { createClient } from '@supabase/supabase-js'
-import { certificatePdf } from './_lib/pdf.js'
+import { certificatePdf } from './pdf.js'
 
 // GET /api/certificate-pdf?id=<uuid>[&format=jpg] — public download of a (paid) certificate as an A4-landscape PDF.
 // The id is an unguessable uuid and get_certificate only returns paid/active certificates.
-export const config = { maxDuration: 60 }
 
 const db = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!, { auth: { persistSession: false } })
 const SITE = process.env.SITE_URL || 'https://lives-of-others.com'
