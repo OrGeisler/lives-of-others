@@ -30,6 +30,16 @@
     "api/certificate-pdf.ts": {
       "maxDuration": 60,
       "memory": 1024
+    },
+    "api/cron-gift-recipients.ts": {
+      "maxDuration": 300,
+      "memory": 1024
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/cron-gift-recipients",
+      "schedule": "0 6 * * *"
+    }
+  ]
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { Help, PageHead } from '../ui'
+import SentGuide from '../SentGuide'
 import { HE_MONTHS, monthStart, shekel } from '../util'
 
 type Stats = { inbox: number; certs: number; active: number; monthly: number; toSend: number; giftsToday: number; bdThanks: number; review: number; failed: number; stalePending: number; bday: string | null }
@@ -49,6 +50,7 @@ export default function Dashboard() {
     <>
       <PageHead title="שלום 👋" />
       <Help>זה המסך הראשי. הכרטיסים הצבעוניים מראים <b>מה מחכה לטיפול</b>. לחיצה על כרטיס מעבירה למסך המתאים.</Help>
+      <SentGuide />
       {err ? <p className="ad-error">לא הצלחנו לטעון את הנתונים. בדקו את החיבור לאינטרנט ונסו לרענן את העמוד.</p> : !s ? <p>טוען…</p> : (
         <div className="ad-cards">
           <Link to="/admin/to-send" className={`ad-card${s.toSend ? ' alert' : ' ok'}`}>

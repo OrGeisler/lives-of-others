@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-10-16 · Or+Claude · Automatic emails: certificate to adopter / gift buyer and birthday thanks right after payment (grow-webhook → /api/send-certificate, auto = never twice, never for tests); gift recipient email by daily cron on the chosen day. Every email says a WhatsApp is coming. Dashboard "📬 מה נשלח לבד" guide.
 - 2026-10-14 · Or+Claude · Nonprofit comments 13.10: About order + "בדרך להתחלה חדשה", TV 4:3 with controls on the knobs + restart, dog age "בן/בת" at story end + pink tagline captions (dogs.sex), gift gallery 9 dogs + "רוצה להכיר אותי יותר?", gift recipient phone required, gift message in their wording, certificate greeting never under the stamp, volunteer stories + bigger text + shelter pin, terms 3.1 (not §46) + Tali contact, removed newsletter banner and donate-page virtual button, new dogs as inactive drafts.
 - 2026-10-14 · Or+Claude · Contact form never saved to admin פניות: `void supabase...insert()` is never sent (lazy builder). Now `.then()`.
 - 2026-10-14 · Or+Claude · Payments "מדפי האתר" also shows the site's general donation page ("עמוד תרומה כללי- אתר" → kind site_donation), memorial pages and equipment page; never flagged for matching.

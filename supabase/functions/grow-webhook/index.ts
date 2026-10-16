@@ -141,7 +141,7 @@ Deno.serve(async req => {
   else if (row.needs_review) row.kind = page // ours but not matched yet: keep which page it came from
 
   // Insert first (unique grow_transaction_id): if a parallel duplicate won the race, skip the side effects.
-  const { error } = await db.from('payments').insert(row)
+  const { data: saved, error } = await db.from('payments').insert(row).select('id').single()
   if (error) {
     if (error.code === '23505') { await approve(b, txId, sum); return new Response('ok') }
     console.error('payments insert failed', error.message)
@@ -149,5 +149,24 @@ Deno.serve(async req => {
   }
   if (after) await after()
   await approve(b, txId, sum)
+  // Automatic emails (certificate / birthday thanks), never for test payments. Runs after we answer Grow:
+  // rendering the PDF takes ~10s. `auto` skips anything already sent, so monthly charges don't resend.
+  if (paid && !isTest) {
+    const job = row.kind === 'virtual' && row.sponsorship_id ? { id: row.sponsorship_id, auto: true }
+      : row.kind === 'gift' && row.gift_id ? { id: row.gift_id, auto: true }
+      : row.kind === 'birthday' && saved ? { payment_id: saved.id, kind: 'birthday', auto: true }
+      : null
+    if (job) EdgeRuntime.waitUntil(notify(job))
+  }
   return new Response('ok')
 })
+
+declare const EdgeRuntime: { waitUntil(p: Promise<unknown>): void }
+const SITE = Deno.env.get('SITE_URL') ?? 'https://lives-of-others.com'
+async function notify(body: Record<string, unknown>) {
+  const res = await fetch(`${SITE}/api/send-certificate`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json', 'x-internal-secret': Deno.env.get('INTERNAL_SECRET') ?? '' },
+    body: JSON.stringify(body),
+  }).catch(e => { console.error('notify failed', e); return null })
+  if (res && !res.ok) console.error('notify', res.status, await res.text())
+}
