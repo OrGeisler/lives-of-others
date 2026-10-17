@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-10-17 · Or+Claude · iPhone/Android check with Playwright (WebKit iPhone 13 + Pixel 7): checkout page scrolled sideways on iPhone (honeypot left:-9999px in RTL) → fixed.
 - 2026-10-17 · Or+Claude · Phone/desktop check of all 13.10–17.10 changes (390px/1440px): no overflow or JS errors; dog cards now always show the tagline under the name.
 - 2026-10-17 · Or+Claude · Dvora reel (Facebook embed) under "מה מייחד"; hug photo ("אימוץ וירטואלי 6") beside the virtual-adoption intro.
 - 2026-10-16 · Or+Claude · Admin guide (מדריך) updated: automatic emails vs WhatsApp, WhatsApp send window, thank-you video, birthday thanks, payments filter, dog sex field, hidden draft dogs.
