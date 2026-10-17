@@ -417,7 +417,7 @@ export default function English() {
         <h2 className="reveal">What makes Lives of Others different</h2>
         <p className="reveal"><strong>Homes instead of cages.</strong> In our unique flagship project, the dogs live in <strong>Magical Homes</strong>. The Magical Homes are memorial projects for loved ones who fell and were murdered in the October 7 war — in these homes, the legacy of Staff Sgt. Adi Tzur, Reserve Master Sgt. Yair Katz and Shani Gabay lives on through saving dogs and giving to animals.</p>
         <div className="unique-video reveal">
-          <iframe src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent('https://www.facebook.com/reel/2469672846859124')}&show_text=false&width=267&height=476&t=0`}
+          <iframe src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent('https://www.facebook.com/reel/2469672846859124')}&show_text=false&width=340&height=604&t=0`}
             title="Dvora: homes instead of cages (Hebrew)" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen />
         </div>
         <p className="video-caption">👆 Dvora, our co-founder: homes instead of cages (Hebrew)</p>
