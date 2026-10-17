@@ -4,7 +4,7 @@
   --bg: #F4F9FB;           /* cool near-white page bg */
   --ink: #14293A;          /* deep blue-ink text */
   --muted: #42586A;        /* secondary text */
-  --soft: #6E8A9C;         /* tertiary / captions */
+  --soft: #5B7381;         /* tertiary / captions (darkened 17.10 for AA contrast) */
   --line: #D6E6EC;         /* hairlines */
   --cream: #E6F2F5;        /* soft turquoise-tint band bg */
   --chip: #DCEEF2;         /* light chips/pills */
@@ -172,8 +172,8 @@ video.hero-photo { display: block; background: #0d1c2c; }
 .home-card h3 { font-size: 20px; margin: 0; font-weight: 700; color: #fff; }
 .home-card p { font-size: 15px; color: var(--navy-text); margin: 0; flex: 1; }
 .home-card button {
-  align-self: flex-start; background: transparent; color: var(--gold);
-  border: 1.5px solid var(--gold); padding: 9px 20px; border-radius: 999px;
+  align-self: flex-start; background: transparent; color: #6FCFD8;
+  border: 1.5px solid #6FCFD8; padding: 9px 20px; border-radius: 999px;
   font-family: 'Assistant', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer;
 }
 .home-card button:hover { background: var(--gold); color: var(--navy); }

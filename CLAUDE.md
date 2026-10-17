@@ -30,7 +30,8 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - `npm run dev` (needs `.env.local`, copy `.env.example`) · `npm run build` must pass before commit
 - Migrations: `supabase db push` · Functions: `supabase functions deploy <name> --no-verify-jwt --use-api`
 - RLS tests: `node scripts/test-rls.mjs` (needs `SUPABASE_DB_PASSWORD` in env)
-- Phone check (iPhone Safari engine + Android, all pages): `npx -y -p playwright@1 node scripts/mobile-check.mjs`.
+- Phone check (iPhone Safari engine + Android, all pages): copy `scripts/mobile-check.mjs` to a folder with `playwright` installed
+  (outside the repo; `npx -p` doesn't resolve ESM imports) and run `node mobile-check.mjs [base-url]`.
   Run it after UI changes. RTL gotcha: never hide things with `left:-9999px` (sideways scroll on iPhone).
 
 ## Branches & deploy
@@ -78,5 +79,9 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - Pages are lazy chunks renamed on every deploy: always load pages via `lazyPage` (src/lib/staleChunks.tsx), never bare `lazy`, or open tabs go white after a deploy.
 - Old phones: `vite.config.ts` uses `@vitejs/plugin-legacy` (Safari 13 / Chrome 80 + polyfills). Without it Vite 8
   targets 2023+ browsers and older iPhones get a white screen. Check after build: `npx es-check@8 es2020 'dist/assets/*.js' --module`.
+- Accessibility: own menu `src/components/A11yMenu.tsx` (no third-party widget) + statement `/accessibility` and
+  `/en/accessibility` (`src/pages/Accessibility.tsx`; update its date/limitations when the site changes). Remaining axe
+  contrast failures are the brand buttons (WhatsApp green, turquoise, pink with white text): pending the nonprofit's OK.
+  No cookie banner: the site sets no tracking cookies (only embeds do); keep it that way or add consent first.
 - Google Search Console (Or's Google account, property `https://lives-of-others.com/`) is verified by
   `public/google90aab82532d797ee.html`. Never delete it.

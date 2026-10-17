@@ -257,9 +257,9 @@ function ContactForm() {
   }
   return (
     <form className="contact-form reveal" id="contact-form" onSubmit={send}>
-      <input name="name" placeholder="Full name" required />
-      <input name="phone" placeholder="Phone" type="tel" />
-      <select name="topic">
+      <input name="name" placeholder="Full name" aria-label="Full name" required />
+      <input name="phone" placeholder="Phone" aria-label="Phone" type="tel" />
+      <select name="topic" aria-label="Topic">
         <option>I want to adopt a dog</option>
         <option>I want to volunteer</option>
         <option>I want to be a foster family</option>
@@ -659,6 +659,7 @@ export default function English() {
             <a href="#volunteer">Volunteer</a>
             <a href="#homes">The Magical Homes</a>
             <Link to="/privacy">Privacy &amp; terms (Hebrew)</Link>
+            <Link to="/en/accessibility">Accessibility</Link>
             <a href="https://www.facebook.com/lifeofothers" target="_blank" rel="noopener">Facebook</a>
             <a href="https://www.instagram.com/lives.of.others.rescue" target="_blank" rel="noopener">Instagram</a>
           </div>

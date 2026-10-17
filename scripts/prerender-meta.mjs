@@ -18,6 +18,8 @@ const PAGES = [
   ['/gift-adoption', 'אימוץ במתנה — חיים של אחרים', 'מתנה עם משמעות לאדם שאוהב כלבים: אימוץ וירטואלי של אחד הכלבים שהצלנו, בתרומה חד פעמית של 180 ₪.'],
   ['/birthday', 'יום הולדת לכלב 🎂 — חיים של אחרים', 'כל חודש כלב אחר מבית המחסה חוגג יום הולדת — וזו ההזדמנות שלכם לפנק אותו במתנה קטנה שתעשה לו את היום.'],
   ['/privacy', 'מדיניות פרטיות ותקנון — חיים של אחרים', 'מדיניות הפרטיות והתקנון של אתר עמותת חיים של אחרים.'],
+  ['/accessibility', 'הצהרת נגישות — חיים של אחרים', 'הצהרת הנגישות של אתר עמותת חיים של אחרים: מה הונגש, מגבלות ידועות ולמי לפנות.'],
+  ['/en/accessibility', 'Accessibility statement — Lives of Others', 'Accessibility statement of the Lives of Others website: what we did, known limitations and who to contact.'],
   ['/en', 'Lives of Others — Rescuing, Rehabilitating & Rehoming Abandoned Dogs in Israel', 'Lives of Others is an Israeli volunteer-run nonprofit that rescues abandoned dogs, treats and rehabilitates them, and finds them homes.'],
 ]
 
@@ -95,7 +97,7 @@ function render(path, title, desc, image, h1, body, extra = '') {
     .replace(/\s*<meta (name="description"|property="og:(title|description|image)")[^>]*>/g, '')
     .replace('</head>', `  ${head}\n  </head>`)
     .replace('<div id="root"></div>', `<div id="root"><main><h1>${esc(h1)}</h1><p>${esc(body)}</p>${extra}<nav>${links}</nav></main></div>`)
-  if (path === '/en') html = html.replace('<html lang="he" dir="rtl">', '<html lang="en" dir="ltr">')
+  if (path.startsWith('/en')) html = html.replace('<html lang="he" dir="rtl">', '<html lang="en" dir="ltr">')
   const file = path === '/' ? 'dist/index.html' : `dist${path}/index.html`
   mkdirSync(file.slice(0, file.lastIndexOf('/')), { recursive: true })
   writeFileSync(file, html)

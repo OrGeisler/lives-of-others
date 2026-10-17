@@ -27,7 +27,7 @@
 .dn-impact-card .dn-ico { font-size: 34px; }
 .dn-impact-card b { font: 900 36px 'Rubik', sans-serif; color: var(--navy); }
 .dn-impact-card span:not(.dn-ico) { color: var(--muted); }
-.dn-impact-card em { font-style: normal; font-weight: 800; color: #1EBE5A; margin-top: 4px; }
+.dn-impact-card em { font-style: normal; font-weight: 800; color: #15853F; margin-top: 4px; }
 
 .dn-ways-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
 .dn-way { background: #fff; border-radius: 18px; padding: 20px 22px; border: 1px solid #e3edf3; }
