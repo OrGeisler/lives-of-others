@@ -148,3 +148,4 @@ img[src$="/memorial-yair-bruce.jpg"] { object-position: 50% 25% !important; }
 .dog-name-row .dog-meta.dog-tag { color: #E0678F; font-weight: 700; font-size: 14.5px; }
 .dog-modal-body .dog-age-end { font-weight: 800; color: #E0678F; }
 .dog-card-body .dog-name-row { flex-wrap: wrap; row-gap: 2px; }
+.dog-card-body .dog-name-row { flex-direction: column; align-items: flex-start; gap: 2px; }
