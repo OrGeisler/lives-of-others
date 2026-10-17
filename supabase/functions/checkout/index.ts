@@ -17,7 +17,8 @@ const cors = (origin: string | null) => ({
   Vary: 'Origin',
 })
 const str = (v: unknown, max = 120) => (typeof v === 'string' ? v.trim().slice(0, max) : '')
-const phoneOk = (p: string) => /^(\+?972|0)5\d{8}$/.test(p.replace(/[\s-]/g, ''))
+// Israeli mobile, or an international number with + (donors from the English page)
+const phoneOk = (p: string) => { const x = p.replace(/[\s().-]/g, ''); return /^(\+?972|0)5\d{8}$/.test(x) || /^\+[1-9]\d{7,14}$/.test(x) }
 const emailOk = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)
 
 Deno.serve(async req => {

@@ -57,3 +57,8 @@
 @media (max-width: 720px) { .va-gallery { grid-template-columns: 1fr; } }
 
 .co-hint { margin: 0; font-size: 15px; color: var(--chip-ink); background: #FDEFF4; border-radius: 12px; padding: 10px 12px; }
+/* /en/checkout: small English header (the Hebrew layout isn't shown there) */
+.co-en-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 16px; background: #fff; border-bottom: 1px solid #e3eaf0; }
+.co-en-head a { color: #123A5A; font-weight: 700; text-decoration: none; }
+.co-en-brand { display: flex; align-items: center; gap: 10px; font: 800 18px 'Rubik', sans-serif; }
+.co-en-brand img { width: 40px; height: 40px; border-radius: 50%; }

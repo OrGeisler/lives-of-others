@@ -68,6 +68,8 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - supabase-js queries are lazy: a fire-and-forget `void supabase.from(...).insert()` never runs. Always `await` or `.then()`.
 - Never use emoji in the certificate (server Chromium has no emoji font): use SVG.
 - Facts/numbers on the site come from the nonprofit or the DB; don't invent copy figures.
+- English site = `/en` (`src/pages/English.tsx`, one page) + `/en/checkout`. A Hebrew content change → mirror it there
+  (dogs: `*_en` fields in admin; volunteer stories: `volunteerStoriesEn.ts`). Payments use the same Grow pages.
 - SEO: each public route gets a static head + text from `scripts/prerender-meta.mjs` (postbuild, also writes
   sitemap.xml). New public route → add it there. The SPA fallback is `spa.html`, not `index.html`.
   Nonprofit facts for search/AI live in that script (ORG, FAQ, EN_HTML) and `public/llms.txt`: change both together.

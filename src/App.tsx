@@ -62,6 +62,7 @@ export default function App() {
       </Route>
       <Route path="birthday-thanks" element={page(<BirthdayThanks />)} />
       <Route path="en" element={page(<English />)} />
+      <Route path="en/checkout" element={page(<Checkout />)} />
       <Route path="certificate/:id" element={page(<Certificate />)} />
       <Route path="admin/*" element={page(<AdminApp />)} />
     </Routes>

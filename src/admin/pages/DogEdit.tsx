@@ -64,7 +64,8 @@ export default function DogEdit() {
     setBusy(true)
     const slug = d.slug.startsWith('dog-') && /^\d+$/.test(d.slug.slice(4)) ? slugify(d.name) : d.slug
     const { error } = await supabase.from('dogs').update({
-      name: d.name, slug, age_text: d.age_text, sex: d.sex ?? null, tagline: d.tagline, story: d.story, main_image: d.main_image, gallery: photos,
+      name: d.name, slug, age_text: d.age_text, sex: d.sex ?? null,
+      name_en: d.name_en ?? null, tagline_en: d.tagline_en ?? null, story_en: d.story_en ?? null, age_en: d.age_en ?? null, tagline: d.tagline, story: d.story, main_image: d.main_image, gallery: photos,
       available_for_adoption: d.available_for_adoption, available_for_virtual: d.available_for_virtual,
       available_for_gift: d.available_for_gift, active: d.active, image_focus: d.image_focus ?? null, thanks_video_url: d.thanks_video_url ?? null,
     }).eq('id', d.id)
@@ -123,6 +124,15 @@ export default function DogEdit() {
           </label>
         </div>
       </div>
+
+      <details className="ad-box">
+        <summary className="ad-h2" style={{ cursor: 'pointer' }}>🇬🇧 באנגלית (לעמוד האנגלי של האתר)</summary>
+        <p className="ad-hint">מה שמופיע בעמוד ה-English. אם משנים את הסיפור בעברית — כדאי לעדכן גם כאן.</p>
+        <Field label="Name"><input dir="ltr" value={d.name_en ?? ''} onChange={e => set('name_en', e.target.value || null)} /></Field>
+        <Field label="Age" hint='e.g. "8 years"'><input dir="ltr" value={d.age_en ?? ''} onChange={e => set('age_en', e.target.value || null)} /></Field>
+        <Field label="Tagline"><input dir="ltr" value={d.tagline_en ?? ''} onChange={e => set('tagline_en', e.target.value || null)} /></Field>
+        <Field label="Story" hint="An empty line = new paragraph"><textarea dir="ltr" rows={8} value={d.story_en ?? ''} onChange={e => set('story_en', e.target.value || null)} /></Field>
+      </details>
 
       <div className="ad-box">
         <h2 className="ad-h2">🎬 סרטון תודה</h2>
