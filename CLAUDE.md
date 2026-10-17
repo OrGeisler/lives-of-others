@@ -55,6 +55,8 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
   any other page is `donation`. Payments page "מדפי האתר" = all site kinds. paymentDesc = the Grow page "title".
 
 ## Rules & gotchas
+- Admin guide (`src/admin/pages/Guide.tsx`, admin → מדריך) is the staff's manual: any change to how the admin works,
+  what's sent to people, or what staff must do → update the guide in the same PR (Or, 17.10).
 - Secrets never in git or chat. Each dev gets their own Supabase/Resend access; `VITE_*` keys are public.
 - "Automatically expose new tables" is OFF: every new table needs explicit GRANTs (incl. service_role) + RLS.
   After a migration that adds a table, PostgREST may need `notify pgrst, 'reload schema'`.
