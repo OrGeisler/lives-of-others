@@ -1,0 +1,46 @@
+/* Accessibility menu (A11yMenu.tsx). Sits opposite the WhatsApp button. */
+.a11y { position: fixed; bottom: 22px; inset-inline-end: 22px; z-index: 61; font-family: inherit; }
+.a11y-btn { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #fff; background: #1E6E9C; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,.3); }
+.a11y-btn svg { width: 28px; height: 28px; fill: currentColor; }
+.a11y-btn:focus-visible, .a11y-panel button:focus-visible, .a11y-link:focus-visible { outline: 3px solid #FFB800; outline-offset: 2px; }
+.a11y-panel { position: absolute; bottom: 62px; inset-inline-end: 0; width: 250px; max-width: calc(100vw - 32px); background: #fff; color: #14293A; border-radius: 16px; padding: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.25); display: flex; flex-direction: column; gap: 8px; font-size: 15px; }
+.a11y-head { display: flex; justify-content: space-between; align-items: center; font-size: 17px; }
+.a11y-x { border: 0; background: none; font-size: 18px; cursor: pointer; color: #14293A; padding: 4px 8px; }
+.a11y-size { display: flex; align-items: center; gap: 6px; }
+.a11y-size span { flex: 1; }
+.a11y-size button, .a11y-opt, .a11y-reset { border: 2px solid #1E6E9C; background: #fff; color: #14293A; border-radius: 10px; padding: 8px 10px; cursor: pointer; font: inherit; font-weight: 700; }
+.a11y-opt { text-align: start; }
+.a11y-size button[aria-pressed="true"], .a11y-opt[aria-pressed="true"] { background: #1E6E9C; color: #fff; }
+.a11y-reset { border-color: #42586A; }
+.a11y-link { color: #1E6E9C; text-align: center; font-weight: 700; }
+@media (max-width: 640px) { .a11y { bottom: 14px; inset-inline-end: 14px; } .a11y-btn { width: 46px; height: 46px; } }
+@media print { .a11y { display: none; } }
+
+/* Keyboard focus is always visible, everywhere on the public site */
+:focus-visible { outline: 3px solid #FFB800; outline-offset: 2px; }
+.skip-link { position: absolute; top: -60px; inset-inline-start: 12px; z-index: 100; background: #14293A; color: #fff; padding: 10px 16px; border-radius: 0 0 10px 10px; font-weight: 700; }
+.skip-link:focus { top: 0; }
+
+/* ----- Modes (classes on <html>) ----- */
+/* Text size zooms the content, not the header (its breakpoints don't react to CSS zoom) */
+html.a11y-size-1 :is(#root > :not(.site-header, .top-bar, .a11y, .en-page, .skip-link), .en-page > :not(.site-header)) { zoom: 1.15; }
+html.a11y-size-2 :is(#root > :not(.site-header, .top-bar, .a11y, .en-page, .skip-link), .en-page > :not(.site-header)) { zoom: 1.3; }
+html.a11y-size-1, html.a11y-size-2 { overflow-x: hidden; } /* a few px of zoomed carousels must not cause sideways scroll */
+
+html.a11y-links a { text-decoration: underline !important; text-underline-offset: 3px; }
+html.a11y-links a:not(.btn):not([class*="btn"]) { outline: 2px dashed currentColor; outline-offset: 2px; }
+
+html.a11y-font body, html.a11y-font body * { font-family: Arial, Helvetica, sans-serif !important; letter-spacing: .02em; }
+
+html.a11y-still *, html.a11y-still *::before, html.a11y-still *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+html.a11y-still .reveal { opacity: 1 !important; transform: none !important; }
+
+html.a11y-contrast body, html.a11y-contrast body *:not(svg):not(path):not(circle):not(img):not(video):not(iframe) {
+  background-color: #000 !important; background-image: none !important; color: #fff !important;
+  border-color: #fff !important; text-shadow: none !important; box-shadow: none !important;
+}
+html.a11y-contrast a, html.a11y-contrast a * { color: #FFE500 !important; }
+html.a11y-contrast button, html.a11y-contrast .btn, html.a11y-contrast input, html.a11y-contrast select, html.a11y-contrast textarea { border: 2px solid #fff !important; }
+html.a11y-contrast svg { fill: currentColor; }
+html.a11y-contrast .reveal { opacity: 1 !important; transform: none !important; }
+html.a11y-contrast .a11y-opt[aria-pressed="true"], html.a11y-contrast .a11y-size button[aria-pressed="true"] { background-color: #FFE500 !important; color: #000 !important; }

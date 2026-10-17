@@ -86,6 +86,7 @@ export function SiteFooter() {
           <Link to="/homes">הבתים הקסומים</Link>
           <Link to="/contact">צור קשר</Link>
           <Link to="/privacy">מדיניות פרטיות ותקנון</Link>
+          <Link to="/accessibility">הצהרת נגישות</Link>
         </nav>
         <div className="ft-col">
           <h3>עקבו אחרינו</h3>
@@ -118,8 +119,9 @@ export default function Layout() {
   usePageEffects()
   return (
     <>
+      <a className="skip-link" href="#main">דלג לתוכן</a>
       <SiteHeader />
-      <main><Outlet /></main>
+      <main id="main" tabIndex={-1}><Outlet /></main>
       <SiteFooter />
       <WhatsAppFloat />
     </>

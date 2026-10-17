@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Layout from './components/Layout'
+import A11yMenu from './components/A11yMenu'
 import Home from './pages/Home'
 import { useTitle } from './lib/pagesData'
 import { PageErrorBoundary, lazyPage as lazy } from './lib/staleChunks'
@@ -20,6 +21,7 @@ const GiftAdoption = lazy(() => import('./pages/GiftAdoption'))
 const Birthday = lazy(() => import('./pages/Birthday'))
 const BirthdayThanks = lazy(() => import('./pages/BirthdayThanks'))
 const Privacy = lazy(() => import('./pages/Privacy'))
+const Accessibility = lazy(() => import('./pages/Accessibility'))
 const English = lazy(() => import('./pages/English'))
 const AdminApp = lazy(() => import('./admin/AdminApp'))
 const Certificate = lazy(() => import('./pages/Certificate'))
@@ -41,7 +43,10 @@ function NotFound() {
 const page = (el: React.ReactNode) => <PageErrorBoundary><Suspense fallback={<div style={{ minHeight: '60vh' }} />}>{el}</Suspense></PageErrorBoundary>
 
 export default function App() {
+  const { pathname } = useLocation()
+  const staff = pathname.startsWith('/admin') || pathname.startsWith('/certificate')
   return (
+    <>
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />
@@ -58,13 +63,17 @@ export default function App() {
         <Route path="gift-adoption" element={page(<GiftAdoption />)} />
         <Route path="birthday" element={page(<Birthday />)} />
         <Route path="privacy" element={page(<Privacy />)} />
+        <Route path="accessibility" element={page(<Accessibility />)} />
         <Route path="*" element={<NotFound />} />
       </Route>
       <Route path="birthday-thanks" element={page(<BirthdayThanks />)} />
       <Route path="en" element={page(<English />)} />
       <Route path="en/checkout" element={page(<Checkout />)} />
+      <Route path="en/accessibility" element={page(<Accessibility />)} />
       <Route path="certificate/:id" element={page(<Certificate />)} />
       <Route path="admin/*" element={page(<AdminApp />)} />
     </Routes>
+    {!staff && <A11yMenu />}
+    </>
   )
 }
