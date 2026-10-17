@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-10-17 · Or+Claude · Dvora reel bigger (340×604, was 267×476) on /about and /en.
 - 2026-10-17 · Or+Claude · Admin guide: English site (what staff update, [EN] inbox tag, dog English fields). Rule in CLAUDE.md: admin/staff-facing changes update the guide in the same PR.
 - 2026-10-17 · Or+Claude · English site rebuilt to match the Hebrew one (17.10 "everything also in English"): dogs/team from DB (dogs.*_en, team.name_en, translated), virtual adoption + gift + birthday, Dvora reel, hug photo, volunteer stories (EN), contact saved to inbox. English checkout at /en/checkout (same Grow pages); international phones accepted. Dog admin: English fields.
 - 2026-10-17 · Or+Claude · scripts/mobile-check.mjs: all public pages as iPhone (WebKit) + Android, flags white screens / sideways scroll / JS errors. 30/30 pass.
