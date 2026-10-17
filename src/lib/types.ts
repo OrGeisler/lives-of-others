@@ -14,6 +14,7 @@ export type Dog = {
   image_focus?: string | null
   thanks_video_url?: string | null
   sex?: 'm' | 'f' | null
+  name_en?: string | null; tagline_en?: string | null; story_en?: string | null; age_en?: string | null
   grow_virtual_link: string | null
   sort: number
 }
@@ -31,6 +32,6 @@ export type Fallen = {
   sort: number
 }
 
-export type TeamMember = { id: string; name: string; photo: string | null; sort: number }
+export type TeamMember = { id: string; name: string; name_en?: string | null; photo: string | null; sort: number }
 
 export type Counter = { value: number; suffix: string; label: string }

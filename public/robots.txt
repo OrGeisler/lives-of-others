@@ -2,6 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /checkout
+Disallow: /en/checkout
 Disallow: /certificate/
 Disallow: /birthday-thanks
 

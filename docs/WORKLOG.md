@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-10-17 · Or+Claude · English site rebuilt to match the Hebrew one (17.10 "everything also in English"): dogs/team from DB (dogs.*_en, team.name_en, translated), virtual adoption + gift + birthday, Dvora reel, hug photo, volunteer stories (EN), contact saved to inbox. English checkout at /en/checkout (same Grow pages); international phones accepted. Dog admin: English fields.
 - 2026-10-17 · Or+Claude · scripts/mobile-check.mjs: all public pages as iPhone (WebKit) + Android, flags white screens / sideways scroll / JS errors. 30/30 pass.
 - 2026-10-17 · Or+Claude · iPhone/Android check with Playwright (WebKit iPhone 13 + Pixel 7): checkout page scrolled sideways on iPhone (honeypot left:-9999px in RTL) → fixed.
 - 2026-10-17 · Or+Claude · Phone/desktop check of all 13.10–17.10 changes (390px/1440px): no overflow or JS errors; dog cards now always show the tagline under the name.
