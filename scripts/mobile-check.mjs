@@ -7,7 +7,7 @@ import { mkdirSync } from 'node:fs'
 
 const BASE = process.argv[2] || 'https://lives-of-others.com'
 const PAGES = ['/', '/about', '/dogs', '/dogs/laura', '/virtual-adoption', '/virtual-adoption/bobi', '/checkout?type=virtual&dog=bobi&tier=50',
-  '/gift-adoption', '/checkout?type=gift&dog=junior', '/birthday', '/volunteer', '/donate', '/contact', '/privacy', '/en']
+  '/gift-adoption', '/checkout?type=gift&dog=junior', '/birthday', '/volunteer', '/donate', '/contact', '/privacy', '/en', '/en/checkout?type=virtual&dog=bobi&tier=50', '/en/checkout?type=gift&dog=junior']
 mkdirSync('mobile-shots', { recursive: true })
 let bad = 0
 for (const [name, engine, dev, opts] of [['iphone', webkit, devices['iPhone 13'], {}], ['android', chromium, devices['Pixel 7'], { channel: 'chrome' }]]) {
