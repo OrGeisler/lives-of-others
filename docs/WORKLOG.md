@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-10-17 · Or+Claude · Dvora reel (Facebook embed) under "מה מייחד"; hug photo ("אימוץ וירטואלי 6") beside the virtual-adoption intro.
 - 2026-10-16 · Or+Claude · Admin guide (מדריך) updated: automatic emails vs WhatsApp, WhatsApp send window, thank-you video, birthday thanks, payments filter, dog sex field, hidden draft dogs.
 - 2026-10-16 · Or+Claude · Vercel "Function Storage" at 75%: 3 Chromium functions × 70 deployments. Merged into one `api/cert.ts` (rewrites keep URLs); old deployments pruned.
 - 2026-10-16 · Or+Claude · Automatic emails: certificate to adopter / gift buyer and birthday thanks right after payment (grow-webhook → /api/send-certificate, auto = never twice, never for tests); gift recipient email by daily cron on the chosen day. Every email says a WhatsApp is coming. Dashboard "📬 מה נשלח לבד" guide.

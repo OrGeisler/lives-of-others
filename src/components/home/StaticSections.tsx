@@ -59,7 +59,11 @@ export function Unique() {
       <section className="unique">
         <h2 className="reveal">מה מייחד את עמותת חיים של אחרים</h2>
         <p className="reveal"><strong>במקום כלובים — בתים.</strong> בפרויקט הדגל הייחודי שלנו אנחנו משכנים את הכלבים <strong>בבתים קסומים</strong>. הבתים הקסומים הם פרויקט הנצחה לזכר יקירים שנפלו ונרצחו במלחמת ה־7 באוקטובר — בבתים אלו מורשתם של סמ״ר עדי צור, רס״ם במילואים יאיר כץ ושני גבאי ממשיכה לחיות דרך הצלת כלבים ונתינה לבעלי חיים.</p>
-        {/* 13.10: כאן ייכנס "סרטון דבורה – במקום כלובים בתים" (ממתינים לקובץ). 4 כפתורי הפעולה הוסרו לבקשת העמותה */}
+        {/* 17.10: "סרטון דבורה – במקום כלובים בתים" (Facebook reel של העמותה). 4 כפתורי הפעולה הוסרו לבקשת העמותה (13.10) */}
+        <div className="unique-video reveal">
+          <iframe src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent('https://www.facebook.com/reel/2469672846859124')}&show_text=false&width=267&height=476&t=0`}
+            title="דבורה: במקום כלובים — בתים" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen />
+        </div>
       </section>
     </>
   )
