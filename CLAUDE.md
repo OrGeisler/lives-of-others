@@ -30,6 +30,8 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - `npm run dev` (needs `.env.local`, copy `.env.example`) · `npm run build` must pass before commit
 - Migrations: `supabase db push` · Functions: `supabase functions deploy <name> --no-verify-jwt --use-api`
 - RLS tests: `node scripts/test-rls.mjs` (needs `SUPABASE_DB_PASSWORD` in env)
+- Phone check (iPhone Safari engine + Android, all pages): `npx -y -p playwright@1 node scripts/mobile-check.mjs`.
+  Run it after UI changes. RTL gotcha: never hide things with `left:-9999px` (sideways scroll on iPhone).
 
 ## Branches & deploy
 - `main` = this app (production). `static-site` = the OLD static site, archive only: never merge the two.
