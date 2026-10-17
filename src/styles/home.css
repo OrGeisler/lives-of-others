@@ -122,3 +122,6 @@ section.bday-home { background: var(--cream, #F7F3EC); color: inherit; overflow:
   .hero .tv-panel .tv-btn { width: 40px; height: 40px; font-size: 17px; }
 }
 .volunteer .vol-more a.btn { background: #ffe14d; color: #123A5A; font-weight: 800; }
+/* 17.10: Dvora's reel under "מה מייחד" (vertical 9:16) */
+.unique .unique-video { width: 267px; max-width: 100%; height: 476px; margin: 24px auto 0; border-radius: 22px; overflow: hidden; background: #000; box-shadow: 0 12px 30px rgba(18,58,90,.18); }
+.unique .unique-video iframe { width: 100%; height: 100%; border: 0; display: block; }
