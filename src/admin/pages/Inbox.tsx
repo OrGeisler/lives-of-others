@@ -23,7 +23,7 @@ export default function Inbox() {
   return (
     <>
       <PageHead title="פניות מהאתר" />
-      <Help>כל מי שממלא את טופס "צור קשר" באתר מופיע כאן (ובמקביל נפתחת לו הודעת וואטסאפ לברי). חוזרים אליו בכפתור <b>💬</b>, ואז מסמנים <b>✓ טופל</b>.</Help>
+      <Help>כל מי שממלא את טופס "צור קשר" באתר מופיע כאן (הטופס גם פותח אצלו וואטסאפ מוכן לברי, אבל ההודעה מגיעה לברי רק אם הוא לחץ שם "שליחה". לכן תמיד בודקים כאן). חוזרים אליו בכפתור <b>💬</b>, ואז מסמנים <b>✓ טופל</b>.</Help>
       <div className="ad-tabs">
         <button className={`ad-tab${tab === 'open' ? ' on' : ''}`} onClick={() => setTab('open')}>פתוחות <span className="ad-tab-n">{open}</span></button>
         <button className={`ad-tab${tab === 'done' ? ' on' : ''}`} onClick={() => setTab('done')}>טופלו <span className="ad-tab-n">{(list?.length ?? 0) - open}</span></button>

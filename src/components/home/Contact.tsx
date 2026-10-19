@@ -43,13 +43,13 @@ export default function Contact() {
         </div>
         <form className="contact-form reveal" id="contact-form" onSubmit={onSubmit}>
           <input name="name" placeholder="שם מלא" aria-label="שם מלא" required />
-          <input name="phone" placeholder="טלפון" aria-label="טלפון" type="tel" />
+          <input name="phone" placeholder="טלפון" aria-label="טלפון" type="tel" required pattern="[0-9+\-\s\(\)]{9,20}" title="מספר טלפון, כדי שנוכל לחזור אליכם" />
           <select name="topic" aria-label="נושא">
             {TOPICS.map(t => <option key={t}>{t}</option>)}
           </select>
           <textarea name="message" placeholder="ספרו לנו קצת..." aria-label="פירוט" rows={3}></textarea>
           <button type="submit">שליחה בוואטסאפ 💬</button>
-          {sent ? <p className="form-hint">✓ הפנייה התקבלה ונשמרה אצלנו — נחזור אליכם בהקדם.</p> : <p className="form-hint">הפנייה נשמרת אצלנו ונפתחת גם כהודעת וואטסאפ לברי. <a href="/privacy" style={{ color: 'inherit' }}>מדיניות פרטיות</a></p>}
+          {sent ? <p className="form-hint">✓ הפנייה נשמרה אצלנו ונחזור אליכם בהקדם. אם נפתח וואטסאפ, לחצו שם על "שליחה" כדי שההודעה תגיע גם לברי.</p> : <p className="form-hint">הפנייה נשמרת אצלנו ונפתחת גם כהודעת וואטסאפ לברי. <a href="/privacy" style={{ color: 'inherit' }}>מדיניות פרטיות</a></p>}
         </form>
       </div>
     </section>
