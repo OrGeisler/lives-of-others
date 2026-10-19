@@ -258,7 +258,7 @@ function ContactForm() {
   return (
     <form className="contact-form reveal" id="contact-form" onSubmit={send}>
       <input name="name" placeholder="Full name" aria-label="Full name" required />
-      <input name="phone" placeholder="Phone" aria-label="Phone" type="tel" />
+      <input name="phone" placeholder="Phone" aria-label="Phone" type="tel" required pattern="[0-9+\-\s\(\)]{9,20}" title="Phone number, so we can get back to you" />
       <select name="topic" aria-label="Topic">
         <option>I want to adopt a dog</option>
         <option>I want to volunteer</option>
@@ -268,7 +268,7 @@ function ContactForm() {
       </select>
       <textarea name="message" placeholder="Tell us a little..." rows={3}></textarea>
       <button type="submit">Send 💬</button>
-      <p className="form-hint">{sent ? '✓ Thank you! We received your message and WhatsApp opened with it ready to send.' : 'We receive your message, and it also opens as a ready WhatsApp message.'}</p>
+      <p className="form-hint">{sent ? '✓ Thank you! We received your message. If WhatsApp opened, tap "Send" there so it reaches us directly too.' : 'We receive your message, and it also opens as a ready WhatsApp message.'}</p>
     </form>
   )
 }

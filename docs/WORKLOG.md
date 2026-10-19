@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-10-19 · Or (Claude) · Contact form: phone now required (a lead arrived with name only); clearer that the WhatsApp to Beri is sent only if the visitor taps Send; inbox help + guide say so.
 - 2026-10-17 · Or (Claude) · Accessibility: own a11y menu, statement /accessibility + /en, skip link, focus ring, AA contrast for captions/labels, accurate cookie text in privacy; guide entry.
 - 2026-10-17 · Or+Claude · Dvora reel bigger (340×604, was 267×476) on /about and /en.
 - 2026-10-17 · Or+Claude · Admin guide: English site (what staff update, [EN] inbox tag, dog English fields). Rule in CLAUDE.md: admin/staff-facing changes update the guide in the same PR.
