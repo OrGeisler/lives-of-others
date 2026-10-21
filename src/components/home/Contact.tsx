@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { WA_ADOPT, wa } from '../../lib/links'
-import { supabase } from '../../lib/supabase'
+import { sendContact } from '../../lib/contact'
 
 const TOPICS = [
   'אני רוצה לאמץ כלב',
@@ -11,7 +11,7 @@ const TOPICS = [
   'אחר',
 ]
 
-// The form is saved in the admin (פניות) AND opens a ready WhatsApp message to Beri
+// The form is saved in the admin (פניות), emailed to the staff, AND opens a ready WhatsApp message to Beri
 export default function Contact() {
   const [sent, setSent] = useState(false)
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -25,9 +25,7 @@ export default function Contact() {
     const text = ['היי! הגעתי דרך האתר 🐾', `שם: ${name}`, phone && `טלפון: ${phone}`, `נושא: ${topic}`, msg && `פירוט: ${msg}`]
       .filter(Boolean)
       .join('\n')
-    // supabase-js only sends when the query is awaited/then-ed: a bare `void insert()` never reached the DB
-    supabase.from('contact_messages').insert({ name: name.slice(0, 80), phone: phone.slice(0, 20) || null, topic, message: msg.slice(0, 2000) || null })
-      .then(({ error }) => { if (error) console.error('contact save failed', error.message) })
+    void sendContact({ name, phone, topic, message: msg })
     window.open(wa(WA_ADOPT, text), '_blank', 'noopener')
     setSent(true); form.reset()
   }

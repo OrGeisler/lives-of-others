@@ -7,7 +7,7 @@ import { useBirthdayDog, useCounters, useDogs, useTeam } from '../lib/data'
 import { usePayLinks } from '../lib/useLinks'
 import { isTestMode } from '../lib/links'
 import { focusStyle } from '../lib/focus'
-import { supabase } from '../lib/supabase'
+import { sendContact } from '../lib/contact'
 import { VOLUNTEER_STORIES_EN } from '../lib/volunteerStoriesEn'
 import type { Dog } from '../lib/types'
 import '../styles/home.css'
@@ -248,9 +248,8 @@ function ContactForm() {
     const form = e.currentTarget
     const f = new FormData(form)
     const get = (k: string) => String(f.get(k) ?? '').trim()
-    // saved in the admin inbox (פניות) and opened as a ready WhatsApp message
-    supabase.from('contact_messages').insert({ name: get('name').slice(0, 80), phone: get('phone').slice(0, 20) || null, topic: `[EN] ${get('topic')}`.slice(0, 80), message: get('message').slice(0, 2000) || null })
-      .then(({ error }) => { if (error) console.error('contact save failed', error.message) })
+    // saved in the admin inbox (פניות), emailed to the staff, and opened as a ready WhatsApp message
+    void sendContact({ name: get('name'), phone: get('phone'), topic: `[EN] ${get('topic')}`, message: get('message') })
     const lines = ["Hi! I'm reaching out via the website 🐾", `Name: ${get('name')}`, get('phone') && `Phone: ${get('phone')}`, `Topic: ${get('topic')}`, get('message') && `Details: ${get('message')}`].filter(Boolean)
     window.open(wa(WA_TALI, lines.join('\n')), '_blank', 'noopener')
     setSent(true); form.reset()

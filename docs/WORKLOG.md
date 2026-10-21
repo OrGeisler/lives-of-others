@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-10-21 · Or (Claude) · Every contact-form inquiry (HE+EN) is now emailed to Beri automatically (`api/contact.ts`, env CONTACT_NOTIFY_TO).
 - 2026-10-19 · Or (Claude) · Contact form: phone now required (a lead arrived with name only); clearer that the WhatsApp to Beri is sent only if the visitor taps Send; inbox help + guide say so.
 - 2026-10-17 · Or (Claude) · Accessibility: own a11y menu, statement /accessibility + /en, skip link, focus ring, AA contrast for captions/labels, accurate cookie text in privacy; guide entry.
 - 2026-10-17 · Or+Claude · Dvora reel bigger (340×604, was 267×476) on /about and /en.

@@ -66,6 +66,8 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - Admin login is a TEMPORARY shared password (see Issues): replace with per-person logins before real donor data.
 - Emails are automatic (texts in `api/_lib/notify.ts`): grow-webhook → `/api/send-certificate` (= `api/cert.ts?op=send`) with `auto` after a paid,
   non-test payment; gift recipients by the daily Vercel cron `/api/cron-gift-recipients` (CRON_SECRET). WhatsApp stays manual.
+- Contact form (both languages) posts to `api/contact.ts`: saves to פניות + emails `CONTACT_NOTIFY_TO` (Vercel env;
+  production = Beri, preview = Or for tests). Falls back to a direct insert if the API fails. The wa.me it opens is only sent if the visitor taps Send.
 - WhatsApp from admin: `src/admin/WaShare.tsx` (wa.me = text only; files go via the phone's share sheet).
   Marking "sent" there sets the same `*_certificate_sent_at` fields as the email button.
 - supabase-js queries are lazy: a fire-and-forget `void supabase.from(...).insert()` never runs. Always `await` or `.then()`.
