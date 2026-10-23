@@ -39,6 +39,8 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - Vercel is connected to this repo: **every push to `main` deploys production**. Never push to `main`
   directly. Work on a branch → PR (Vercel posts a preview URL on it) → merge once `npm run build` passes.
   Each developer's Claude (Or's and Lev's) merges its own PRs: no approval needed.
+- After merging, check Vercel has a deployment for that commit (API `v6/deployments`). On 21.10 a merge didn't
+  deploy; trigger one with `POST v13/deployments` + `gitSource {type: github, repoId, ref: main}`.
 - Same for DB migrations (`supabase db push`) and edge-function deploys: once the change was agreed in
   chat, ship it (they hit production immediately, so run `npm run build` / `scripts/test-rls.mjs` first).
 
@@ -72,6 +74,7 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
   Marking "sent" there sets the same `*_certificate_sent_at` fields as the email button.
 - supabase-js queries are lazy: a fire-and-forget `void supabase.from(...).insert()` never runs. Always `await` or `.then()`.
 - Never use emoji in the certificate (server Chromium has no emoji font): use SVG.
+- Marketing consent at checkout stays unticked by default (spam law needs explicit opt-in), even if asked to pre-tick it.
 - Facts/numbers on the site come from the nonprofit or the DB; don't invent copy figures.
 - English site = `/en` (`src/pages/English.tsx`, one page) + `/en/checkout`. A Hebrew content change → mirror it there
   (dogs: `*_en` fields in admin; volunteer stories: `volunteerStoriesEn.ts`). Payments use the same Grow pages.
