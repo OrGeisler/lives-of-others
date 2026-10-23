@@ -5,7 +5,8 @@ import BirthdayHome from '../components/home/BirthdayHome'
 import Doors, { CtaBand } from '../components/home/Doors'
 import Hero from '../components/home/Hero'
 import { BeforeAfterSection, CountersBand } from '../components/home/RescueNumbers'
-import { Press, Rescues } from '../components/home/StaticSections'
+import { Press } from '../components/home/StaticSections'
+import GiftHome from '../components/home/GiftHome'
 import '../styles/home.css'
 
 // Old one-page anchors (shared links like lives-of-others.com/#dogs) → the new pages
@@ -14,7 +15,8 @@ const MOVED: Record<string, string> = {
   '#volunteer': '/volunteer', '#donate': '/donate', '#contact': '/contact', '#sponsor': '/virtual-adoption',
 }
 
-// Home: hero, numbers, before/after, doors to every area, birthday, press, rescue stories, closing CTA
+// Home: hero, numbers, before/after, doors to every area, birthday, press, gift banner, closing CTA
+// (22.10: "סיפורים מהלב" removed at the nonprofit's request)
 export default function Home() {
   useTitle('חיים של אחרים — הצלת כלבים נטושים, טיפול ושיקום')
   const { hash } = useLocation()
@@ -28,7 +30,7 @@ export default function Home() {
       <Doors />
       <BirthdayHome />
       <Press />
-      <Rescues />
+      <GiftHome />
       <CtaBand />
     </>
   )

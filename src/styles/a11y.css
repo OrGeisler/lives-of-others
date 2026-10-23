@@ -44,3 +44,4 @@ html.a11y-contrast button, html.a11y-contrast .btn, html.a11y-contrast input, ht
 html.a11y-contrast svg { fill: currentColor; }
 html.a11y-contrast .reveal { opacity: 1 !important; transform: none !important; }
 html.a11y-contrast .a11y-opt[aria-pressed="true"], html.a11y-contrast .a11y-size button[aria-pressed="true"] { background-color: #FFE500 !important; color: #000 !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

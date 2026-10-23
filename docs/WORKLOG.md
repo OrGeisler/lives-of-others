@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-10-23 · Or (Claude) · Nonprofit doc 22.10: About header removed; gallery 'back' returns to the same dog (/dogs + virtual); Yad4 link removed; 'סיפורים מהלב' removed (HE+EN); gift banner moved from virtual page to home under press, festive + dog-out-of-gift-box animation (also gift page hero); volunteer stories with photos (Drive), shorter names, opening + full story/collapse (HE+EN); 'עוד תחומים' box pink. Phone payment flow tested OK (iPhone+Android).
 - 2026-10-21 · Or (Claude) · Every contact-form inquiry (HE+EN) is now emailed to Beri automatically (`api/contact.ts`, env CONTACT_NOTIFY_TO).
 - 2026-10-19 · Or (Claude) · Contact form: phone now required (a lead arrived with name only); clearer that the WhatsApp to Beri is sent only if the visitor taps Send; inbox help + guide say so.
 - 2026-10-17 · Or (Claude) · Accessibility: own a11y menu, statement /accessibility + /en, skip link, focus ring, AA contrast for captions/labels, accurate cookie text in privacy; guide entry.

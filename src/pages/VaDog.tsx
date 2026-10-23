@@ -26,7 +26,7 @@ export default function VaDog() {
       <section className="dog-page">
         <div className="dog-page-gallery"><Carousel images={images} alt={dog.name} /></div>
         <div className="dog-page-body dog-modal-body">
-          <Link to="/virtual-adoption#choose" className="dog-page-back">→ לכל הכלבים לאימוץ וירטואלי</Link>
+          <Link to="/virtual-adoption" state={{ back: true }} className="dog-page-back">→ לכל הכלבים לאימוץ וירטואלי</Link>
           <span className="vd-eyebrow">😇 להיות המלאך השומר של</span>
           <h1>{dog.name}</h1>
           {dog.tagline && <p className="dog-modal-meta">{dog.tagline}</p>}

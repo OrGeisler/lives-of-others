@@ -9,6 +9,7 @@ import { isTestMode } from '../lib/links'
 import { focusStyle } from '../lib/focus'
 import { sendContact } from '../lib/contact'
 import { VOLUNTEER_STORIES_EN } from '../lib/volunteerStoriesEn'
+import VolStories from '../components/VolStories'
 import type { Dog } from '../lib/types'
 import '../styles/home.css'
 import '../styles/pages.css'
@@ -227,19 +228,6 @@ function Birthday() {
   )
 }
 
-function VolunteerStories() {
-  const [all, setAll] = useState(false)
-  const shown = all ? VOLUNTEER_STORIES_EN : VOLUNTEER_STORIES_EN.slice(0, 3)
-  return (
-    <div className="vol-stories reveal">
-      <h3>What our volunteers say 💬</h3>
-      <div className="vol-stories-grid">
-        {shown.map(s => <figure key={s.name} className="vol-story"><blockquote>{s.text}</blockquote><figcaption>— {s.name}</figcaption></figure>)}
-      </div>
-      {!all && <button type="button" className="btn btn-outline-green" onClick={() => setAll(true)}>More stories ({VOLUNTEER_STORIES_EN.length - 3}) ↓</button>}
-    </div>
-  )
-}
 
 function ContactForm() {
   const [sent, setSent] = useState(false)
@@ -521,49 +509,6 @@ export default function English() {
         </div>
       </dialog>
 
-      {/* ============ RESCUES ============ */}
-      <section id="stories" className="wrap rescues">
-        <div className="section-head reveal">
-          <h2>Stories from the heart</h2>
-          <p>Real stories from our Facebook page. Same dog, a different life.</p>
-        </div>
-        <div className="rescue-grid">
-          <article className="rescue-card reveal">
-            <img src="/assets/img/story-dogpark.jpg" alt="Roni, king of the Magical Home" />
-            <strong>Roni &amp; Luna — king and queen of the Magical Home</strong>
-            <p>Roni and Luna grew up together with a lonely elderly man; after he passed away they were thrown into the pound at age 11. We knew their chances of finding a home were slim — but we couldn't let them die without a loving hand. They became the very first residents of the Magical Home named after Adi Tzur, were cared for with endless devotion, and lived far beyond expectations — to almost 14. When Roni's day came, the vet came to him, at home, with all of us hugging him goodbye. That is our promise to every dog: a good old age, at home, with love.</p>
-          </article>
-          <article className="rescue-card reveal">
-            <img src="/assets/img/memorial-yair-katz.jpg" alt="Yair and Bruce" />
-            <strong>Bruce — love that passes on</strong>
-            <p>A pitbull with a heart of gold, who waited years at the shelter for someone to see past the stigma. Yair Katz was the one who opened his heart and became his best friend. After Yair fell in Gaza, his brother adopted Bruce — because true love, it turns out, simply passes on.</p>
-          </article>
-          <article className="rescue-card reveal">
-            <img src="/assets/img/tali-malinois.jpg" alt="A rescued dog with our founder" />
-            <strong>Leni — the dog Adi chose</strong>
-            <p>Leni suffered terrible abuse and waited years at the shelter, so fearful that no one dared approach her. Adi Tzur chose her precisely because of her struggles, and with the patience of an angel gave her back her trust in people. After Adi fell defending Kibbutz Kissufim, his parents adopted Leni — today she is their comfort, and they are her safety.</p>
-          </article>
-          <article className="rescue-card reveal">
-            <img src="/assets/img/dog-trail.jpg" alt="Rani" />
-            <strong>Rani — this time it's forever</strong>
-            <p>Almost three years ago we pulled Rani out of the pound — one of the sweetest, kindest dogs we've ever met. He was adopted, and we were overjoyed for him. Then came the phone call no rescue wants to get: Rani is coming back. Not because of him — he did nothing wrong. Rani is 4, good and full of love, great with everyone. Now he's looking for one person who will truly promise him: this time it's forever.</p>
-            <a className="btn btn-sm btn-orange" href="https://wa.me/972528296622?text=Hi!%20I%27d%20like%20to%20adopt%20Rani%20%F0%9F%90%BE" target="_blank" rel="noopener">I want to be Rani's home</a>
-          </article>
-          <article className="rescue-card reveal">
-            <img src="/assets/img/adopt-me-cafe.jpg" alt="Bell" />
-            <strong>Bell — the angel dog</strong>
-            <p>Amazing with people, kids, babies and all dogs. Indifferent to cats, perfectly house-trained, happy to stay home alone, loves to cuddle and to play. Two years old, healthy and fully cared for. Bell reads every situation and approaches everything with love — she will be an amazing family member in any home.</p>
-            <a className="btn btn-sm btn-orange" href="https://wa.me/972528296622?text=Hi!%20I%27d%20like%20to%20adopt%20Bell%20%F0%9F%90%BE" target="_blank" rel="noopener">I want to adopt Bell</a>
-          </article>
-          <article className="rescue-card reveal">
-            <img src="/assets/img/dog-tub.jpg" alt="Aki on rescue day" />
-            <strong>Aki — her happy ending is still ahead</strong>
-            <p>Rescued from a junkyard as a puppy. Today she is a young, healthy dog who is amazing with people and kids — and the next chapter of her story, a forever home, is still waiting to be written. Maybe with you?</p>
-          </article>
-        </div>
-        <p className="dogs-note">Stories from <a href="https://www.facebook.com/lifeofothers" target="_blank" rel="noopener">our Facebook page</a> — where there's a new update almost every day 🐾</p>
-      </section>
-
       {/* ============ VOLUNTEER ============ */}
       <section id="volunteer" className="volunteer-band">
         <div className="wrap volunteer">
@@ -585,7 +530,7 @@ export default function English() {
               <li>You're welcome — even encouraged — to bring dog treats and spoil us during the walk.</li>
             </ul>
           </div>
-          <VolunteerStories />
+          <VolStories stories={VOLUNTEER_STORIES_EN} lang="en" />
           <div className="vol-cta reveal">
             <a className="btn btn-green" href={wa(WA_TALI, "Hi! I'd like to volunteer with Lives of Others 🐾")} target="_blank" rel="noopener">I want to volunteer</a>
           </div>

@@ -1,6 +1,6 @@
-import { useState } from 'react'
 import { MAPS_SHELTER, WAZE_SHELTER } from '../../lib/constants'
 import { VOLUNTEER_STORIES } from '../../lib/volunteerStories'
+import VolStories from '../VolStories'
 // Static home-page sections, converted 1:1 from the static site (index.html on main).
 // Texts are kept verbatim; dynamic sections (team, memorials, dogs, birthday, counters, contact) live in their own files.
 import { Link } from 'react-router-dom'
@@ -101,54 +101,6 @@ export function Press() {
   )
 }
 
-export function Rescues() {
-  return (
-    <>
-      <section id="stories" className="wrap rescues">
-        <div className="section-head reveal">
-          <h2>סיפורים מהלב</h2>
-          <p>סיפורים אמיתיים מתוך העמוד שלנו. אותו כלב, חיים אחרים.</p>
-        </div>
-        <div className="rescue-grid">
-          <article className="rescue-card reveal">
-            <img src="/assets/img/dog-placeholder.svg" alt="רוני ולונה — מחכה לתמונה" />
-            <strong>רוני ולונה — המלך והמלכה של הבית הקסום</strong>
-            <p>רוני ולונה גדלו יחד אצל אדם ערירי, ואחרי פטירתו נזרקו להסגר בגיל 11. ידענו שהסיכויים שלהם למצוא בית קלושים — אבל לא יכולנו לתת להם למות בלי יד מלטפת. הם היו הדיירים הראשונים בבית הקסום ע"ש עדי צור, טופלו שם במסירות אין־קץ, וחיו הרבה מעבר לציפיות — כמעט עד גיל 14. כשהגיע יומו של רוני, הווטרינרית הגיעה אליו הביתה, וכולנו חיבקנו אותו בדרכו האחרונה. זו ההבטחה שלנו לכל כלב: שיבה טובה, בבית, באהבה.</p>
-          </article>
-          <article className="rescue-card reveal">
-            <img src="/assets/img/memorial-yair-bruce.jpg" alt="יאיר וברוס" />
-            <strong>ברוס — האהבה שעוברת הלאה</strong>
-            <p>כלב פיטבול עם לב זהב, שחיכה שנים בבית המחסה שמישהו יראה אותו מעבר לסטיגמות. יאיר כץ ז"ל היה זה שפתח לו את הלב והפך לחברו הטוב ביותר. אחרי נפילתו של יאיר בעזה, אחיו אימץ את ברוס אליו — ואהבה אמיתית, מסתבר, פשוט עוברת הלאה.</p>
-          </article>
-          <article className="rescue-card reveal">
-            <img src="/assets/img/memorial-adi-leni.jpg" alt="עדי צור עם לני" style={{ objectPosition: 'center 15%' }} />
-            <strong>לני — הכלבה שעדי בחר</strong>
-            <p>לני עברה התעללות קשה וחיכתה שנים בבית המחסה, מפוחדת כל כך שאיש לא העז להתקרב אליה. עדי צור בחר בה דווקא בגלל הקושי שלה, ובסבלנות של מלאך החזיר לה את האמון בבני אדם. אחרי שעדי נפל בהגנה על קיבוץ כיסופים, הוריו אימצו את לני אליהם — היום היא הנחמה שלהם, והם הביטחון שלה.</p>
-          </article>
-          <article className="rescue-card reveal">
-            <img src="/assets/img/dog-placeholder.svg" alt="רני — מחכה לתמונה" />
-            <strong>רני — הפעם זה לתמיד</strong>
-            <p>לפני כמעט שלוש שנים הוצאנו את רני מההסגר — אחד הכלבים המתוקים והטובים שפגשנו. הוא אומץ, ושמחנו כל כך בשבילו. ואז קיבלנו את הטלפון שאף עמותה לא רוצה לקבל: רני חוזר. לא בגללו — הוא לא אשם. רני בן 4, טוב ומלא אהבה, מסתדר עם כולם. עכשיו הוא מחפש אדם אחד שיבטיח לו באמת: הפעם זה לתמיד.</p>
-            <a className="btn btn-sm btn-orange" href={wa(WA_ADOPT, 'היי! אני רוצה לאמץ את רני 🐾')} target="_blank" rel="noopener">אני רוצה להיות הבית של רני</a>
-          </article>
-          <article className="rescue-card reveal">
-            <img src="/assets/img/dog-placeholder.svg" alt="בל — מחכה לתמונה" />
-            <strong>בל — הכלבה המלאכית</strong>
-            <p>מדהימה עם אנשים, ילדים, תינוקות וכל הכלבים. אדישה לחתולים, מחונכת מאה אחוז, יודעת להישאר לבד בבית בנחת, אוהבת להתכרבל וגם לשחק. בת שנתיים, בריאה ומטופלת. בל מבינה סיטואציות וניגשת לכל מצב באהבה — היא תהיה בת משפחה מדהימה לכל בית.</p>
-            <a className="btn btn-sm btn-orange" href={wa(WA_ADOPT, 'היי! אני רוצה לאמץ את בל 🐾')} target="_blank" rel="noopener">אני רוצה לאמץ את בל</a>
-          </article>
-          <article className="rescue-card reveal">
-            <img src="/assets/img/dog-placeholder.svg" alt="אקי — מחכה לתמונה" />
-            <strong>אקי — הסוף הטוב עוד לפניה</strong>
-            <p>חולצה ממגרש גרוטאות כשהייתה גורה. היום היא כלבה צעירה, בריאה ומדהימה עם אנשים וילדים — והפרק הבא בסיפור שלה, הבית הקבוע, עדיין מחכה להיכתב. אולי אצלכם?</p>
-          </article>
-        </div>
-        <p className="dogs-note">הסיפורים מתוך <a href="https://www.facebook.com/lifeofothers" target="_blank" rel="noopener">עמוד הפייסבוק שלנו</a> — שם תמצאו עדכון חדש כמעט כל יום 🐾</p>
-      </section>
-    </>
-  )
-}
-
 export function Volunteer() {
   return (
     <>
@@ -172,7 +124,7 @@ export function Volunteer() {
               <li>ניתן ואפילו מומלץ להביא חטיפי כלבים ולפנק אותנו במהלך הטיול.</li>
             </ul>
           </div>
-          <VolunteerStories />
+          <VolStories stories={VOLUNTEER_STORIES} />
           <div className="vol-cta reveal">
             <a className="btn btn-green" href={wa(WA_ADOPT, 'היי! אני רוצה להתנדב בעמותת חיים של אחרים 🐾')} target="_blank" rel="noopener">אני רוצה להתנדב</a>
           </div>
@@ -183,25 +135,6 @@ export function Volunteer() {
         </div>
       </section>
     </>
-  )
-}
-
-function VolunteerStories() {
-  const [all, setAll] = useState(false)
-  const shown = all ? VOLUNTEER_STORIES : VOLUNTEER_STORIES.slice(0, 3)
-  return (
-    <div className="vol-stories reveal">
-      <h3>מה המתנדבים שלנו מספרים 💬</h3>
-      <div className="vol-stories-grid">
-        {shown.map(s => (
-          <figure key={s.name} className="vol-story">
-            <blockquote>{s.text}</blockquote>
-            <figcaption>— {s.name}</figcaption>
-          </figure>
-        ))}
-      </div>
-      {!all && <button type="button" className="btn btn-outline-green" onClick={() => setAll(true)}>לסיפורים נוספים ({VOLUNTEER_STORIES.length - 3}) ↓</button>}
-    </div>
   )
 }
 

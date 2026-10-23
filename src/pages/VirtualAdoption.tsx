@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { VaAccordions, VaTiers } from '../components/VirtualAdoptionDetails'
 import { WA_ADOPT, wa } from '../lib/links'
 import { useVirtualDogs } from '../lib/checkout'
+import { rememberGallery, useRestoreGallery } from '../lib/galleryScroll'
 import { MAPS_SHELTER, WAZE_SHELTER } from '../lib/constants'
 import '../styles/checkout.css'
 import { useTitle } from '../lib/pagesData'
@@ -11,6 +12,7 @@ import '../styles/pages.css'
 
 export default function VirtualAdoption() {
   const vdogs = useVirtualDogs()
+  useRestoreGallery(!!vdogs?.length, 'choose')
   useTitle('אימוץ וירטואלי — חיים של אחרים')
   return (
     <>
@@ -57,7 +59,7 @@ export default function VirtualAdoption() {
         </div>
         <div className="va-gallery">
           {vdogs?.map(d => (
-            <Link key={d.id} to={`/virtual-adoption/${d.slug}`} className="va-gdog reveal">
+            <Link key={d.id} to={`/virtual-adoption/${d.slug}`} className="va-gdog reveal" onClick={rememberGallery}>
               {d.main_image && <img src={d.main_image} style={focusStyle(d)} alt={d.name} loading="lazy" />}
               <span className="va-gdog-body"><b>{d.name}</b><span>{d.tagline}</span><em>לאמץ וירטואלית ←</em></span>
             </Link>
@@ -78,13 +80,7 @@ export default function VirtualAdoption() {
       </section>
 
       {/* 13.10: "רוצים לקבל עדכונים?" removed: nobody to manage the list for now */}
-      {/* 13.10: new wording, moved to the end of the page */}
-      <section className="va-gift">
-        <div className="va-gift-inner" style={{ textAlign: 'center' }}>
-          <div className="section-head reveal"><h2>רוצה להעניק מתנה מרגשת לאדם אהוב? 🎁</h2></div>
-          <Link className="btn btn-gold" to="/gift-adoption">לאימוץ במתנה ←</Link>
-        </div>
-      </section>
+      {/* 22.10: the gift banner moved to the home page, under "מדברים עלינו" (GiftHome) */}
     </>
   )
 }
