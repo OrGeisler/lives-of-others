@@ -21,7 +21,7 @@ export default function DogPage() {
     <section className="dog-page">
       <div className="dog-page-gallery"><Carousel images={images} alt={dog.name} /></div>
       <div className="dog-page-body dog-modal-body">
-        <Link to="/dogs" className="dog-page-back">→ לכל הכלבים</Link>
+        <Link to="/dogs" state={{ back: true }} className="dog-page-back">→ לכל הכלבים</Link>
         <h1>{dog.name}</h1>
         {dog.tagline && <p className="dog-modal-meta">{dog.tagline}</p>}
         {dog.story?.split(/\n\s*\n/).map((p, i) => <p key={i}>{p}</p>)}

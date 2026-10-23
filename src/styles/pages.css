@@ -21,6 +21,8 @@
 .gift-hero .sub { font-size: 20px; font-weight: 700; max-width: 640px; margin: 0; }
 .gift-hero p { font-size: 17px; color: #ffe3ef; max-width: 680px; margin: 0; line-height: 1.7; }
 .gift-hero .gh-text { display: flex; flex-direction: column; gap: 10px; max-width: 700px; }
+.gift-hero .gh-row { display: flex; align-items: center; gap: 40px; flex-direction: row-reverse; } /* RTL: text on the right, box on the left */
+@media (max-width: 720px) { .gift-hero .gh-row { flex-direction: column; gap: 6px; } .gift-hero .gbox { transform: scale(.85); margin-block: -16px; } }
 .gift-back { align-self: flex-start; color: #ffd0e2; text-decoration: none; font-weight: 700; font-size: 15px; }
 .gift-sec { max-width: 1000px; margin: 0 auto; padding: 54px 24px; }
 .gift-why { display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px; max-width: 860px; margin: 26px auto 0; }

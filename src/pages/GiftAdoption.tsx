@@ -6,6 +6,7 @@ import { useGiftDogs, useTitle } from '../lib/pagesData'
 import type { Dog } from '../lib/types'
 import { ageLabel } from '../lib/dogAge'
 import '../styles/pages.css'
+import GiftBox from '../components/GiftBox'
 
 // First paragraph of the dog's story, as on the static gift page
 const firstPara = (d: Dog) => d.story?.split(/\n\s*\n/)[0] ?? ''
@@ -31,11 +32,14 @@ export default function GiftAdoption() {
         <div className="wrap">
           <Link className="gift-back" to="/">→ חזרה לעמוד הבית</Link>
           <h1>אימוץ במתנה 🎁</h1>
+          <div className="gh-row">
+          <GiftBox />
           <div className="gh-text">
             <p className="sub">מחפשים מתנה מרגשת? מתנה עם משמעות? רוצים להפתיע אדם שאוהב כלבים?</p>
             <p>אנחנו מזמינים אתכם להעניק מתנה יוצאת דופן, לאדם קרוב - אימוץ וירטואלי של אחד מהכלבים המתוקים שהצלנו</p>
             <p>בזכות התרומה החד פעמית שלכם בסך 180 ₪, הכלב שבחרתם יזכה לכל מה שהוא צריך כדי להשתקם – קורת גג בטוחה, מזון איכותי, טיפול רפואי מסור וים של אהבה</p>
             <p>ככה תוכלו לדעת שהענקתם מתנה שלא תישכח ובו זמנית הענקתם את מתנת החיים לכלב שזקוק לכם יותר מכל</p>
+          </div>
           </div>
         </div>
       </section>
