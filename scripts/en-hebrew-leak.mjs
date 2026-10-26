@@ -1,4 +1,4 @@
-// Run like mobile-check.mjs (copy next to an installed playwright): node en-hebrew-leak.mjs http://localhost:4173
+// Run like site-check.mjs (copy next to an installed playwright): node en-hebrew-leak.mjs http://localhost:4173
 // Every English page: visible Hebrew text (and every Hebrew page: stray English UI words), attributes too.
 import { chromium } from 'playwright'
 const B = process.argv[2]
