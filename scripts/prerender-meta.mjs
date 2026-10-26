@@ -19,10 +19,22 @@ const PAGES = [
   ['/birthday', 'יום הולדת לכלב 🎂 — חיים של אחרים', 'כל חודש כלב אחר מבית המחסה חוגג יום הולדת — וזו ההזדמנות שלכם לפנק אותו במתנה קטנה שתעשה לו את היום.'],
   ['/privacy', 'מדיניות פרטיות ותקנון — חיים של אחרים', 'מדיניות הפרטיות והתקנון של אתר עמותת חיים של אחרים.'],
   ['/accessibility', 'הצהרת נגישות — חיים של אחרים', 'הצהרת הנגישות של אתר עמותת חיים של אחרים: מה הונגש, מגבלות ידועות ולמי לפנות.'],
-  ['/en/accessibility', 'Accessibility statement — Lives of Others', 'Accessibility statement of the Lives of Others website: what we did, known limitations and who to contact.'],
+  // 26.10: English = the same pages under /en
   ['/en', 'Lives of Others — Rescuing, Rehabilitating & Rehoming Abandoned Dogs in Israel', 'Lives of Others is an Israeli volunteer-run nonprofit that rescues abandoned dogs, treats and rehabilitates them, and finds them homes.'],
+  ['/en/dogs', 'Our dogs — Lives of Others', 'The Lives of Others dogs waiting for a home: meet them, read their stories and come adopt.'],
+  ['/en/about', 'About us and our team — Lives of Others', 'A volunteer-run nonprofit that pulls dogs out of the streets, the pounds and severe neglect, and gives them food, medical care and a home.'],
+  ['/en/homes', 'The Magical Homes — memorial projects — Lives of Others', 'The Magical Homes of Lives of Others: homes for dogs built in memory of loved ones, instead of cages.'],
+  ['/en/volunteer', 'Volunteer — Lives of Others', 'Want to volunteer with dogs? Join the Lives of Others volunteers.'],
+  ['/en/donate', 'Donate — Lives of Others', 'We are run entirely by volunteers — we exist only thanks to donations. Donate securely by credit card, Bit or PayPal.'],
+  ['/en/contact', 'Contact — Lives of Others', 'Contact Lives of Others: adoption, volunteering, donations or any question.'],
+  ['/en/virtual-adoption', 'Virtual adoption — My Guardian Angel — Lives of Others', 'Not everyone can open their home — but everyone can open their heart. Virtually adopt a dog with a monthly sponsorship and become their guardian angel.'],
+  ['/en/gift-adoption', 'Adopt as a gift — Lives of Others', 'A meaningful gift for someone who loves dogs: a virtual adoption of one of the dogs we rescued, for a one-time donation of ₪180.'],
+  ['/en/birthday', "A dog's birthday 🎂 — Lives of Others", "Every month another dog at the shelter celebrates a birthday — and it's your chance to spoil them with a small gift."],
+  ['/en/privacy', 'Privacy policy and terms — Lives of Others', 'The privacy policy and terms of the Lives of Others website.'],
+  ['/en/accessibility', 'Accessibility statement — Lives of Others', 'Accessibility statement of the Lives of Others website: what we did, known limitations and who to contact.'],
 ]
 
+const NAV_EN = [['/en', 'Home'], ['/en/dogs', 'Our dogs'], ['/en/virtual-adoption', 'Virtual adoption'], ['/en/gift-adoption', 'Adopt as a gift'], ['/en/birthday', "A dog's birthday"], ['/en/donate', 'Donate'], ['/en/about', 'About us'], ['/en/contact', 'Contact']]
 const NAV = [['/', 'דף הבית'], ['/dogs', 'הכלבים שלנו'], ['/virtual-adoption', 'אימוץ וירטואלי'], ['/gift-adoption', 'אימוץ במתנה'], ['/birthday', 'יום הולדת לכלב'], ['/donate', 'תרומה'], ['/about', 'על העמותה'], ['/contact', 'צור קשר']]
 
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -66,7 +78,7 @@ async function fetchDogs() {
   const url = process.env.VITE_SUPABASE_URL, key = process.env.VITE_SUPABASE_PUBLISHABLE_KEY
   if (!url || !key) { console.warn('prerender: no Supabase env, skipping dog pages'); return [] }
   try {
-    const r = await fetch(`${url}/rest/v1/dogs?select=slug,name,story,main_image,available_for_virtual&active=eq.true&order=sort`, { headers: { apikey: key, Authorization: `Bearer ${key}` } })
+    const r = await fetch(`${url}/rest/v1/dogs?select=slug,name,story,name_en,story_en,main_image,available_for_virtual&active=eq.true&order=sort`, { headers: { apikey: key, Authorization: `Bearer ${key}` } })
     if (!r.ok) throw new Error(`HTTP ${r.status}`)
     return await r.json()
   } catch (e) { console.warn('prerender: dog fetch failed, skipping dog pages:', e.message); return [] }
@@ -91,7 +103,7 @@ function render(path, title, desc, image, h1, body, extra = '') {
     path === '/' || path === '/about' ? `<script type="application/ld+json">${JSON.stringify(ORG)}</script>` : '',
     path === '/' || path === '/about' ? `<script type="application/ld+json">${JSON.stringify(FAQ_LD)}</script>` : '',
   ].filter(Boolean).join('\n    ')
-  const links = NAV.filter(([p]) => p !== path).map(([p, t]) => `<a href="${p}">${t}</a>`).join(' · ')
+  const links = (path.startsWith('/en') ? NAV_EN : NAV).filter(([p]) => p !== path).map(([p, t]) => `<a href="${p}">${t}</a>`).join(' · ')
   let html = template
     .replace(/<title>[\s\S]*?<\/title>/, '')
     .replace(/\s*<meta (name="description"|property="og:(title|description|image)")[^>]*>/g, '')
@@ -112,6 +124,10 @@ for (const d of await fetchDogs()) {
   urls.push(render(`/dogs/${d.slug}`, `${d.name} — חיים של אחרים`, story, abs(d.main_image), d.name, story))
   if (d.available_for_virtual)
     urls.push(render(`/virtual-adoption/${d.slug}`, `לאמץ וירטואלית את ${d.name} — חיים של אחרים`, clip(`הפכו למלאך השומר של ${d.name}: אימוץ וירטואלי בהוראת קבע חודשית. ${d.story ?? ''}`), abs(d.main_image), `המלאך השומר של ${d.name}`, story))
+  const n = d.name_en || d.name, storyEn = clip(d.story_en) || `${n} is waiting for a home at Lives of Others.`
+  urls.push(render(`/en/dogs/${d.slug}`, `${n} — Lives of Others`, storyEn, abs(d.main_image), n, storyEn))
+  if (d.available_for_virtual)
+    urls.push(render(`/en/virtual-adoption/${d.slug}`, `Virtually adopt ${n} — Lives of Others`, clip(`Become ${n}'s guardian angel: a virtual adoption with a monthly standing order. ${d.story_en ?? ''}`), abs(d.main_image), `${n}'s guardian angel`, storyEn))
 }
 const [, t0, d0] = PAGES[0]
 urls.unshift(render('/', t0, d0, OG_IMAGE, 'חיים של אחרים — עמותה להצלה, טיפול ושיקום כלבים נטושים', 'אנחנו מחלצים כלבים מהרחוב, מההסגרים וממצבי הזנחה קשים — נותנים להם אוכל, טיפול רפואי, בית, ומעל הכול: את ההרגשה שהם אהובים.', FAQ_HTML))

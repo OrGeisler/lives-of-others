@@ -31,13 +31,7 @@ export default function Checkout() {
   const L = (he: string, eng: string) => (en ? eng : he)
   const tier = Number(params.get('tier')) || 50
   const { data: dog, loading } = useDog(params.get('dog') ?? '')
-  useTitle(type === 'gift' ? (en ? 'Gift adoption — your details' : 'אימוץ במתנה — השלמת פרטים') : (en ? 'Virtual adoption — your details' : 'אימוץ וירטואלי — השלמת פרטים'))
-  useEffect(() => {
-    if (!en) return
-    const html = document.documentElement
-    html.lang = 'en'; html.dir = 'ltr'
-    return () => { html.lang = 'he'; html.dir = 'rtl' }
-  }, [en])
+  useTitle(type === 'gift' ? 'אימוץ במתנה — השלמת פרטים' : 'אימוץ וירטואלי — השלמת פרטים', type === 'gift' ? 'Gift adoption — your details' : 'Virtual adoption — your details')
 
   const [f, setF] = useState({ honor_name: '', phone: '', email: '', source: '', consent_terms: false, consent_marketing: false, website: '' })
   const [g, setG] = useState({ name: '', phone: '', email: '', greeting: '', send_at: localDate() })
@@ -47,7 +41,7 @@ export default function Checkout() {
   useEffect(() => { if (payUrl) window.location.href = payUrl }, [payUrl])
 
   if (loading) return <div className="wrap" style={{ padding: '80px 0' }}>{L('טוען…', 'Loading…')}</div>
-  if (!dog) return <div className="wrap" style={{ padding: '80px 0' }}>{L('לא נבחר כלב.', 'No dog was chosen.')} <Link to={en ? '/en#virtual' : type === 'gift' ? '/gift-adoption' : '/virtual-adoption#choose'}>{L('לבחירת כלב ←', 'Choose a dog →')}</Link></div>
+  if (!dog) return <div className="wrap" style={{ padding: '80px 0' }}>{L('לא נבחר כלב.', 'No dog was chosen.')} <Link to={(en ? '/en' : '') + (type === 'gift' ? '/gift-adoption' : '/virtual-adoption#choose')}>{L('לבחירת כלב ←', 'Choose a dog →')}</Link></div>
 
   const sum = type === 'gift' ? GIFT_SUM : tier
   const submit = async (e: React.FormEvent) => {
@@ -65,28 +59,22 @@ export default function Checkout() {
 
   return (
     <>
-    {/* /en/checkout lives outside the Hebrew layout: a small English header instead */}
-    {en && (
-      <header className="co-en-head" dir="ltr">
-        <Link to="/en" className="co-en-brand"><img src="/assets/img/logo.jpg" alt="" />Lives of Others</Link>
-        <Link to="/en">← Back to the site</Link>
-      </header>
-    )}
-    <section className="co" dir={en ? 'ltr' : undefined} lang={en ? 'en' : undefined}>
-      {isTestMode() && <p className="co-error" style={{ textAlign: 'center' }}>🧪 מצב בדיקה — התשלום יעבור לדף הבדיקות (1/2/3 ₪). לחזרה למצב רגיל: ‎?test=0</p>}
+    {/* 26.10: /en/checkout sits inside the site Layout like the Hebrew one (same header and footer) */}
+    <section className="co">
+      {isTestMode() && <p className="co-error" style={{ textAlign: 'center' }}>{L('🧪 מצב בדיקה — התשלום יעבור לדף הבדיקות (1/2/3 ₪). לחזרה למצב רגיל: ‎?test=0', '🧪 Test mode — payment goes to the test page (₪1/2/3). Back to normal: ?test=0')}</p>}
       <h1 className="co-title">{type === 'gift' ? L('השלמת המתנה 🎁', 'Complete your gift 🎁') : L('השלמת האימוץ 😇', 'Complete your adoption 😇')}</h1>
       <div className="co-grid">
         <aside className="co-summary">
           <h2>{type === 'gift' ? L('המתנה שלכם', 'Your gift') : L('האימוץ שלכם', 'Your adoption')}</h2>
           <div className="co-item">
-            {dog.main_image && <img src={dog.main_image} style={focusStyle(dog)} alt={dog.name} />}
+            {dog.main_image && <img src={dog.main_image} style={focusStyle(dog)} alt={en ? dog.name_en || dog.name : dog.name} />}
             <div>
               <b>{type === 'gift' ? L(`אימוץ וירטואלי של ${dog.name} במתנה`, `Virtual adoption of ${dog.name_en || dog.name} as a gift`) : L(`המלאך השומר של ${dog.name}`, `Guardian angel of ${dog.name_en || dog.name}`)}</b>
               <span>{type === 'gift' ? L('תרומה חד-פעמית', 'One-time donation') : L('הוראת קבע חודשית', 'Monthly standing order')}</span>
             </div>
           </div>
-          <div className="co-total"><span>{L('סה"כ', 'Total')}</span><b>{sum} ₪{type === 'virtual' ? L(' / חודש', ' / month') : ''}</b></div>
-          <Link className="co-change" to={en ? (type === 'gift' ? '/en#gift' : '/en#virtual') : type === 'gift' ? '/gift-adoption' : `/virtual-adoption/${dog.slug}`}>{L('שינוי בחירה', 'Change')}</Link>
+          <div className="co-total"><span>{L('סה"כ', 'Total')}</span><b>{L(`${sum} ₪`, `₪${sum}`)}{type === 'virtual' ? L(' / חודש', ' / month') : ''}</b></div>
+          <Link className="co-change" to={(en ? '/en' : '') + (type === 'gift' ? '/gift-adoption' : `/virtual-adoption/${dog.slug}`)}>{L('שינוי בחירה', 'Change')}</Link>
         </aside>
 
         <form className="co-form" onSubmit={submit} noValidate={false}>
@@ -117,7 +105,7 @@ export default function Checkout() {
           )}
 
           <input className="co-hp" tabIndex={-1} autoComplete="off" aria-hidden="true" value={f.website} onChange={upd('website')} name="website" />
-          <label className="co-check"><input type="checkbox" required checked={f.consent_terms} onChange={upd('consent_terms')} /> {L('קראתי ואני מאשר/ת את', 'I have read and accept the')} <Link to="/privacy" target="_blank">{L('התקנון ומדיניות הפרטיות', 'terms and privacy policy (Hebrew)')}</Link> *</label>
+          <label className="co-check"><input type="checkbox" required checked={f.consent_terms} onChange={upd('consent_terms')} /> {L('קראתי ואני מאשר/ת את', 'I have read and accept the')} <Link to={en ? '/en/privacy' : '/privacy'} target="_blank">{L('התקנון ומדיניות הפרטיות', 'terms and privacy policy')}</Link> *</label>
           <label className="co-check"><input type="checkbox" checked={f.consent_marketing} onChange={upd('consent_marketing')} /> {L('אשמח לקבל עדכונים וסיפורי הצלה מהעמותה', "I'd love to receive updates and rescue stories")}</label>
 
           {err && <p className="co-error" role="alert">{err}</p>}

@@ -54,7 +54,7 @@ export default function SiteContent() {
   }
   const updFallen = (id: string, patch: Partial<Fallen>) => setFallen(fs => fs.map(f => (f.id === id ? { ...f, ...patch } : f)))
   const saveFallen = async (f: Fallen) => {
-    if (!fail((await supabase.from('fallen').update({ card_text: f.card_text, grow_link: f.grow_link }).eq('id', f.id)).error, 'השמירה')) toast('נשמר ✓')
+    if (!fail((await supabase.from('fallen').update({ card_text: f.card_text, card_text_en: f.card_text_en, grow_link: f.grow_link }).eq('id', f.id)).error, 'השמירה')) toast('נשמר ✓')
   }
 
   return (
@@ -112,11 +112,12 @@ export default function SiteContent() {
           <div key={f.id} className="ad-fallen">
             <b>{f.card_title}</b>
             <Field label="משפט בכרטיס"><input value={f.card_text ?? ''} onChange={e => updFallen(f.id, { card_text: e.target.value })} /></Field>
+            <Field label="משפט בכרטיס — באנגלית"><input dir="ltr" value={f.card_text_en ?? ''} onChange={e => updFallen(f.id, { card_text_en: e.target.value })} /></Field>
             <Field label="קישור לדף התרומה ב-Grow"><input dir="ltr" value={f.grow_link ?? ''} onChange={e => updFallen(f.id, { grow_link: e.target.value })} /></Field>
             <button className="ad-btn sm primary" onClick={() => saveFallen(f)}>שמירה</button>
           </div>
         ))}
-        <p className="ad-hint">שינוי בסיפור המלא של פרויקט הנצחה — דרך אור (כדי לשמור על העיצוב).</p>
+        <p className="ad-hint">שינוי בסיפור המלא של פרויקט הנצחה (עברית או אנגלית) — דרך אור (כדי לשמור על העיצוב).</p>
       </section>
       {asking && <AskText title="איש/אשת צוות חדש/ה" label="שם" okLabel="הוספה" onOk={addMember} onClose={() => setAsking(false)} />}
     </>

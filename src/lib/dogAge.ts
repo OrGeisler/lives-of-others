@@ -8,3 +8,8 @@ export function ageLabel(d: Pick<Dog, 'age_text' | 'sex'>): string {
   const short = a.replace(/^(\d+) שנים( וחצי)?$/, '$1$2') // "8 שנים" → "8", "3 שנים וחצי" → "3 וחצי"
   return `${d.sex === 'f' ? 'בת' : 'בן'} ${short}`
 }
+
+// English pages: the age as staff typed it in English (dogs.age_en, e.g. "3 years"), else nothing
+export function ageLabelEn(d: Pick<Dog, 'age_en'>): string {
+  return (d.age_en ?? '').trim()
+}

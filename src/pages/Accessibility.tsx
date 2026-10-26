@@ -1,26 +1,20 @@
-import { useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useTitle } from '../lib/pagesData'
+import { useLang } from '../lib/lang'
 import '../styles/pages.css'
 
-// Accessibility statement (Hebrew at /accessibility, English at /en/accessibility).
-// Update the date and the limitations list when the site changes.
+// Accessibility statement (Hebrew at /accessibility, English at /en/accessibility, both inside the site Layout).
+// Update the date and the limitations list when the site changes — in both languages.
 export default function Accessibility() {
-  const en = useLocation().pathname.startsWith('/en')
-  useTitle(en ? 'Accessibility statement — Lives of Others' : 'הצהרת נגישות — חיים של אחרים')
-  useEffect(() => {
-    if (!en) return
-    const html = document.documentElement
-    html.lang = 'en'; html.dir = 'ltr'
-    return () => { html.lang = 'he'; html.dir = 'rtl' }
-  }, [en])
+  const { en } = useLang()
+  useTitle('הצהרת נגישות — חיים של אחרים', 'Accessibility statement — Lives of Others')
   if (en) return (
-    <div className="legal" dir="ltr" lang="en">
+    <div className="legal">
       <h1>Accessibility statement</h1>
       <p className="updated">Lives of Others (registered non-profit 580754083) · Last updated: October 2026</p>
       <p>We want everyone, including people with disabilities, to be able to use this website: read about the dogs, donate, adopt virtually and contact us.</p>
       <h2>Accessibility level</h2>
-      <p>The site was built to meet Israeli Standard 5568, based on WCAG 2.0 at level AA, and was checked with automated testing (axe) and by hand on desktop and phone browsers.</p>
+      <p>The site was built to meet Israeli Standard 5568, based on WCAG 2.0 at level AA, and the Equal Rights for Persons with Disabilities (Service Accessibility Adjustments) Regulations, 2013. It was checked with automated testing (axe) and by hand on desktop and phone browsers.</p>
       <h2>What we did</h2>
       <ul>
         <li>An accessibility menu (the round button at the bottom of the screen): text size, high contrast, highlighted links, a readable font and stopping animations and videos.</li>
@@ -34,12 +28,12 @@ export default function Accessibility() {
         <li>Some coloured buttons have lower contrast than the standard requires; the high-contrast mode in the menu fixes this, and we are working on it.</li>
       </ul>
       <h2>Contact us about accessibility</h2>
-      <p>If something on the site isn't accessible to you, please tell us and we'll help and fix it:</p>
+      <p>Ran into a problem? Something on the site isn't accessible to you? Tell us and we'll gladly help and fix it:</p>
       <ul>
         <li>Tali, WhatsApp / phone: <a href="https://wa.me/972546881116" dir="ltr">+972-54-6881116</a></li>
-        <li><Link to="/en#contact">The contact form</Link></li>
+        <li>Through <Link to="/en/contact">the contact form on the site</Link></li>
       </ul>
-      <p><Link to="/en">← Back to the site</Link></p>
+      <p>For accessibility details about visiting the shelter, contact us and we'll arrange it in advance.</p>
     </div>
   )
   return (

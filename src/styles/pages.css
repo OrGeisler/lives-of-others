@@ -129,16 +129,3 @@
 @media (max-width: 760px) { .va-hero .va-hero-body { grid-template-columns: 1fr; text-align: center; } .va-hero .va-hug { max-width: 360px; margin: 0 auto; } }
 
 /* 17.10 English page (/en): same components as the Hebrew pages, LTR */
-.en-page .en-dogs, .en-page .en-gift { padding-block: 56px; }
-.en-page .en-dog-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-.en-page button.va-gdog { border: 0; padding: 0; font: inherit; text-align: start; cursor: pointer; background: #fff; }
-.en-page .va-gdog.on { outline: 4px solid #E0678F; outline-offset: 2px; }
-.en-page .en-go { text-align: center; margin: 26px auto 0; display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: 640px; }
-.en-page .en-hint { color: var(--muted, #5b6b78); font-size: 15px; margin: 0; }
-.en-page .en-acc { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
-.en-page .en-acc details { background: #fff; border-radius: 16px; padding: 14px 18px; box-shadow: 0 4px 14px rgba(18,58,90,.07); }
-.en-page .en-acc summary { cursor: pointer; font: 800 18px 'Rubik', sans-serif; color: #123A5A; }
-.en-page .en-acc li { margin: 8px 0; line-height: 1.6; }
-.en-page .en-gift-points { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; max-width: 900px; margin: 0 auto 26px; }
-.en-page .en-gift-points div { background: #fff; border-radius: 16px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 4px 14px rgba(18,58,90,.07); }
-.en-page .va-hero .va-h1 { font-family: 'Rubik', sans-serif; font-size: clamp(30px, 5vw, 42px); margin: 0; color: #fff; text-align: center; }

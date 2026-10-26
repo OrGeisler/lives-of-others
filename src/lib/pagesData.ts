@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { isEnPath } from './lang'
 import { supabase } from './supabase'
 import type { Dog } from './types'
 
 // Title + canonical on client-side navigation (static per-route heads come from scripts/prerender-meta.mjs)
-export function useTitle(title: string) {
+export function useTitle(title: string, titleEn?: string) {
+  const en = isEnPath(useLocation().pathname)
+  const t = en && titleEn ? titleEn : title
   useEffect(() => {
-    document.title = title
+    document.title = t
     let link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
     if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link) }
     link.href = 'https://lives-of-others.com' + location.pathname.replace(/(.)\/$/, '$1')
-  }, [title])
+  }, [t])
 }
 
 // Order requested in the 24.9 doc for the gift page

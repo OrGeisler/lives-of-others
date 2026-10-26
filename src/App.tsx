@@ -4,6 +4,7 @@ import Layout from './components/Layout'
 import A11yMenu from './components/A11yMenu'
 import Home from './pages/Home'
 import { useTitle } from './lib/pagesData'
+import { useLang } from './lib/lang'
 import { PageErrorBoundary, lazyPage as lazy } from './lib/staleChunks'
 
 // Everything except the home page is loaded on demand (smaller first load). Admin is never loaded by visitors.
@@ -22,7 +23,6 @@ const Birthday = lazy(() => import('./pages/Birthday'))
 const BirthdayThanks = lazy(() => import('./pages/BirthdayThanks'))
 const Privacy = lazy(() => import('./pages/Privacy'))
 const Accessibility = lazy(() => import('./pages/Accessibility'))
-const English = lazy(() => import('./pages/English'))
 const AdminApp = lazy(() => import('./admin/AdminApp'))
 const Certificate = lazy(() => import('./pages/Certificate'))
 
@@ -34,13 +34,35 @@ const LEGACY: Record<string, string> = {
 }
 function NotFound() {
   const { pathname, search, hash } = useLocation()
+  const { t, to: lang } = useLang()
   const to = LEGACY[pathname]
-  useTitle('העמוד לא נמצא — חיים של אחרים')
+  useTitle('העמוד לא נמצא — חיים של אחרים', 'Page not found — Lives of Others')
   if (to) return <Navigate to={to + search + hash} replace />
-  return <div className="wrap" style={{ padding: '80px 0', textAlign: 'center' }}><h1>העמוד לא נמצא 🐾</h1><a href="/">לעמוד הבית ←</a></div>
+  return <div className="wrap" style={{ padding: '80px 0', textAlign: 'center' }}><h1>{t('העמוד לא נמצא 🐾', 'Page not found 🐾')}</h1><a href={lang('/')}>{t('לעמוד הבית ←', 'To the home page →')}</a></div>
 }
 
 const page = (el: React.ReactNode) => <PageErrorBoundary><Suspense fallback={<div style={{ minHeight: '60vh' }} />}>{el}</Suspense></PageErrorBoundary>
+
+const siteRoutes = (
+  <>
+    <Route index element={<Home />} />
+    <Route path="dogs" element={page(<DogsPage />)} />
+    <Route path="dogs/:slug" element={page(<DogPage />)} />
+    <Route path="about" element={page(<AboutPage />)} />
+    <Route path="homes" element={page(<HomesPage />)} />
+    <Route path="volunteer" element={page(<VolunteerPage />)} />
+    <Route path="donate" element={page(<DonatePage />)} />
+    <Route path="contact" element={page(<ContactPage />)} />
+    <Route path="virtual-adoption" element={page(<VirtualAdoption />)} />
+    <Route path="virtual-adoption/:slug" element={page(<VaDog />)} />
+    <Route path="checkout" element={page(<Checkout />)} />
+    <Route path="gift-adoption" element={page(<GiftAdoption />)} />
+    <Route path="birthday" element={page(<Birthday />)} />
+    <Route path="privacy" element={page(<Privacy />)} />
+    <Route path="accessibility" element={page(<Accessibility />)} />
+    <Route path="*" element={<NotFound />} />
+  </>
+)
 
 export default function App() {
   const { pathname } = useLocation()
@@ -48,28 +70,11 @@ export default function App() {
   return (
     <>
     <Routes>
-      <Route element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="dogs" element={page(<DogsPage />)} />
-        <Route path="dogs/:slug" element={page(<DogPage />)} />
-        <Route path="about" element={page(<AboutPage />)} />
-        <Route path="homes" element={page(<HomesPage />)} />
-        <Route path="volunteer" element={page(<VolunteerPage />)} />
-        <Route path="donate" element={page(<DonatePage />)} />
-        <Route path="contact" element={page(<ContactPage />)} />
-        <Route path="virtual-adoption" element={page(<VirtualAdoption />)} />
-        <Route path="virtual-adoption/:slug" element={page(<VaDog />)} />
-        <Route path="checkout" element={page(<Checkout />)} />
-        <Route path="gift-adoption" element={page(<GiftAdoption />)} />
-        <Route path="birthday" element={page(<Birthday />)} />
-        <Route path="privacy" element={page(<Privacy />)} />
-        <Route path="accessibility" element={page(<Accessibility />)} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
+      <Route element={<Layout />}>{siteRoutes}</Route>
+      {/* 26.10: English = the same pages under /en */}
+      <Route path="en" element={<Layout />}>{siteRoutes}</Route>
       <Route path="birthday-thanks" element={page(<BirthdayThanks />)} />
-      <Route path="en" element={page(<English />)} />
-      <Route path="en/checkout" element={page(<Checkout />)} />
-      <Route path="en/accessibility" element={page(<Accessibility />)} />
+      <Route path="en/birthday-thanks" element={page(<BirthdayThanks />)} />
       <Route path="certificate/:id" element={page(<Certificate />)} />
       <Route path="admin/*" element={page(<AdminApp />)} />
     </Routes>
