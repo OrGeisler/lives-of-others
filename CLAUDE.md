@@ -30,9 +30,9 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - `npm run dev` (needs `.env.local`, copy `.env.example`) · `npm run build` must pass before commit
 - Migrations: `supabase db push` · Functions: `supabase functions deploy <name> --no-verify-jwt --use-api`
 - RLS tests: `node scripts/test-rls.mjs` (needs `SUPABASE_DB_PASSWORD` in env)
-- Phone check (iPhone Safari engine + Android, all pages): copy `scripts/mobile-check.mjs` to a folder with `playwright` installed
-  (outside the repo; `npx -p` doesn't resolve ESM imports) and run `node mobile-check.mjs [base-url]`.
-  Run it after UI changes. RTL gotcha: never hide things with `left:-9999px` (sideways scroll on iPhone).
+- Site check (iPhone Safari engine + Android + desktop, every page in both languages + flows: menus, language switch,
+  dog → back, 4 checkouts stubbed before Grow, contact forms): copy `scripts/site-check.mjs` next to an installed
+  `playwright` (outside the repo) and run `node site-check.mjs [base-url]`. Run it after UI changes and after every deploy. RTL gotcha: never hide things with `left:-9999px` (sideways scroll on iPhone).
 
 ## Branches & deploy
 - `main` = this app (production). `static-site` = the OLD static site, archive only: never merge the two.

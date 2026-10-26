@@ -1,4 +1,4 @@
-// Run like mobile-check.mjs (copy next to an installed playwright): node en-structure-diff.mjs http://localhost:4173
+// Run like site-check.mjs (copy next to an installed playwright): node en-structure-diff.mjs http://localhost:4173
 // Hebrew vs English twin pages: same headings count, buttons, links (same targets), images, form fields.
 import { chromium } from 'playwright'
 const B = process.argv[2]
