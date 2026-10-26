@@ -76,8 +76,11 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - Never use emoji in the certificate (server Chromium has no emoji font): use SVG.
 - Marketing consent at checkout stays unticked by default (spam law needs explicit opt-in), even if asked to pre-tick it.
 - Facts/numbers on the site come from the nonprofit or the DB; don't invent copy figures.
-- English site = `/en` (`src/pages/English.tsx`, one page) + `/en/checkout`. A Hebrew content change → mirror it there
-  (dogs: `*_en` fields in admin; volunteer stories: `volunteerStoriesEn.ts`). Payments use the same Grow pages.
+- English site = the SAME pages under `/en` (26.10; App.tsx mounts the route tree twice). Every visible text goes through
+  `useLang()` (`src/lib/lang.ts`): `t(he, en)`, internal links `to(path)`, DB text `db(he, en)` (dogs/team/fallen `*_en`).
+  New text or page → write both languages in the same PR. Never add an English-only page or a Hebrew-only string.
+  Check: no Hebrew on any /en page and same structure as Hebrew (`scripts/en-hebrew-leak.mjs`, `scripts/en-structure-diff.mjs`).
+  Payments use the same Grow pages; EN contact inquiries are tagged [EN].
 - SEO: each public route gets a static head + text from `scripts/prerender-meta.mjs` (postbuild, also writes
   sitemap.xml). New public route → add it there. The SPA fallback is `spa.html`, not `index.html`.
   Nonprofit facts for search/AI live in that script (ORG, FAQ, EN_HTML) and `public/llms.txt`: change both together.

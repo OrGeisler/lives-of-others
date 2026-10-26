@@ -23,8 +23,8 @@
 
 /* ----- Modes (classes on <html>) ----- */
 /* Text size zooms the content, not the header (its breakpoints don't react to CSS zoom) */
-html.a11y-size-1 :is(#root > :not(.site-header, .top-bar, .a11y, .en-page, .skip-link), .en-page > :not(.site-header)) { zoom: 1.15; }
-html.a11y-size-2 :is(#root > :not(.site-header, .top-bar, .a11y, .en-page, .skip-link), .en-page > :not(.site-header)) { zoom: 1.3; }
+html.a11y-size-1 #root > :not(.site-header, .top-bar, .a11y, .skip-link) { zoom: 1.15; }
+html.a11y-size-2 #root > :not(.site-header, .top-bar, .a11y, .skip-link) { zoom: 1.3; }
 html.a11y-size-1, html.a11y-size-2 { overflow-x: hidden; } /* a few px of zoomed carousels must not cause sideways scroll */
 
 html.a11y-links a { text-decoration: underline !important; text-underline-offset: 3px; }

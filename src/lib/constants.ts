@@ -1,10 +1,10 @@
 // Single source of truth for amounts and lists used by the site, the checkout and the admin.
 // (The checkout edge function and the DB check constraint mirror these: 25/50/100, 180, SOURCES keys.)
-export type Tier = { amt: number; ico: string; desc: string; featured?: boolean }
+export type Tier = { amt: number; ico: string; desc: string; descEn: string; featured?: boolean }
 export const TIERS: Tier[] = [
-  { amt: 25, ico: '🦴', desc: 'תמיכה באוכל איכותי וחטיפים שהכלבים הכי אוהבים' },
-  { amt: 50, ico: '💉', desc: 'תמיכה באוכל איכותי, חיסונים בשגרה וטיפולים רפואיים', featured: true },
-  { amt: 100, ico: '🏡', desc: 'תמיכה באוכל איכותי, טיפולים רפואיים מצילי חיים ותחזוקת מתחם בית המחסה' },
+  { amt: 25, ico: '🦴', desc: 'תמיכה באוכל איכותי וחטיפים שהכלבים הכי אוהבים', descEn: 'Supports quality food and the treats the dogs love most' },
+  { amt: 50, ico: '💉', desc: 'תמיכה באוכל איכותי, חיסונים בשגרה וטיפולים רפואיים', descEn: 'Supports quality food, routine vaccines and medical care', featured: true },
+  { amt: 100, ico: '🏡', desc: 'תמיכה באוכל איכותי, טיפולים רפואיים מצילי חיים ותחזוקת מתחם בית המחסה', descEn: 'Supports quality food, life-saving medical care and upkeep of the shelter' },
 ]
 export const TIER_AMOUNTS = TIERS.map(t => t.amt)
 export const GIFT_SUM = 180

@@ -605,7 +605,7 @@ video.hero-photo { display: block; background: #0d1c2c; }
   .memorial-modal img.memorial-hero-img { max-height: 460px; }
 }
 /* accordions "+" (8.3) — shared by home + virtual-adoption page */
-.acc { max-width: 840px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; text-align: right; }
+.acc { max-width: 840px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; text-align: start; }
 .acc details { background: #fff; border-radius: 16px; box-shadow: 0 2px 12px rgba(18,58,90,.07); }
 .acc summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 12px; padding: 18px 22px; font: 800 20px 'Rubik', sans-serif; color: var(--navy); }
 .acc summary::-webkit-details-marker { display: none; }

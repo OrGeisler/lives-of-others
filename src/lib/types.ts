@@ -30,6 +30,8 @@ export type Fallen = {
   hero_image: string | null
   grow_link: string | null
   sort: number
+  // 26.10: English (same /homes page in /en)
+  card_title_en?: string | null; modal_title_en?: string | null; eyebrow_en?: string | null; card_text_en?: string | null; story_html_en?: string | null
 }
 
 export type TeamMember = { id: string; name: string; name_en?: string | null; photo: string | null; sort: number }

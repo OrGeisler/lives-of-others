@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import { WA_ADOPT, wa } from '../../lib/links'
 import AngelButton from './AngelButton'
+import { useLang } from '../../lib/lang'
 
 export default function Hero() {
+  const { t, to } = useLang()
   const video = useRef<HTMLVideoElement>(null)
   const [soundOn, setSoundOn] = useState(false)
   const [playing, setPlaying] = useState(false)
@@ -32,23 +34,23 @@ export default function Hero() {
     <>
       <section id="top" className="wrap hero">
         <div className="hero-copy">
-          <h1>חיים של אחרים<span className="hero-title-sub">עמותה להצלה, טיפול ושיקום כלבים נטושים</span></h1>
-          <p className="hero-sub">אנחנו מחלצים כלבים מהרחוב, מההסגרים וממצבי הזנחה קשים — נותנים להם אוכל, טיפול רפואי, בית, ומעל הכול: את ההרגשה שהם אהובים.</p>
-          <span className="hero-chip">🐾 העמותה היחידה בישראל שבה הכלבים גרים בבתים — לא בכלובים</span>
+          <h1>{t('חיים של אחרים', 'Lives of Others')}<span className="hero-title-sub">{t('עמותה להצלה, טיפול ושיקום כלבים נטושים', 'Rescuing, treating and rehabilitating abandoned dogs')}</span></h1>
+          <p className="hero-sub">{t('אנחנו מחלצים כלבים מהרחוב, מההסגרים וממצבי הזנחה קשים — נותנים להם אוכל, טיפול רפואי, בית, ומעל הכול: את ההרגשה שהם אהובים.', 'We pull dogs out of the streets, the pounds and severe neglect — and give them food, medical care, a home, and above all: the feeling that they are loved.')}</p>
+          <span className="hero-chip">{t('🐾 העמותה היחידה בישראל שבה הכלבים גרים בבתים — לא בכלובים', '🐾 The only rescue in Israel where the dogs live in homes — not cages')}</span>
           <div className="cta-row">
-            <Link to="/dogs" className="btn btn-orange">אני רוצה לאמץ כלב</Link>
-            <Link to="/donate" className="btn btn-gold">אני רוצה לתרום</Link>
-            <Link to="/volunteer" className="btn btn-green">אני רוצה להתנדב</Link>
+            <Link to={to('/dogs')} className="btn btn-orange">{t('אני רוצה לאמץ כלב', 'I want to adopt a dog')}</Link>
+            <Link to={to('/donate')} className="btn btn-gold">{t('אני רוצה לתרום', 'I want to donate')}</Link>
+            <Link to={to('/volunteer')} className="btn btn-green">{t('אני רוצה להתנדב', 'I want to volunteer')}</Link>
           </div>
           <AngelButton />
           <div className="social-row">
-            <a href={wa(WA_ADOPT, 'היי! אני רוצה לעזור לעמותת חיים של אחרים 🐾')} target="_blank" rel="noopener" aria-label="וואטסאפ" title="וואטסאפ">
+            <a href={wa(WA_ADOPT, t('היי! אני רוצה לעזור לעמותת חיים של אחרים 🐾', "Hi! I'd love to help Lives of Others 🐾"))} target="_blank" rel="noopener" aria-label={t('וואטסאפ', 'WhatsApp')} title={t('וואטסאפ', 'WhatsApp')}>
               <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.1-4.7-4-4.9-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.2 2.4 1.5 2.7 1.7.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2.1 1c.3.2.5.3.6.4 0 .1 0 .7-.2 1.3z" /></svg>
             </a>
-            <a href="https://www.facebook.com/lifeofothers" target="_blank" rel="noopener" aria-label="פייסבוק" title="פייסבוק">
+            <a href="https://www.facebook.com/lifeofothers" target="_blank" rel="noopener" aria-label={t('פייסבוק', 'Facebook')} title={t('פייסבוק', 'Facebook')}>
               <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z" /></svg>
             </a>
-            <a href="https://www.instagram.com/lives.of.others.rescue" target="_blank" rel="noopener" aria-label="אינסטגרם" title="אינסטגרם">
+            <a href="https://www.instagram.com/lives.of.others.rescue" target="_blank" rel="noopener" aria-label={t('אינסטגרם', 'Instagram')} title={t('אינסטגרם', 'Instagram')}>
               <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.9.2 2.3.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1.1.4 2.3.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.2 1.9-.4 2.3-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1.1.4-2.3.4-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.9-.2-2.3-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1.1-.4-2.3-.1-1.3-.1-1.6-.1-4.8s0-3.6.1-4.8c.1-1.2.2-1.9.4-2.3.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1.1-.4 2.3-.4 1.3-.1 1.6-.1 4.8-.1zm0 2c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.2.8-.4.4-.6.7-.8 1.2-.2.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.2.4.4.7.6 1.2.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.2-.8.4-.4.6-.7.8-1.2.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.2-.4-.4-.7-.6-1.2-.8-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1zm0 3.4a5.1 5.1 0 1 1 0 10.3 5.1 5.1 0 0 1 0-10.3zm0 2a3.1 3.1 0 1 0 0 6.3 3.1 3.1 0 0 0 0-6.3zm5.3-3.5a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z" /></svg>
             </a>
           </div>
@@ -58,20 +60,20 @@ export default function Hero() {
           <div className="tv-antenna" aria-hidden="true"></div>
           <div className="tv-body">
             <div className="tv-screen">
-              <video onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} ref={video} autoPlay muted loop playsInline preload="auto" poster="/assets/img/channel12-poster.jpg" aria-label="הכתבה ששודרה בערוץ 12">
+              <video onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} ref={video} autoPlay muted loop playsInline preload="auto" poster="/assets/img/channel12-poster.jpg" aria-label={t('הכתבה ששודרה בערוץ 12', "Our story on Israel's Channel 12")}>
                 <source src="/assets/video/channel12.mp4" type="video/mp4" />
               </video>
             </div>
             {/* 13.10: the controls are the TV's knobs, so nothing covers the picture or the subtitles */}
             <div className="tv-panel">
-              <button className="tv-knob tv-btn" type="button" onClick={togglePlay} aria-label={playing ? 'עצירה' : 'הפעלה'} title={playing ? 'עצירה' : 'הפעלה'}>{playing ? '⏸' : '▶'}</button>
-              <button className="tv-knob tv-btn" type="button" onClick={toggleSound} aria-pressed={soundOn} aria-label={soundOn ? 'השתקה' : 'הפעלת קול'} title={soundOn ? 'השתקה' : 'הפעלת קול'}>{soundOn ? '🔊' : '🔇'}</button>
-              <button className="tv-knob tv-btn" type="button" onClick={restart} aria-label="מההתחלה" title="מההתחלה">⏮</button>
+              <button className="tv-knob tv-btn" type="button" onClick={togglePlay} aria-label={playing ? t('עצירה', 'Pause') : t('הפעלה', 'Play')} title={playing ? t('עצירה', 'Pause') : t('הפעלה', 'Play')}>{playing ? '⏸' : '▶'}</button>
+              <button className="tv-knob tv-btn" type="button" onClick={toggleSound} aria-pressed={soundOn} aria-label={soundOn ? t('השתקה', 'Mute') : t('הפעלת קול', 'Sound on')} title={soundOn ? t('השתקה', 'Mute') : t('הפעלת קול', 'Sound on')}>{soundOn ? '🔊' : '🔇'}</button>
+              <button className="tv-knob tv-btn" type="button" onClick={restart} aria-label={t('מההתחלה', 'From the start')} title={t('מההתחלה', 'From the start')}>⏮</button>
               <span className="tv-grill" aria-hidden="true"></span>
             </div>
           </div>
           <div className="tv-legs" aria-hidden="true"><span></span><span></span></div>
-          <figcaption className="tv-caption">📺 הכתבה ששודרה בערוץ 12 · הכפתורים בצד הטלוויזיה: הפעלה, קול ומההתחלה</figcaption>
+          <figcaption className="tv-caption">{t('📺 הכתבה ששודרה בערוץ 12 · הכפתורים בצד הטלוויזיה: הפעלה, קול ומההתחלה', '📺 Our story on Israel\'s Channel 12 (Hebrew) · the knobs on the TV: play, sound and restart')}</figcaption>
         </figure>
       </section>
       {/* wave divider into rescue-numbers */}

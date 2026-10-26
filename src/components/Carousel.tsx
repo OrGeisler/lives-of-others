@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
+import { useLang } from '../lib/lang'
 
 // Same look as the static site's carousel: whole photo (contain) over a blurred copy of itself
 export default function Carousel({ images, alt }: { images: string[]; alt: string }) {
+  const { t } = useLang()
   const [idx, setIdx] = useState(0)
   const n = images.length
   useEffect(() => {
@@ -21,10 +23,10 @@ export default function Carousel({ images, alt }: { images: string[]; alt: strin
       </div>
       {n > 1 && (
         <>
-          <button className="carousel-btn carousel-prev" aria-label="הקודם" onClick={() => go(-1)}>‹</button>
-          <button className="carousel-btn carousel-next" aria-label="הבא" onClick={() => go(1)}>›</button>
+          <button className="carousel-btn carousel-prev" aria-label={t('הקודם', 'Previous')} onClick={() => go(-1)}>‹</button>
+          <button className="carousel-btn carousel-next" aria-label={t('הבא', 'Next')} onClick={() => go(1)}>›</button>
           <div className="carousel-dots">
-            {images.map((_, i) => <button type="button" key={i} className={i === idx ? 'on' : ''} aria-label={`תמונה ${i + 1}`} aria-current={i === idx} onClick={() => setIdx(i)} />)}
+            {images.map((_, i) => <button type="button" key={i} className={i === idx ? 'on' : ''} aria-label={t(`תמונה ${i + 1}`, `Photo ${i + 1}`)} aria-current={i === idx} onClick={() => setIdx(i)} />)}
           </div>
         </>
       )}
