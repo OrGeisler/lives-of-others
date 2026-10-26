@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-type Story = { name: string; photo?: string; text: string }
+type Story = { name: string; photo?: string; focus?: string; text: string }
 const L = {
   he: { title: 'מה המתנדבים שלנו מספרים 💬', more: 'לסיפור המלא ↓', less: 'לצמצם ↑', all: (n: number) => `לסיפורים נוספים (${n}) ↓` },
   en: { title: 'What our volunteers say 💬', more: 'Read the full story ↓', less: 'Show less ↑', all: (n: number) => `More stories (${n}) ↓` },
@@ -30,7 +30,7 @@ export default function VolStories({ stories, lang = 'he' }: { stories: Story[];
           const long = head.length < s.text.trim().length
           return (
             <figure key={i} className="vol-story">
-              {s.photo && <img className="vol-story-photo" src={s.photo} alt={s.name} loading="lazy" />}
+              {s.photo && <img className="vol-story-photo" src={s.photo} alt={s.name} loading="lazy" style={s.focus ? { objectPosition: s.focus } : undefined} />}
               <figcaption>{s.name}</figcaption>
               <blockquote>{open.has(i) || !long ? s.text : head}</blockquote>
               {long && <button type="button" className="vol-story-toggle" aria-expanded={open.has(i)} onClick={() => toggle(i)}>{open.has(i) ? t.less : t.more}</button>}

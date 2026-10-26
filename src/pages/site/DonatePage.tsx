@@ -1,7 +1,5 @@
-import { Link } from 'react-router-dom'
-import { Updates } from '../../components/home/StaticSections'
 import { useCounters } from '../../lib/data'
-import { DONATE_URL, GROW_ITEMS } from '../../lib/links'
+import { DONATE_URL, WA_TALI, wa } from '../../lib/links'
 import { useTitle } from '../../lib/pagesData'
 import '../../styles/home.css'
 import '../../styles/donate.css'
@@ -10,13 +8,6 @@ import '../../styles/donate.css'
 const DOGS: [string, string][] = [
   ['/assets/img/dog-shuki-1.jpg', '50% 18%'], ['/assets/img/dog-micha-1.jpg', '50% 25%'], ['/assets/img/dog-pil-1.jpg', '50% 12%'],
   ['/assets/img/dog-gili-2.jpg', '50% 25%'], ['/assets/img/dog-bella-3.jpg', '50% 22%'],
-]
-
-// What a donation does — the nonprofit's own wording (24.9 tiers)
-const IMPACT = [
-  { amt: 25, ico: '🦴', text: 'אוכל איכותי וחטיפים שהכלבים הכי אוהבים' },
-  { amt: 50, ico: '💉', text: 'אוכל איכותי, חיסונים בשגרה וטיפולים רפואיים' },
-  { amt: 100, ico: '🏡', text: 'טיפולים רפואיים מצילי חיים ותחזוקת מתחם בית המחסה' },
 ]
 
 export default function DonatePage() {
@@ -34,7 +25,7 @@ export default function DonatePage() {
         <div className="dn-hero-text">
           <span className="dn-kicker">כל תרומה מצילה חיים</span>
           <h1>הם מחכים לכם 🐾</h1>
-          <p>מאחורי כל פרצוף כאן יש סיפור של נטישה — ושל הצלה. התרומה שלכם היא האוכל, הטיפול והבית שלהם, כל יום מחדש.</p>
+          <p>מאחורי כל זוג עיניים כאן יש סיפור של נטישה — ושל הצלה. התרומה שלכם היא האוכל, הטיפול והבית שלהם, כל יום מחדש.</p>
           <div className="dn-cta">
             <a className="btn dn-main" href={DONATE_URL} target="_blank" rel="noopener">לתרומה מאובטחת ❤</a>
           </div>
@@ -50,22 +41,8 @@ export default function DonatePage() {
         </section>
       )}
 
-      <section className="dn-impact">
-        <h2>מה התרומה שלכם עושה</h2>
-        <div className="dn-impact-grid">
-          {IMPACT.map(i => (
-            <a key={i.amt} className="dn-impact-card" href={DONATE_URL} target="_blank" rel="noopener">
-              <span className="dn-ico">{i.ico}</span>
-              <b>{i.amt} ₪</b>
-              <span>{i.text}</span>
-              <em>לתרומה ←</em>
-            </a>
-          ))}
-        </div>
-      </section>
-
       <section className="dn-ways">
-        <h2>דרכים לתרום</h2>
+        <h2>כל הדרכים לתרום</h2>
         <div className="dn-ways-grid">
           <div className="dn-way">
             <h3>💳 אשראי — חד-פעמי או הוראת קבע</h3>
@@ -86,20 +63,14 @@ export default function DonatePage() {
             <p>לתורמים מחוץ לישראל, מהיר ומאובטח.</p>
             <a className="dn-link" href="https://www.paypal.me/savingthedogs" target="_blank" rel="noopener">paypal.me/savingthedogs ←</a>
           </div>
+          <div className="dn-way">
+            <h3>💵 מזומן / המחאה</h3>
+            <p>לתרומה במזומן או בהמחאה צרו קשר עם טלי: <b dir="ltr">054-6881116</b></p>
+            <a className="dn-link" href={wa(WA_TALI, 'היי טלי, אני רוצה לתרום במזומן / בהמחאה לעמותת חיים של אחרים')} target="_blank" rel="noopener">לשיחה עם טלי בוואטסאפ ←</a>
+          </div>
         </div>
       </section>
 
-      <section className="dn-more">
-        <h2>עוד דרכים לעזור</h2>
-        <div className="dn-more-grid">
-          <Link to="/virtual-adoption" className="dn-more-card"><span>😇</span><b>המלאך השומר שלי</b><small>חסות חודשית לכלב אחד — עם עדכון ממנו כל חודש</small></Link>
-          <Link to="/gift-adoption" className="dn-more-card"><span>🎁</span><b>אימוץ במתנה</b><small>מתנה עם משמעות לאדם שאתם אוהבים</small></Link>
-          <a href={GROW_ITEMS} target="_blank" rel="noopener" className="dn-more-card"><span>🦴</span><b>תרומת ציוד</b><small>אוכל, מצעים וציוד לבתי המחסה</small></a>
-          <Link to="/homes" className="dn-more-card"><span>🕯️</span><b>תרומה להנצחה</b><small>לזכר עדי, שני ויאיר ז"ל</small></Link>
-        </div>
-      </section>
-
-      <Updates />
     </>
   )
 }

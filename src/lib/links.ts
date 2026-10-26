@@ -13,6 +13,9 @@ export const isTestMode = () => {
     return sessionStorage.getItem('loo-test') === '1'
   } catch { return false }
 }
+// 26.10 home "שק אוכל – 180 ₪" button. No 180 ₪ food-sack Grow page exists yet (the items page sells one at 200 ₪):
+// points at the general donation page until the nonprofit sets one up.
+export const FOOD_SACK_URL = DONATE_URL
 export const GROW_ITEMS = 'https://pay.grow.link/d11531631a4771ca56c52465ec53819b-MzE0NDM5Nw'
 export const WA_ADOPT = '972528296622' // ברי
 export const WA_TALI = '972546881116'  // טלי

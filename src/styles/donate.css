@@ -57,3 +57,6 @@
   .dn-impact-grid, .dn-ways-grid { grid-template-columns: 1fr; }
   .dn-more-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* 26.10: five ways — the last one spans the row */
+.dn-way:last-child:nth-child(odd) { grid-column: 1 / -1; }

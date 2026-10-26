@@ -185,7 +185,7 @@ function Gift({ dogs }: { dogs: Dog[] }) {
     <section id="gift" className="gift-sec en-gift">
       <div className="section-head reveal">
         <h2>Adopt as a gift 🎁</h2>
-        <p>Looking for a moving, meaningful gift for someone who loves dogs? Give them a virtual adoption of one of the dogs we rescued. With your one-time donation of ₪{GIFT_SUM}, the dog you choose gets everything they need — a safe roof, quality food, devoted medical care and an ocean of love.</p>
+        <p>Give them a gift that warms the heart. <mark className="gh-price">For just ₪{GIFT_SUM}</mark>, you virtually adopt a lovely dog for someone you love. They'll get a thank-you video from the dog you chose, a special adoption certificate and monthly updates from the field — and thanks to you, the dog gets all the food, care and love they need so much.</p>
       </div>
       <div className="en-gift-points reveal">
         <div><b>📱 A moving surprise straight to their phone</b><span>On the day you choose, we send them a personal adoption message in the name of their new dog, together with your greeting and the adoption certificate.</span></div>
@@ -404,8 +404,9 @@ export default function English() {
         <h2 className="reveal">What makes Lives of Others different</h2>
         <p className="reveal"><strong>Homes instead of cages.</strong> In our unique flagship project, the dogs live in <strong>Magical Homes</strong>. The Magical Homes are memorial projects for loved ones who fell and were murdered in the October 7 war — in these homes, the legacy of Staff Sgt. Adi Tzur, Reserve Master Sgt. Yair Katz and Shani Gabay lives on through saving dogs and giving to animals.</p>
         <div className="unique-video reveal">
-          <iframe src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent('https://www.facebook.com/reel/2469672846859124')}&show_text=false&width=340&height=604&t=0`}
-            title="Dvora: homes instead of cages (Hebrew)" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen />
+          <video controls playsInline preload="metadata" poster="/assets/img/dvora-poster.jpg" aria-label="Dvora: homes instead of cages (Hebrew)">
+            <source src="/assets/video/dvora.mp4" type="video/mp4" />
+          </video>
         </div>
         <p className="video-caption">👆 Dvora, our co-founder: homes instead of cages (Hebrew)</p>
       </section>
@@ -570,6 +571,11 @@ export default function English() {
             <span className="d-icon">🏦</span>
             <strong>Bank transfer</strong>
             <p className="bank-details">Beneficiary: <b>Lives of Others</b><br />Mizrahi-Tefahot Bank (20)<br />Branch 539 · Account: <b>497218</b></p>
+          </div>
+          <div className="donate-card reveal">
+            <span className="d-icon">💵</span>
+            <strong>Cash / cheque</strong>
+            <p>To donate in cash or by cheque, contact Tali: <b dir="ltr">054-6881116</b></p>
           </div>
         </div>
       </section>

@@ -54,7 +54,7 @@ export default function Hero() {
           </div>
         </div>
         {/* 24.9 עמ' 1: סרטון ערוץ 12 ברקע בתוך מסגרת טלוויזיה של פעם */}
-        <figure className="tv">
+        <figure className="tv" id="tv">
           <div className="tv-antenna" aria-hidden="true"></div>
           <div className="tv-body">
             <div className="tv-screen">

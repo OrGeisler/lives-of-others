@@ -4,7 +4,7 @@ import VolStories from '../VolStories'
 // Static home-page sections, converted 1:1 from the static site (index.html on main).
 // Texts are kept verbatim; dynamic sections (team, memorials, dogs, birthday, counters, contact) live in their own files.
 import { Link } from 'react-router-dom'
-import { DONATE_URL, GROW_ITEMS, WA_ADOPT, wa } from '../../lib/links'
+import { DONATE_URL, WA_ADOPT, wa } from '../../lib/links'
 
 export function Story() {
   return (
@@ -59,10 +59,11 @@ export function Unique() {
       <section className="unique">
         <h2 className="reveal">מה מייחד את עמותת חיים של אחרים</h2>
         <p className="reveal"><strong>במקום כלובים — בתים.</strong> בפרויקט הדגל הייחודי שלנו אנחנו משכנים את הכלבים <strong>בבתים קסומים</strong>. הבתים הקסומים הם פרויקט הנצחה לזכר יקירים שנפלו ונרצחו במלחמת ה־7 באוקטובר — בבתים אלו מורשתם של סמ״ר עדי צור, רס״ם במילואים יאיר כץ ושני גבאי ממשיכה לחיות דרך הצלת כלבים ונתינה לבעלי חיים.</p>
-        {/* 17.10: "סרטון דבורה – במקום כלובים בתים" (Facebook reel של העמותה). 4 כפתורי הפעולה הוסרו לבקשת העמותה (13.10) */}
+        {/* 17.10: "סרטון דבורה – במקום כלובים בתים" (26.10: the reel is 16:9; self-hosted so it isn't squeezed and opens full screen on phones). 4 כפתורי הפעולה הוסרו לבקשת העמותה (13.10) */}
         <div className="unique-video reveal">
-          <iframe src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent('https://www.facebook.com/reel/2469672846859124')}&show_text=false&width=340&height=604&t=0`}
-            title="דבורה: במקום כלובים — בתים" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen />
+          <video controls playsInline preload="metadata" poster="/assets/img/dvora-poster.jpg" aria-label="דבורה: במקום כלובים — בתים">
+            <source src="/assets/video/dvora.mp4" type="video/mp4" />
+          </video>
         </div>
       </section>
     </>
@@ -82,12 +83,13 @@ export function Press() {
               <span>הדוגמנית שלומית מלכה הצטלמה עם כלבים שלנו בקמפיין של קסטרו, בפרויקט להעלאת המודעות לאימוץ.</span>
               <em>לכתבה ←</em>
             </a>
-            <Link className="press-card" to="/">
+            {/* 26.10: on phones the TV sits below the hero text, so "/" went nowhere; scroll to the TV itself */}
+            <a className="press-card" href="#tv" onClick={e => { e.preventDefault(); document.getElementById('tv')?.scrollIntoView({ behavior: 'smooth', block: 'center' }) }}>
               <span className="press-src">ערוץ 12</span>
               <strong>הכתבה ששודרה בערוץ 12</strong>
               <span>הכתבה על העמותה ששודרה בערוץ 12 — מתנגנת בראש עמוד הבית.</span>
               <em>לצפייה ←</em>
-            </Link>
+            </a>
             <a className="press-card" href="https://youtu.be/jO9JChY_ETM" target="_blank" rel="noopener">
               <span className="press-src">YouTube · Give Together</span>
               <strong>הם ננטשו. אנחנו לא ננטוש אותם 🐾</strong>
@@ -176,55 +178,24 @@ export function Donate() {
   )
 }
 
-export function Updates() {
+// 26.10: "עדכונים מהשטח" removed; the social box moved from /donate to the home page, after the gift banner
+export function Social() {
   return (
-    <>
-      <section className="wrap updates">
-        <div className="updates-grid">
-          <div className="updates-list reveal">
-            <h2>עדכונים מהשטח</h2>
-            <div className="update-card">
-              <img src="/assets/img/sleeping-bandana.jpg" alt="כלבה ישנה בבית אומנה" />
-              <div className="update-body">
-                <span className="update-date">עכשיו בעמוד הפייסבוק</span>
-                <strong>הכלבים שלנו רוצים לאכול 🙏</strong>
-                <p>קערה אחרי קערה, שק אחרי שק. עשרות כלבים תלויים בנו בכל יום — ואנחנו תלויים בכם. גם תרומה קטנה ממלאה עוד קערה.</p>
-              </div>
-            </div>
-            <div className="update-card">
-              <img src="/assets/img/dog-car-kid.jpg" alt="זום בדרך לאומנה" />
-              <div className="update-body">
-                <span className="update-date">דרוש דחוף</span>
-                <strong>מחפשים אומנה לזום — העמותה משלמת 1,200 ₪ בחודש</strong>
-                <p>זום צריך רק בית זמני ולב פתוח. את כל השאר — אוכל, וטרינר וליווי — אנחנו מממנים.</p>
-              </div>
-            </div>
-            <div className="update-card">
-              <img src="/assets/img/volunteers.jpg" alt="מתנדבים עם כלב" />
-              <div className="update-body">
-                <span className="update-date">אפשר לעזור גם בציוד</span>
-                <strong>דרושים: רתמות, רצועות ושקי אוכל</strong>
-                <p>נמצאים ברמת אפעל. מוזמנים לתאם הגעה: 054-6881116 — כל תרומת ציוד מתקבלת בזנבות מכשכשים.</p>
-                <a className="update-cta" href={GROW_ITEMS} target="_blank" rel="noopener">🦴 לתרומת ציוד ←</a>
-              </div>
-            </div>
-          </div>
-          <div className="social-box reveal">
-            <h3>עקבו אחרינו ברשתות</h3>
-            <p>כלבים חדשים, אימוצים מרגשים ורגעים קטנים של אושר — כל יום, בפייסבוק ובאינסטגרם.</p>
-            <div className="social-thumbs">
-              <img src="/assets/img/dog-trail.jpg" alt="" />
-              <img src="/assets/img/puppy.jpg" alt="" />
-              <img src="/assets/img/dog-tub.jpg" alt="" />
-              <img src="/assets/img/dog-shepherd.jpg" alt="" />
-              <img src="/assets/img/adopt-me-cafe.jpg" alt="" />
-              <img src="/assets/img/hero-two-dogs.jpg" alt="" />
-            </div>
-            <a className="fb-link" href="https://www.facebook.com/lifeofothers" target="_blank" rel="noopener">facebook.com/lifeofothers ←</a>
-            <a className="fb-link" href="https://www.instagram.com/lives.of.others.rescue" target="_blank" rel="noopener">@lives.of.others.rescue ←</a>
-          </div>
+    <section className="wrap social-home">
+      <div className="social-box reveal">
+        <h3>עקבו אחרינו ברשתות</h3>
+        <p>כלבים חדשים, אימוצים מרגשים ורגעים קטנים של אושר — כל יום, בפייסבוק ובאינסטגרם.</p>
+        <div className="social-thumbs">
+          <img src="/assets/img/dog-trail.jpg" alt="" loading="lazy" />
+          <img src="/assets/img/puppy.jpg" alt="" loading="lazy" />
+          <img src="/assets/img/dog-tub.jpg" alt="" loading="lazy" />
+          <img src="/assets/img/dog-shepherd.jpg" alt="" loading="lazy" />
+          <img src="/assets/img/adopt-me-cafe.jpg" alt="" loading="lazy" />
+          <img src="/assets/img/hero-two-dogs.jpg" alt="" loading="lazy" />
         </div>
-      </section>
-    </>
+        <a className="fb-link" href="https://www.facebook.com/lifeofothers" target="_blank" rel="noopener">facebook.com/lifeofothers ←</a>
+        <a className="fb-link" href="https://www.instagram.com/lives.of.others.rescue" target="_blank" rel="noopener">@lives.of.others.rescue ←</a>
+      </div>
+    </section>
   )
 }

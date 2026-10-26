@@ -69,10 +69,30 @@ a.dog-card:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; 
 @media (max-width: 560px) { .doors-grid { grid-template-columns: 1fr; } .door { aspect-ratio: 16 / 9; } .doors .wrap { padding-block: 44px; } }
 
 /* home: closing CTA band */
-.cta-band { background: var(--cream); }
-.cta-band-inner { padding-block: 34px; display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
-.cta-band-inner p { margin: 0; font-size: 19px; color: var(--ink); }
-@media (max-width: 720px) { .cta-band-inner { flex-direction: column; text-align: center; } }
+/* 26.10 food band: loud colour, one bold line, one big button shaped like a food sack */
+.food-band { background: linear-gradient(120deg, #E8456B 0%, #F2793A 100%); color: #fff; position: relative; overflow: hidden; }
+.food-band::before, .food-band::after { content: '🐾'; position: absolute; font-size: 120px; opacity: .12; pointer-events: none; }
+.food-band::before { top: -20px; inset-inline-start: 4%; transform: rotate(-18deg); }
+.food-band::after { bottom: -30px; inset-inline-end: 6%; transform: rotate(14deg); }
+.food-band-inner { padding-block: 46px 52px; display: flex; flex-direction: column; align-items: center; gap: 26px; text-align: center; position: relative; }
+.food-band h2 { margin: 0; font: 900 clamp(34px, 6vw, 56px)/1.1 'Rubik', sans-serif; color: #fff; text-shadow: 0 3px 12px rgba(120, 20, 40, .25); }
+.food-sack { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #3b2410; filter: drop-shadow(0 10px 22px rgba(90, 20, 10, .35)); transition: transform .18s; }
+.food-sack:hover, .food-sack:focus-visible { transform: translateY(-4px) rotate(-1deg); }
+.food-sack-top { width: 62%; height: 26px; background: #C9965B; border-radius: 10px 10px 4px 4px;
+  background-image: repeating-linear-gradient(90deg, transparent 0 10px, rgba(255,255,255,.35) 10px 13px); }
+.food-sack-body { margin-top: -4px; min-width: 300px; padding: 22px 40px 24px; background: linear-gradient(180deg, #E2B37A, #C98E4F);
+  border-radius: 18px 18px 46px 46px; border: 3px dashed rgba(255,255,255,.55); display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.food-sack-body svg { width: 70px; height: 44px; }
+.food-sack-body b { font: 900 28px 'Rubik', sans-serif; }
+.food-sack-sum { background: #fff; color: #D2344F; font: 900 30px 'Rubik', sans-serif; padding: 2px 22px; border-radius: 999px; margin-top: 6px; }
+@media (max-width: 720px) { .food-sack-body { min-width: 0; width: min(300px, 86vw); padding: 18px 20px 22px; } .food-sack-body b { font-size: 24px; } }
+@media (prefers-reduced-motion: reduce) { .food-sack { transition: none; } }
+
+/* 26.10: social box on the home page, after the gift banner */
+.social-home { padding-block: 56px; }
+.social-home .social-box { max-width: 760px; margin: 0 auto; }
+.social-home .social-thumbs { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+@media (max-width: 720px) { .social-home { padding-block: 40px; } .social-home .social-thumbs { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 /* birthday of the month — calm card (replaces the purple gradient + confetti) */
 section.bday-home { background: var(--cream, #F7F3EC); color: inherit; overflow: visible; }
@@ -122,9 +142,9 @@ section.bday-home { background: var(--cream, #F7F3EC); color: inherit; overflow:
   .hero .tv-panel .tv-btn { width: 40px; height: 40px; font-size: 17px; }
 }
 .volunteer .vol-more a.btn { background: #ffe14d; color: #123A5A; font-weight: 800; }
-/* 17.10: Dvora's reel under "מה מייחד" (vertical 9:16) */
-.unique .unique-video { width: min(340px, 100%); aspect-ratio: 9 / 16; height: auto; margin: 24px auto 0; border-radius: 22px; overflow: hidden; background: #000; box-shadow: 0 12px 30px rgba(18,58,90,.18); }
-.unique .unique-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+/* 17.10: Dvora's video under "מה מייחד" (26.10: it is 16:9, self-hosted with native controls + full screen) */
+.unique .unique-video { width: min(760px, 100%); aspect-ratio: 16 / 9; height: auto; margin: 24px auto 0; border-radius: 22px; overflow: hidden; background: #000; box-shadow: 0 12px 30px rgba(18,58,90,.18); }
+.unique .unique-video video { width: 100%; height: 100%; border: 0; display: block; object-fit: contain; background: #000; }
 
 /* GiftHome (22.10): festive band like the birthday page */
 section.gift-home { position: relative; overflow: hidden; color: #fff; background: linear-gradient(150deg, #9c1650, #C2185B 45%, #E0678F); padding: 56px 0; }
@@ -157,3 +177,4 @@ section.gift-home { position: relative; overflow: hidden; color: #fff; backgroun
 .volunteer .vol-more { background: linear-gradient(150deg, #9c1650, #C2185B 45%, #E0678F); }
 .volunteer .vol-more strong { color: #ffe14d; }
 .volunteer .vol-more a.btn { background: #fff; color: #9c1650; }
+.gift-home p .gh-price, .en-gift .gh-price { background: #ffe14d; color: #6b1236; font-weight: 900; padding: 0 8px; border-radius: 6px; white-space: nowrap; }
