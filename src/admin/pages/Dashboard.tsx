@@ -50,80 +50,100 @@ export default function Dashboard() {
   return (
     <>
       <PageHead title="שלום 👋" />
-      <Help>זה המסך הראשי. הכרטיסים הצבעוניים מראים <b>מה מחכה לטיפול</b>. לחיצה על כרטיס מעבירה למסך המתאים.</Help>
+      <Help>זה המסך הראשי, מחולק לפי נושא: אימוץ וירטואלי, אימוץ במתנה ויום הולדת. כרטיס בצבע = <b>מחכה לטיפול</b>. לחיצה על כרטיס מעבירה למסך המתאים.</Help>
       <SentGuide />
       {err ? <p className="ad-error">לא הצלחנו לטעון את הנתונים. בדקו את החיבור לאינטרנט ונסו לרענן את העמוד.</p> : !s ? <p>טוען…</p> : (
-        <div className="ad-cards">
-          <Link to="/admin/to-send" className={`ad-card${s.toSend ? ' alert' : ' ok'}`}>
-            <span className="ad-card-num">{s.toSend}</span>
-            <span className="ad-card-label">מאמצים שעוד לא קיבלו עדכון ב{month}</span>
-            <span className="ad-card-go">{s.toSend ? 'לשליחת עדכונים ←' : 'הכל נשלח החודש ✓'}</span>
-          </Link>
-          <Link to="/admin/gifts" className={`ad-card${s.giftsToday ? ' alert' : ' ok'}`}>
-            <span className="ad-card-num">{s.giftsToday}</span>
-            <span className="ad-card-label">מתנות שצריך לשלוח היום</span>
-            <span className="ad-card-go">{s.giftsToday ? 'למתנות ←' : 'אין מתנות לשליחה ✓'}</span>
-          </Link>
-          {s.inbox > 0 && (
-            <Link to="/admin/inbox" className="ad-card alert">
-              <span className="ad-card-num">{s.inbox}</span>
-              <span className="ad-card-label">פניות חדשות מהאתר</span>
-              <span className="ad-card-go">לפניות ←</span>
-            </Link>
+        <>
+          {/* 9.11 (Or): grouped by topic so it's clear what each number is about */}
+          {(s.inbox > 0 || s.review > 0) && (
+            <>
+              <h2 className="ad-h2 ad-dash-h">📥 דחוף</h2>
+              <div className="ad-cards">
+                {s.inbox > 0 && (
+                  <Link to="/admin/inbox" className="ad-card alert">
+                    <span className="ad-card-num">{s.inbox}</span>
+                    <span className="ad-card-label">פניות חדשות מהאתר</span>
+                    <span className="ad-card-go">לפניות ←</span>
+                  </Link>
+                )}
+                {s.review > 0 && (
+                  <Link to="/admin/payments" className="ad-card alert">
+                    <span className="ad-card-num">{s.review}</span>
+                    <span className="ad-card-label">תשלומים חדשים שצריך לשייך</span>
+                    <span className="ad-card-go">לתשלומים ←</span>
+                  </Link>
+                )}
+              </div>
+            </>
           )}
-          {s.certs > 0 && (
-            <Link to="/admin/sponsors?cert=pending" className="ad-card alert">
-              <span className="ad-card-num">{s.certs}</span>
-              <span className="ad-card-label">תעודות אימוץ שמחכות לשליחה</span>
-              <span className="ad-card-go">לשליחת תעודות ←</span>
+
+          <h2 className="ad-h2 ad-dash-h">😇 אימוץ וירטואלי</h2>
+          <div className="ad-cards">
+            <Link to="/admin/to-send" className={`ad-card${s.toSend ? ' alert' : ' ok'}`}>
+              <span className="ad-card-num">{s.toSend}</span>
+              <span className="ad-card-label">מאמצים שעוד לא קיבלו עדכון ב{month}</span>
+              <span className="ad-card-go">{s.toSend ? 'לשליחת עדכונים ←' : 'הכל נשלח החודש ✓'}</span>
             </Link>
-          )}
-          {s.giftCerts > 0 && (
-            <Link to="/admin/gifts?tab=buyer" className="ad-card alert">
-              <span className="ad-card-num">{s.giftCerts}</span>
-              <span className="ad-card-label">קונים של מתנה שלא קיבלו מייל עם התעודה</span>
-              <span className="ad-card-go">למתנות ←</span>
+            {s.certs > 0 && (
+              <Link to="/admin/sponsors?cert=pending" className="ad-card alert">
+                <span className="ad-card-num">{s.certs}</span>
+                <span className="ad-card-label">מאמצים שעוד לא קיבלו תעודה</span>
+                <span className="ad-card-go">לשליחת תעודות ←</span>
+              </Link>
+            )}
+            {s.stalePending > 0 && (
+              <Link to="/admin/sponsors?status=pending" className="ad-card alert">
+                <span className="ad-card-num">{s.stalePending}</span>
+                <span className="ad-card-label">מילאו טופס אימוץ אבל לא שילמו (יותר מיומיים)</span>
+                <span className="ad-card-go">לשלוח להם הודעה ←</span>
+              </Link>
+            )}
+            {s.failed > 0 && (
+              <Link to="/admin/sponsors?status=failed" className="ad-card alert">
+                <span className="ad-card-num">{s.failed}</span>
+                <span className="ad-card-label">הוראות קבע שהחיוב שלהן נכשל</span>
+                <span className="ad-card-go">לבדיקה ←</span>
+              </Link>
+            )}
+            <Link to="/admin/sponsors" className="ad-card">
+              <span className="ad-card-num">{s.active}</span>
+              <span className="ad-card-label">מאמצים פעילים</span>
+              <span className="ad-card-go">{shekel(s.monthly)} בחודש</span>
             </Link>
-          )}
-          {s.bdThanks > 0 && (
-            <Link to="/admin/birthdays" className="ad-card alert">
-              <span className="ad-card-num">{s.bdThanks}</span>
-              <span className="ad-card-label">מתנות יום הולדת שמחכות לתודה</span>
-              <span className="ad-card-go">לשליחת תודה בוואטסאפ ←</span>
+          </div>
+
+          <h2 className="ad-h2 ad-dash-h">🎁 אימוץ במתנה</h2>
+          <div className="ad-cards">
+            <Link to="/admin/gifts" className={`ad-card${s.giftsToday ? ' alert' : ' ok'}`}>
+              <span className="ad-card-num">{s.giftsToday}</span>
+              <span className="ad-card-label">מתנות לשלוח היום למקבלים</span>
+              <span className="ad-card-go">{s.giftsToday ? 'לשליחה ←' : 'אין מה לשלוח היום ✓'}</span>
             </Link>
-          )}
-          {s.review > 0 && (
-            <Link to="/admin/payments" className="ad-card alert">
-              <span className="ad-card-num">{s.review}</span>
-              <span className="ad-card-label">תשלומים חדשים שצריך לשייך</span>
-              <span className="ad-card-go">לתשלומים ←</span>
+            {s.giftCerts > 0 && (
+              <Link to="/admin/gifts?tab=buyer" className="ad-card alert">
+                <span className="ad-card-num">{s.giftCerts}</span>
+                <span className="ad-card-label">קונים שלא קיבלו מייל תודה עם התעודה</span>
+                <span className="ad-card-go">לשליחת המייל ←</span>
+              </Link>
+            )}
+          </div>
+
+          <h2 className="ad-h2 ad-dash-h">🎂 יום הולדת</h2>
+          <div className="ad-cards">
+            <Link to="/admin/birthdays" className="ad-card bday">
+              <span className="ad-card-num">🎂</span>
+              <span className="ad-card-label">הכלב של {month}</span>
+              <span className="ad-card-go">{s.bday ?? 'לא נבחר כלב — לבחירה ←'}</span>
             </Link>
-          )}
-          {s.failed > 0 && (
-            <Link to="/admin/sponsors?status=failed" className="ad-card alert">
-              <span className="ad-card-num">{s.failed}</span>
-              <span className="ad-card-label">הוראות קבע שהחיוב שלהן נכשל</span>
-              <span className="ad-card-go">לבדיקה ←</span>
-            </Link>
-          )}
-          {s.stalePending > 0 && (
-            <Link to="/admin/sponsors?status=pending" className="ad-card alert">
-              <span className="ad-card-num">{s.stalePending}</span>
-              <span className="ad-card-label">מילאו טופס אימוץ אבל לא השלימו תשלום (יותר מיומיים)</span>
-              <span className="ad-card-go">לשלוח להם הודעה ←</span>
-            </Link>
-          )}
-          <Link to="/admin/sponsors" className="ad-card">
-            <span className="ad-card-num">{s.active}</span>
-            <span className="ad-card-label">מאמצים וירטואליים פעילים</span>
-            <span className="ad-card-go">{shekel(s.monthly)} בחודש</span>
-          </Link>
-          <Link to="/admin/birthdays" className="ad-card bday">
-            <span className="ad-card-num">🎂</span>
-            <span className="ad-card-label">יום ההולדת של {month}</span>
-            <span className="ad-card-go">{s.bday ?? 'לא נבחר כלב — לבחירה ←'}</span>
-          </Link>
-        </div>
+            {s.bdThanks > 0 && (
+              <Link to="/admin/birthdays" className="ad-card alert">
+                <span className="ad-card-num">{s.bdThanks}</span>
+                <span className="ad-card-label">נתנו מתנת יום הולדת ומחכים לתודה</span>
+                <span className="ad-card-go">לשליחת תודה בוואטסאפ ←</span>
+              </Link>
+            )}
+          </div>
+        </>
       )}
     </>
   )
