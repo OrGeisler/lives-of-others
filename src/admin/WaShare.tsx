@@ -80,10 +80,10 @@ function SendWindow({ phone, to, text, certId, video, dog, onSent, onClose }: Pr
 
         {(certId || video) && (
           <>
-            <h3>2. לשלוח גם את הקבצים עצמם</h3>
+            <h3>2. לא חובה: לשלוח גם כקבצים</h3>
             {share ? (
               <>
-                <p className="ad-hint">אחרי ששלחתם את ההודעה: לוחצים כאן, בוחרים וואטסאפ ואת {to} — והקובץ נשלח בצ'אט.</p>
+                <p className="ad-hint">הקישור בהודעה כבר פותח את התעודה{video ? ' והסרטון' : ''}, אז אפשר לדלג על השלב הזה. רוצים שיופיעו גם בתוך הצ'אט? אחרי שההודעה נשלחה, לוחצים על כפתור, בוחרים וואטסאפ ואת {to}.</p>
                 <div className="ad-row-actions">
                   {certId && (
                     <button type="button" className="ad-btn" disabled={!cert.file} onClick={() => cert.file && shareFile(cert.file)}>
