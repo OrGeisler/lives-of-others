@@ -70,6 +70,9 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
   non-test payment. Gift RECIPIENTS get no automatic email (Or, 9.11): admin → מתנות has two recipient buttons, 💬 WhatsApp (opening it marks the gift sent) and 📧 email (asks first); staff send both together. The old cron is unscheduled. WhatsApp stays manual.
 - Contact form (both languages) posts to `api/contact.ts`: saves to פניות + emails `CONTACT_NOTIFY_TO` (Vercel env;
   production = Beri, Adi, Tali; preview = Or for tests). Falls back to a direct insert if the API fails. The wa.me it opens is only sent if the visitor taps Send.
+- Automatic emails depend on INTERNAL_SECRET being identical in Vercel (production) and Supabase secrets. On 9.11 they differed, so
+  every post-payment email got 403 (found on the first real payment). Rotated together; Vercel stores it as a Secret (not pullable).
+  Test payments skip the emails, so only a real payment proves this path.
 - WhatsApp from admin: `src/admin/WaShare.tsx` (wa.me = text only; files go via the phone's share sheet).
   Marking "sent" there sets the same `*_certificate_sent_at` fields as the email button.
 - supabase-js queries are lazy: a fire-and-forget `void supabase.from(...).insert()` never runs. Always `await` or `.then()`.
