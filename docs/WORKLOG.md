@@ -1,6 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
-- 2026-11-09 · Or (Claude) · Dashboard: 'certificates waiting' counted gift buyers but linked to adopters (empty list). Split: adopters tile → מאמצים, gift buyers tile → מתנות (?tab=all).
+- 2026-11-09 · Or (Claude) · Dashboard: 'certificates waiting' counted gift buyers but linked to adopters (empty list). Split: adopters tile → מאמצים, gift buyers tile → מתנות (?tab=buyer: only gifts whose buyer has no email yet).
 - 2026-11-09 · Or (Claude) · Bug: automatic post-payment emails were rejected (403): INTERNAL_SECRET differed between Vercel and Supabase. Or set one new value on both; production redeployed. Proof pending the next real payment.
 - 2026-11-09 · Or (Claude) · Gift recipient: two separate buttons (💬 WhatsApp, 📧 email) instead of one combined; send window step 2 (files) marked optional. Evgeniia's duplicate unpaid gift form canceled in DB.
 - 2026-11-09 · Or (Claude) · Press section: 16:9 image on each of the 5 cards (public/assets/img/press-*.webp); Channel 14 card plays our hosted cut of the item (public/assets/video/ch14-item.mp4) in a modal, small link to the full broadcast kept.
