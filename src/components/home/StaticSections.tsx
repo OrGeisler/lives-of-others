@@ -6,6 +6,8 @@ import VolStories from '../VolStories'
 // Static home-page sections, converted 1:1 from the static site (index.html on main).
 // Texts are kept verbatim; dynamic sections (team, memorials, dogs, birthday, counters, contact) live in their own files.
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import Modal from './Modal'
 import { WA_ADOPT, wa } from '../../lib/links'
 
 export function Story() {
@@ -78,8 +80,17 @@ export function Unique() {
   )
 }
 
+// 9.11: each card gets a 16:9 image; Channel 14 plays our hosted copy of the item (ch14-item.mp4, Or approved) in a modal.
+const PRESS_CH14_URL = 'https://tv.c14.co.il/live,14251/ch14,935227/2026-07-07/ywmn-hryym,1305163'
+
+function PressImg({ src, alt }: { src: string; alt: string }) {
+  return <img className="press-img" src={src} alt={alt} width={640} height={360} loading="lazy" decoding="async" />
+}
+
 export function Press() {
   const { t, arrow } = useLang()
+  const [ch14, setCh14] = useState(false)
+  const ch14Title = t('העמותה ביומן הצהריים של ערוץ 14', "Our nonprofit on Channel 14's midday news")
   return (
     <>
       <section className="press">
@@ -87,6 +98,7 @@ export function Press() {
           <div className="section-head reveal"><h2>{t('מדברים עלינו 📰', 'In the news 📰')}</h2><p>{t('העמותה והכלבים שלנו בתקשורת', 'Our nonprofit and our dogs in the media')}</p></div>
           <div className="press-grid reveal">
             <a className="press-card" href="https://www.mako.co.il/entertainment-celebs/local-2022/Article-cc51807270aae71026.htm" target="_blank" rel="noopener">
+              <PressImg src="/assets/img/press-mako.webp" alt={t('שלומית מלכה על ספה עם רועה גרמני', 'Shlomit Malka on a sofa with a German Shepherd')} />
               <span className="press-src">mako · 2022</span>
               <strong>{t('על הסט הכי חלומי: שלומית מלכה מצטלמת', 'On the dreamiest set: Shlomit Malka photoshoot')}</strong>
               <span>{t('הדוגמנית שלומית מלכה הצטלמה עם כלבים שלנו בקמפיין של קסטרו, בפרויקט להעלאת המודעות לאימוץ.', "Model Shlomit Malka posed with our dogs in a Castro campaign, to raise awareness of adoption (Hebrew).")}</span>
@@ -94,26 +106,36 @@ export function Press() {
             </a>
             {/* 26.10: on phones the TV sits below the hero text, so "/" went nowhere; scroll to the TV itself */}
             <a className="press-card" href="#tv" onClick={e => { e.preventDefault(); document.getElementById('tv')?.scrollIntoView({ behavior: 'smooth', block: 'center' }) }}>
+              <PressImg src="/assets/img/press-channel12.webp" alt={t('מתנדבת עם כלבים בחצר בית המחסה, מתוך הכתבה בערוץ 12', 'A volunteer with dogs in the shelter yard, from the Channel 12 report')} />
               <span className="press-src">{t('ערוץ 12', 'Channel 12')}</span>
               <strong>{t('הכתבה ששודרה בערוץ 12', "Our story on Israel's Channel 12")}</strong>
               <span>{t('הכתבה על העמותה ששודרה בערוץ 12 — מתנגנת בראש עמוד הבית.', 'The report about us that aired on Channel 12 — playing at the top of the home page (Hebrew).')}</span>
               <em>{t('לצפייה', 'Watch')} {arrow}</em>
             </a>
-            {/* 2.11: Channel 14 "יומן צהריים" 7.7.2026; the item runs 01:48:20–01:54:40 of the broadcast (Adi, WhatsApp 2.11) */}
-            <a className="press-card" href="https://tv.c14.co.il/live,14251/ch14,935227/2026-07-07/ywmn-hryym,1305163" target="_blank" rel="noopener">
+            {/* 2.11: Channel 14 "יומן צהריים" 7.7.2026; the item is 01:48:20–01:54:40 of the broadcast (Adi, WhatsApp 2.11), cut to ch14-item.mp4 */}
+            <div className="press-card press-card-video">
+              <button type="button" className="press-play" tabIndex={-1} aria-hidden="true" onClick={() => setCh14(true)}>
+                <PressImg src="/assets/img/press-channel14.webp" alt="" />
+                <i className="press-play-icon">▶</i>
+              </button>
               <span className="press-src">{t('ערוץ 14 · יומן צהריים · 7.7.2026', 'Channel 14 · Midday news · 7.7.2026')}</span>
-              <strong>{t('העמותה ביומן הצהריים של ערוץ 14', "Our nonprofit on Channel 14's midday news")}</strong>
-              <span>{t(<>האייטם על העמותה מתחיל בדקה <bdi dir="ltr">1:48:20</bdi> של השידור.</>, <>The item about us starts at <bdi dir="ltr">1:48:20</bdi> into the broadcast (Hebrew).</>)}</span>
-              <em>{t('לצפייה', 'Watch')} {arrow}</em>
-            </a>
+              <strong>{ch14Title}</strong>
+              <span>{t('האייטם על העמותה ביומן הצהריים, כאן באתר.', 'The item about us on the midday news, right here (Hebrew).')}</span>
+              <div className="press-actions">
+                <button type="button" className="press-watch" onClick={() => setCh14(true)}>{t('לצפייה', 'Watch')} ▶</button>
+                <a className="press-ext" href={PRESS_CH14_URL} target="_blank" rel="noopener">{t('השידור המלא בערוץ 14', 'Full broadcast on Channel 14')} ↗</a>
+              </div>
+            </div>
             {/* 2.11: Radio 102FM Tel Aviv item, posted as a reel by "החיים עצמם" (11.10.2026) */}
             <a className="press-card" href="https://www.instagram.com/reel/DeXPtndNZ-i/" target="_blank" rel="noopener">
+              <PressImg src="/assets/img/press-102fm.webp" alt={t('סני ומשיקה באולפן רדיו 102 תל אביב', 'Sani and Mashika in the Radio 102 Tel Aviv studio')} />
               <span className="press-src">{t('רדיו 102FM תל אביב', 'Radio 102FM Tel Aviv')}</span>
               <strong>{t('סני ומשיקה מחפשים בית אוהב', 'Sani and Mashika are looking for a loving home')}</strong>
               <span>{t('האייטם ברדיו 102 תל אביב, בתוכנית "החיים עצמם".', 'Our item on Radio 102 Tel Aviv, on the show "Life Itself" (Hebrew).')}</span>
               <em>{t('לצפייה', 'Watch')} {arrow}</em>
             </a>
             <a className="press-card" href="https://youtu.be/jO9JChY_ETM" target="_blank" rel="noopener">
+              <PressImg src="/assets/img/press-givetogether.webp" alt={t('לוחם מחלץ כלב, מתוך הסרטון של Give Together', 'A soldier rescuing a dog, from the Give Together video')} />
               <span className="press-src">YouTube · Give Together</span>
               <strong>{t('הם ננטשו. אנחנו לא ננטוש אותם 🐾', "They were abandoned. We won't abandon them 🐾")}</strong>
               <span>{t('הסרטון שפורסם בערוץ היוטיוב של Give Together.', "The video published on Give Together's YouTube channel.")}</span>
@@ -121,6 +143,16 @@ export function Press() {
             </a>
           </div>
         </div>
+        <Modal open={ch14} onClose={() => setCh14(false)} className="lightbox press-video" label={ch14Title}>
+          <button className="lightbox-close" type="button" aria-label={t('סגירה', 'Close')} onClick={() => setCh14(false)}>✕</button>
+          {/* mounted only while open, so closing stops playback; play() on open (the click is the user gesture) */}
+          {ch14 && (
+            <video ref={v => { v?.play().catch(() => {}) }} controls preload="none" playsInline poster="/assets/img/press-channel14.webp" aria-label={ch14Title}>
+              <source src="/assets/video/ch14-item.mp4" type="video/mp4" />
+            </video>
+          )}
+          <p className="lightbox-name">{ch14Title}</p>
+        </Modal>
       </section>
     </>
   )
