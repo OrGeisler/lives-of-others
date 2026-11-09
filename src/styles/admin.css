@@ -183,3 +183,9 @@
   .ad-sent-guide td:nth-child(2)::before { content: '📧 מייל: '; font-weight: 700; }
   .ad-sent-guide td:nth-child(3)::before { content: '💬 וואטסאפ: '; font-weight: 700; }
 }
+/* gift card (admin → מתנות): two labeled groups, recipient / buyer; one coloured button */
+.ad-gift-groups { flex-basis: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 10px; }
+.ad-gift-group { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; border: 1px solid #e3eaf0; border-radius: 12px; padding: 8px 12px; min-width: 0; }
+.ad-gift-group h4 { margin: 0; font-size: 14px; font-weight: 800; color: #7a8794; }
+.ad-btn.ad-gift-send { white-space: normal; text-align: center; max-width: 100%; }
+.ad-gift-cert { align-self: flex-start; padding: 2px 0; text-decoration: none; }
