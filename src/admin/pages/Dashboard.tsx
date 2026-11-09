@@ -79,9 +79,9 @@ export default function Dashboard() {
             </Link>
           )}
           {s.giftCerts > 0 && (
-            <Link to="/admin/gifts?tab=all" className="ad-card alert">
+            <Link to="/admin/gifts?tab=buyer" className="ad-card alert">
               <span className="ad-card-num">{s.giftCerts}</span>
-              <span className="ad-card-label">קונים של מתנה שעוד לא קיבלו מייל עם התעודה</span>
+              <span className="ad-card-label">קונים של מתנה שלא קיבלו מייל עם התעודה</span>
               <span className="ad-card-go">למתנות ←</span>
             </Link>
           )}

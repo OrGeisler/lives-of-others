@@ -59,16 +59,19 @@ export default function Gifts() {
   const unpaid = useMemo(() => (list ?? []).filter(g => g.status === 'pending'), [list])
   const canceled = useMemo(() => (list ?? []).filter(g => g.status === 'canceled'), [list])
   const sent = useMemo(() => (list ?? []).filter(g => g.sent_at && g.status !== 'canceled'), [list])
-  type Tab = 'today' | 'later' | 'pending' | 'sent' | 'canceled' | 'all'
+  // 9.11: paid gifts whose buyer never got the certificate email (the dashboard tile links here)
+  const buyerMail = useMemo(() => (list ?? []).filter(g => (g.status === 'paid' || g.status === 'sent') && !g.certificate_sent_at), [list])
+  type Tab = 'today' | 'later' | 'pending' | 'sent' | 'canceled' | 'all' | 'buyer'
   const TABS: { k: Tab; label: string }[] = [
     { k: 'today', label: 'לשליחה היום' }, { k: 'later', label: 'מתוזמנות' }, { k: 'pending', label: 'ממתינות לתשלום' },
     { k: 'sent', label: 'נשלחו' }, { k: 'canceled', label: 'בוטלו' }, { k: 'all', label: 'הכל' },
+    ...(buyerMail.length ? [{ k: 'buyer' as Tab, label: '📧 קונה בלי מייל' }] : []),
   ]
-  // ?tab=all from the dashboard tile
+  // ?tab=buyer from the dashboard tile
   const [tab, setTab] = useState<Tab>(() => (new URLSearchParams(location.search).get('tab') as Tab) || 'today')
   const [q, setQ] = useState('')
-  const byTab: Record<Tab, Gift[]> = { today: toSend, later, pending: unpaid, sent, canceled, all: list ?? [] }
-  const counts = Object.fromEntries(TABS.map(t => [t.k, byTab[t.k].length])) as Record<Tab, number>
+  const byTab: Record<Tab, Gift[]> = { today: toSend, later, pending: unpaid, sent, canceled, all: list ?? [], buyer: buyerMail }
+  const counts = Object.fromEntries((Object.keys(byTab) as Tab[]).map(k => [k, byTab[k].length])) as Record<Tab, number>
   const shown = byTab[tab].filter(g => !q || [g.recipient_name, g.recipient_phone, g.donors?.honor_name, g.donors?.phone, g.dogs?.name]
     .some(v => v?.toLowerCase().includes(q.toLowerCase())))
   const restore = async (g: Gift) => {
@@ -219,6 +222,7 @@ export default function Gifts() {
         ))}
       </div>
       <div className="ad-filters"><input type="search" placeholder="🔍 חיפוש לפי שם, טלפון או כלב" value={q} onChange={e => setQ(e.target.value)} /></div>
+      {tab === 'buyer' && <p className="ad-hint">כאן מתנות ששולמו, אבל הקונה לא קיבל/ה את המייל עם התעודה. בכל מתנה, בחלק <b>לקונה</b>, לוחצים <b>📧 שליחת מייל לקונה</b>. אחרי השליחה המתנה יוצאת מהרשימה.</p>}
       {tab === 'pending' && <p className="ad-hint">מילאו טופס אבל התשלום עוד לא הגיע. כשהתשלום יגיע מ-Grow המתנה תעבור לבד ל"לשליחה". שילמו בביט/מזומן? פותחים את המתנה ומשנים סטטוס ל"שולם".</p>}
       {tab === 'canceled' && <p className="ad-hint">מתנות שבוטלו לא נמחקות — אפשר להחזיר אותן.</p>}
       {!list ? <p>טוען…</p> : shown.length === 0 ? <Empty>{tab === 'today' ? 'אין מתנות לשליחה היום ✓' : 'אין מתנות כאן.'}</Empty> : (
