@@ -64,7 +64,8 @@ export default function Gifts() {
     { k: 'today', label: 'לשליחה היום' }, { k: 'later', label: 'מתוזמנות' }, { k: 'pending', label: 'ממתינות לתשלום' },
     { k: 'sent', label: 'נשלחו' }, { k: 'canceled', label: 'בוטלו' }, { k: 'all', label: 'הכל' },
   ]
-  const [tab, setTab] = useState<Tab>('today')
+  // ?tab=all from the dashboard tile
+  const [tab, setTab] = useState<Tab>(() => (new URLSearchParams(location.search).get('tab') as Tab) || 'today')
   const [q, setQ] = useState('')
   const byTab: Record<Tab, Gift[]> = { today: toSend, later, pending: unpaid, sent, canceled, all: list ?? [] }
   const counts = Object.fromEntries(TABS.map(t => [t.k, byTab[t.k].length])) as Record<Tab, number>
