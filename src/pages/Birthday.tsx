@@ -26,10 +26,11 @@ export function Confetti({ items = CONFETTI }: { items?: [string, string, string
 }
 
 const GIFTS = [
-  { ico: '🎂', name: 'עוגת יום הולדת', price: '25 ₪', desc: 'חגיגה מתוקה וכשרה לכלבים', en: ['Birthday cake', '₪25', 'A sweet, dog-safe celebration'] },
-  { ico: '🦴', name: 'שק חטיפים', price: '40 ₪', desc: 'הפינוקים שהכי אוהבים', en: ['A bag of treats', '₪40', 'The treats they love most'] },
-  { ico: '🧸', name: 'צעצוע חדש', price: '60 ₪', desc: 'שעות של שמחה ומשחק', en: ['A new toy', '₪60', 'Hours of joy and play'] },
-  { ico: '🛁', name: 'יום פינוק וטיפוח', price: '120 ₪', desc: 'רחצה, סירוק והמון תשומת לב', en: ['A pampering day', '₪120', 'A bath, a brush and lots of attention'] },
+  // 2.11: the nonprofit's new Grow price list (screenshot in their notes doc)
+  { ico: '🧸', name: 'צעצוע חדש', price: '35 ₪', desc: 'שעות של שמחה ומשחק', en: ['A new toy', '₪35', 'Hours of joy and play'] },
+  { ico: '🎂', name: 'עוגת יום הולדת', price: '50 ₪', desc: 'חגיגה מתוקה וכשרה לכלבים', en: ['Birthday cake', '₪50', 'A sweet, dog-safe celebration'] },
+  { ico: '🦴', name: '3 עצמות לעיסה', price: '75 ₪', desc: 'לעיסה טובה שהכלבים אוהבים', en: ['3 chew bones', '₪75', 'A good chew the dogs love'] },
+  { ico: '🦮', name: 'קולר ורצועה חדשים', price: '120 ₪', desc: 'לטיולים בסטייל', en: ['A new collar and leash', '₪120', 'For walks in style'] },
   { ico: '🍗', name: 'ארוחת חג ללהקה', price: '200 ₪', desc: 'חוגגים עם כל הלהקה', en: ['A feast for the pack', '₪200', 'Celebrating with the whole pack'] },
   { ico: '🎈', name: 'מתנה בסכום חופשי', price: 'אתם בוחרים', desc: 'כל סכום — כל חיבוק חשוב', en: ['Any amount', 'You choose', 'Any amount — every hug counts'] },
 ]

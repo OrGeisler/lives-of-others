@@ -65,7 +65,7 @@ export default function SiteContent() {
       <section className="ad-box">
         <h2 className="ad-h2">💳 קישורי תשלום (Grow)</h2>
         <p className="ad-hint">לאן האתר שולח לתשלום. אם יוצרים ב-Grow דף חדש במקום הקיים — מדביקים כאן את הקישור החדש. אחרי שינוי שם הדף ב-Grow, עדכנו את אור (המערכת מזהה תשלומים לפי שם הדף).</p>
-        {([['grow_virtual', 'אימוץ וירטואלי (הוראת קבע 25/50/100)'], ['grow_gift', 'אימוץ במתנה (180 ₪)'], ['grow_birthday', 'מתנת יום הולדת לכלב'], ['grow_test', '🧪 דף בדיקות (1/2/3 ₪)']] as const).map(([k, label]) => (
+        {([['grow_virtual', 'אימוץ וירטואלי (הוראת קבע 25/50/100)'], ['grow_gift', 'אימוץ במתנה (180 ₪)'], ['grow_birthday', 'מתנת יום הולדת לכלב'], ['grow_food', 'תרומת שק אוכל (180 ₪) — הכפתור בעמוד הבית'], ['grow_food_en', 'תרומת שק אוכל — הדף באנגלית (לאתר באנגלית)'], ['grow_test', '🧪 דף בדיקות (1/2/3 ₪)']] as const).map(([k, label]) => (
           <Field key={k} label={label}>
             <div className="ad-linkrow">
               <input dir="ltr" value={links[k] ?? ''} onChange={e => setLinks(x => ({ ...x, [k]: e.target.value.trim() }))} />
