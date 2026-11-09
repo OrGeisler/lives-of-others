@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-11-09 · Or (Claude) · Gift card in admin simplified: two groups (למקבל/ת המתנה / לקונה); one green 🎁 שליחה למקבל/ת button (WhatsApp + email + marks sent), buyer = email status line; buyer WhatsApp, ✓ נשלח and duplicate 💬 שליחה removed; status 'נשלח' in the edit form now stamps sent_at. Guide + dashboard table updated.
 - 2026-11-09 · Or (Claude) · No automatic email to gift recipients (cron removed): the admin 💬 שליחה button opens the WhatsApp and sends the email together. Guide updated.
 - 2026-11-09 · Or (Claude) · Gift recipient message (WhatsApp + email): "רוצה להכיר אותי" links to the dog's own page (/dogs/<slug>). Food band + phone language pill live (#50).
 - 2026-11-09 · Or (Claude) · Nonprofit doc 2.11: food-sack button link editable in admin (grow_food / grow_food_en, webhook kind site_donation); gift banner wording/centred/bold price; virtual-adopter + gift-recipient first message in the dog's voice (WhatsApp + email); birthday gift prices per Grow; press: Channel 14 + Radio 102; Natali & Rali photo; donate hero 'כאן' removed. Open: Grow food links, Ohad photo, mako page, Grow full-name bug (Grow side).
