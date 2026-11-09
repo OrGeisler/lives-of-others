@@ -67,7 +67,7 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - Dog photos: crop keeps the face (`dogs.image_focus`, set in admin "איפה הפנים"); default 50% 18%.
 - Admin login is a TEMPORARY shared password (see Issues): replace with per-person logins before real donor data.
 - Emails are automatic (texts in `api/_lib/notify.ts`): grow-webhook → `/api/send-certificate` (= `api/cert.ts?op=send`) with `auto` after a paid,
-  non-test payment; gift recipients by the daily Vercel cron `/api/cron-gift-recipients` (CRON_SECRET). WhatsApp stays manual.
+  non-test payment. Gift RECIPIENTS get no automatic email (Or, 9.11): admin → מתנות → 💬 שליחה opens the WhatsApp and sends the email at the same moment. The old cron is unscheduled. WhatsApp stays manual.
 - Contact form (both languages) posts to `api/contact.ts`: saves to פניות + emails `CONTACT_NOTIFY_TO` (Vercel env;
   production = Beri, Adi, Tali; preview = Or for tests). Falls back to a direct insert if the API fails. The wa.me it opens is only sent if the visitor taps Send.
 - WhatsApp from admin: `src/admin/WaShare.tsx` (wa.me = text only; files go via the phone's share sheet).

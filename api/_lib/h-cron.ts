@@ -2,7 +2,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { createClient } from '@supabase/supabase-js'
 import { certificateEmail } from './notify.js'
 
-// Daily 09:00 (Israel) Vercel cron: email the gift recipients whose chosen day has come (if they left an email).
+// NOT SCHEDULED since 9.11 (Or: the recipient email goes out with the WhatsApp from admin, not before it).
+// Was: daily Vercel cron to email the gift recipients whose chosen day has come (if they left an email).
 // The WhatsApp to the recipient stays a staff click (admin → מתנות → לשליחה היום). Test payments are skipped.
 
 const db = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!, { auth: { persistSession: false } })

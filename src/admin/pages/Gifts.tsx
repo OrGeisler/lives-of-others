@@ -115,10 +115,21 @@ export default function Gifts() {
   })
   const set = <K extends keyof Form>(k: K, v: Form[K]) => setForm(f => f && { ...f, [k]: v })
 
+  const [emailed] = useState(() => new Set<string>())
+  // 9.11 (Or): no automatic email to the gift recipient. Opening the WhatsApp also sends the email (if there is one),
+  // so the surprise arrives on both at the same moment.
+  const sendBoth = async (g: Gift) => {
+    if (g.recipient_email && !g.recipient_certificate_sent_at && !emailed.has(g.id)) {
+      emailed.add(g.id) // the send window can call this twice (WhatsApp + share file): one email only
+      const e = await sendCertificate(g.id, 'recipient')
+      if (e) toast(`הוואטסאפ נפתח, אבל המייל ל${g.recipient_name ?? 'מקבל/ת המתנה'} לא נשלח: ${e}`, true)
+      else { toast(`נשלח גם מייל ל${g.recipient_email} ✓`); refresh() }
+    } else mark(g, 'recipient_certificate_sent_at')
+  }
   const card = (g: Gift, actions: boolean) => {
     const toRecipient = (label: string, cls?: string) => (
       <WaShare phone={g.recipient_phone} to={g.recipient_name ?? 'מקבל/ת המתנה'} dog={g.dogs?.name} certId={g.id} video={g.dogs?.thanks_video_url}
-        text={giftWithCert(g)} label={label} className={cls} sent={!!g.recipient_certificate_sent_at} onSent={() => mark(g, 'recipient_certificate_sent_at')} />
+        text={giftWithCert(g)} label={label} className={cls} sent={!!g.recipient_certificate_sent_at} onSent={() => sendBoth(g)} />
     )
     return (
       <div key={g.id} className="ad-row clickable" role="button" tabIndex={0} onClick={() => edit(g)} onKeyDown={e => { if (e.key === 'Enter') edit(g) }}>
@@ -160,7 +171,7 @@ export default function Gifts() {
         <button className="ad-btn primary" onClick={() => setForm(blank())}>➕ מתנה חדשה</button>
       </PageHead>
       <Help>
-        כשמגיע <b>יום השליחה</b> של מתנה, היא מופיעה למעלה. לוחצים <b>💬 שליחה</b> — נפתחת הודעת וואטסאפ מוכנה למקבל/ת המתנה עם הברכה, ואז <b>✓ נשלח</b>.
+        כשמגיע <b>יום השליחה</b> של מתנה, היא מופיעה למעלה. לוחצים <b>💬 שליחה</b> — נפתחת הודעת וואטסאפ מוכנה למקבל/ת המתנה עם הברכה, <b>ובאותו רגע נשלח גם המייל</b> (אם השאירו מייל). ואז <b>✓ נשלח</b>. אין מייל אוטומטי למקבל/ת המתנה.
         אחרי זה המקבל/ת יופיעו אוטומטית ברשימת העדכונים החודשיים למשך שנה.
       </Help>
       {err && <p className="ad-error">{err}</p>}
