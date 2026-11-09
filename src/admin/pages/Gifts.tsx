@@ -12,7 +12,7 @@ import { localDate } from '../../lib/constants'
 const GIFT_STATUS: Record<Gift['status'], string> = { pending: 'ממתין לתשלום', paid: 'שולם', sent: 'נשלח', canceled: 'בוטל' }
 
 type Form = {
-  id?: string; buyer_donor_id?: string | null; status: Gift['status']
+  id?: string; buyer_donor_id?: string | null; status: Gift['status']; sent_at?: string | null
   buyer_name: string; buyer_phone: string; buyer_email: string
   dog_id: string; recipient_name: string; recipient_phone: string; recipient_email: string; greeting: string; send_at: string
 }
@@ -39,8 +39,6 @@ const giftMessage = (g: Gift) => {
 
 const giftWithCert = (g: Gift) =>
   `${giftMessage(g)}\n\nתעודת האימוץ שלך${g.dogs?.thanks_video_url ? ` וסרטון תודה מ${g.dogs.name} 🎬` : ''}:\n${certUrl(g.id)}`
-const buyerMessage = (g: Gift) =>
-  `היי ${g.donors?.honor_name ?? ''}! 🎁\nתודה על המתנה המיוחדת ל${g.recipient_name ?? ''}: אימוץ וירטואלי של ${g.dogs?.name ?? 'אחד הכלבים'} 💛\n\nהנה תעודת המתנה:\n${certUrl(g.id)}\n\nבאהבה, עמותת חיים של אחרים 🐾`
 
 export default function Gifts() {
   const dogs = useDogsLite()
@@ -76,16 +74,8 @@ export default function Gifts() {
     if (!fail((await supabase.from('gifts').update({ status: g.sent_at ? 'sent' : 'paid' }).eq('id', g.id)).error, 'השחזור')) { toast('המתנה שוחזרה ✓'); refresh() }
   }
 
-  // sending on WhatsApp counts as "certificate sent" (same field as the email button)
-  const mark = async (g: Gift, field: 'certificate_sent_at' | 'recipient_certificate_sent_at') => {
-    if (g[field]) return
-    if (!fail((await supabase.from('gifts').update({ [field]: new Date().toISOString() }).eq('id', g.id)).error, 'הסימון')) refresh()
-  }
-  const markSent = async (g: Gift) => {
-    if (!fail((await supabase.from('gifts').update({ sent_at: new Date().toISOString(), status: 'sent' }).eq('id', g.id)).error, 'הסימון')) {
-      toast('המתנה סומנה כנשלחה ✓ — מעכשיו היא תופיע גם בעדכונים החודשיים'); refresh()
-    }
-  }
+  const [busy, setBusy] = useState('')
+  const [handled] = useState(() => new Set<string>())
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -103,33 +93,66 @@ export default function Gifts() {
       recipient_phone: form.recipient_phone.trim() || null, recipient_email: form.recipient_email.trim() || null,
       greeting: form.greeting.trim() || null, send_at: form.send_at ? new Date(form.send_at + 'T09:00:00').toISOString() : null,
       status: form.status,
+      // a gift sent outside the system: status "נשלח" here also stamps sent_at (the monthly updates and the "נשלחו" tab
+      // go by sent_at); setting it back to "שולם"/"ממתין" clears it (undo a send marked by mistake)
+      ...(form.status === 'sent' && !form.sent_at ? { sent_at: new Date().toISOString() } : {}),
+      ...((form.status === 'paid' || form.status === 'pending') && form.sent_at ? { sent_at: null } : {}),
     }
     const r = form.id ? await supabase.from('gifts').update(gift).eq('id', form.id) : await supabase.from('gifts').insert(gift)
-    if (!fail(r.error, 'השמירה')) { toast('נשמר ✓'); setForm(null); refresh() }
+    if (!fail(r.error, 'השמירה')) { if (form.id) handled.delete(form.id); toast('נשמר ✓'); setForm(null); refresh() }
   }
   const edit = (g: Gift) => setForm({
-    id: g.id, status: g.status, buyer_donor_id: g.buyer_donor_id, buyer_name: g.donors?.honor_name ?? '', buyer_phone: g.donors?.phone ?? '',
+    id: g.id, status: g.status, sent_at: g.sent_at, buyer_donor_id: g.buyer_donor_id, buyer_name: g.donors?.honor_name ?? '', buyer_phone: g.donors?.phone ?? '',
     buyer_email: g.donors?.email ?? '', dog_id: g.dog_id ?? '', recipient_name: g.recipient_name ?? '',
     recipient_phone: g.recipient_phone ?? '', recipient_email: g.recipient_email ?? '', greeting: g.greeting ?? '',
     send_at: g.send_at ? localDate(new Date(g.send_at)) : '',
   })
   const set = <K extends keyof Form>(k: K, v: Form[K]) => setForm(f => f && { ...f, [k]: v })
 
-  const [emailed] = useState(() => new Set<string>())
-  // 9.11 (Or): no automatic email to the gift recipient. Opening the WhatsApp also sends the email (if there is one),
-  // so the surprise arrives on both at the same moment.
+  const done = (e: string | null, ok: string) => { if (e) toast(e, true); else toast(ok); refresh() }
+  const stamp = (g: Gift, fields: Record<string, string>) => supabase.from('gifts').update(fields).eq('id', g.id).then(r => r.error)
+  // 9.11 (Or): ONE send to the recipient. Opening the WhatsApp (a) marks the gift as sent, so the recipient enters the
+  // monthly updates, and (b) sends the recipient email at that same moment (no automatic email, so it never arrives first).
   const sendBoth = async (g: Gift) => {
-    if (g.recipient_email && !g.recipient_certificate_sent_at && !emailed.has(g.id)) {
-      emailed.add(g.id) // the send window can call this twice (WhatsApp + share file): one email only
-      const e = await sendCertificate(g.id, 'recipient')
-      if (e) toast(`הוואטסאפ נפתח, אבל המייל ל${g.recipient_name ?? 'מקבל/ת המתנה'} לא נשלח: ${e}`, true)
-      else { toast(`נשלח גם מייל ל${g.recipient_email} ✓`); refresh() }
-    } else mark(g, 'recipient_certificate_sent_at')
+    if (handled.has(g.id)) return // the window calls this again for each shared file: once only, one email only
+    handled.add(g.id)
+    const now = new Date().toISOString()
+    const email = !!g.recipient_email && !g.recipient_certificate_sent_at
+    const [dbErr, mailErr] = await Promise.all([
+      stamp(g, { ...(g.sent_at ? {} : { sent_at: now, status: 'sent' }), ...(email || g.recipient_certificate_sent_at ? {} : { recipient_certificate_sent_at: now }) }),
+      email ? sendCertificate(g.id, 'recipient') : Promise.resolve(null),
+    ])
+    if (fail(dbErr, 'הסימון כנשלח')) handled.delete(g.id)
+    if (mailErr) toast(`הוואטסאפ נפתח, אבל המייל ל${g.recipient_name ?? 'מקבל/ת המתנה'} לא נשלח: ${mailErr}`, true)
+    else if (!dbErr) toast(`המתנה סומנה כנשלחה ✓${email ? ` · נשלח גם מייל ל${g.recipient_email}` : ''}`)
+    refresh()
   }
-  const card = (g: Gift, actions: boolean) => {
-    const toRecipient = (label: string, cls?: string) => (
+  // email only (no phone), or "send the email again": always asks first
+  const emailRecipient = async (g: Gift) => {
+    const again = g.recipient_certificate_sent_at ? ` (כבר נשלח ב-${fmtDate(g.recipient_certificate_sent_at)})` : ''
+    if (!confirm(`לשלוח ל${g.recipient_name ?? 'מקבל/ת המתנה'} את המייל עם הברכה והתעודה (${g.recipient_email})${again}?`)) return
+    setBusy(g.id + 'r')
+    const e = await sendCertificate(g.id, 'recipient')
+    if (!e && !g.sent_at) fail(await stamp(g, { sent_at: new Date().toISOString(), status: 'sent' }), 'הסימון כנשלח')
+    setBusy('')
+    done(e, `המייל נשלח ל${g.recipient_name ?? 'מקבל/ת המתנה'} ✓`)
+  }
+  const emailBuyer = async (g: Gift) => {
+    if (g.certificate_sent_at && !confirm(`הקונה כבר קיבל/ה מייל ב-${fmtDate(g.certificate_sent_at)}. לשלוח שוב?`)) return
+    setBusy(g.id + 'b')
+    const e = await sendCertificate(g.id)
+    setBusy('')
+    done(e, 'המייל עם התעודה נשלח לקונה ✓')
+  }
+
+  const card = (g: Gift) => {
+    const paid = g.status === 'paid' || g.status === 'sent'
+    const isSent = !!g.sent_at || g.status === 'sent'
+    const phone = !!g.recipient_phone
+    const mailDue = !!g.recipient_email && !g.recipient_certificate_sent_at
+    const wa = (label: string, cls: string, onSent?: () => void) => (
       <WaShare phone={g.recipient_phone} to={g.recipient_name ?? 'מקבל/ת המתנה'} dog={g.dogs?.name} certId={g.id} video={g.dogs?.thanks_video_url}
-        text={giftWithCert(g)} label={label} className={cls} sent={!!g.recipient_certificate_sent_at} onSent={() => sendBoth(g)} />
+        text={giftWithCert(g)} label={label} className={cls} onSent={onSent} />
     )
     return (
       <div key={g.id} className="ad-row clickable" role="button" tabIndex={0} onClick={() => edit(g)} onKeyDown={e => { if (e.key === 'Enter') edit(g) }}>
@@ -138,27 +161,42 @@ export default function Gifts() {
           <b>🎁 ל{g.recipient_name ?? '—'}</b>
           <span>מאת {g.donors?.honor_name ?? '—'} · {g.dogs?.name ?? 'ללא כלב'} · {g.sent_at ? `נשלח ${fmtDate(g.sent_at)}` : `לשליחה ב-${fmtDate(g.send_at)}`}</span>
           {g.greeting && <span className="ad-muted">"{g.greeting}"</span>}
-          {(g.status === 'paid' || g.status === 'sent') && !g.certificate_sent_at && <span className="ad-tag gold">📜 תעודה עוד לא נשלחה</span>}
+          {paid && <a className="ad-link ad-gift-cert" href={`/certificate/${g.id}`} target="_blank" rel="noopener" onClick={e => e.stopPropagation()}>📜 צפייה בתעודה</a>}
         </div>
-        {(g.status === 'paid' || g.status === 'sent') && (
-          <div className="ad-row-actions" onClick={e => e.stopPropagation()}>
-            <a className="ad-btn sm ghost" href={`/certificate/${g.id}`} target="_blank" rel="noopener" title={g.certificate_sent_at ? `נשלחה ${fmtDate(g.certificate_sent_at)}` : 'עוד לא נשלחה'}>📜 תעודה</a>
-            {g.recipient_phone && toRecipient('💬 למקבל/ת')}
-            {g.donors?.phone && <WaShare phone={g.donors.phone} to={g.donors.honor_name ?? 'הקונה'} dog={g.dogs?.name} certId={g.id}
-              text={buyerMessage(g)} label="💬 לקונה" sent={!!g.certificate_sent_at} onSent={() => mark(g, 'certificate_sent_at')} />}
-            <button className="ad-btn sm" title="שליחת התעודה לקונה במייל" onClick={async () => { const e = await sendCertificate(g.id); if (e) toast(e, true); else { toast('התעודה נשלחה לקונה במייל ✓'); refresh() } }}>📧 לקונה</button>
-            {g.recipient_email && (
-              <button className="ad-btn sm primary" title={g.recipient_certificate_sent_at ? `נשלחה ${fmtDate(g.recipient_certificate_sent_at)}` : 'שליחת התעודה והברכה ישירות למקבל/ת המתנה'}
-                onClick={async () => { if (!confirm(`לשלוח את תעודת המתנה והברכה ל${g.recipient_name ?? ''} (${g.recipient_email})?`)) return; const e = await sendCertificate(g.id, 'recipient'); if (e) toast(e, true); else { toast(`התעודה נשלחה ל${g.recipient_name ?? 'מקבל/ת המתנה'} ✓`); refresh() } }}>
-                📧 למקבל/ת{g.recipient_certificate_sent_at ? ' ✓' : ''}
-              </button>
-            )}
-          </div>
-        )}
-        {actions && (
-          <div className="ad-row-actions" onClick={e => e.stopPropagation()}>
-            {g.recipient_phone ? toRecipient('💬 שליחה', 'ad-btn wa') : <span className="ad-muted">חסר טלפון</span>}
-            <button className="ad-btn ok" onClick={() => markSent(g)}>✓ נשלח</button>
+        {paid && (
+          <div className="ad-gift-groups" onClick={e => e.stopPropagation()} onKeyDown={e => e.stopPropagation()}>
+            <div className="ad-gift-group">
+              <h4>למקבל/ת המתנה</h4>
+              {isSent ? (
+                <div className="ad-row-actions">
+                  <span>✓ נשלח{g.sent_at ? ` ${fmtDate(g.sent_at)}` : ''}{g.recipient_email && g.recipient_certificate_sent_at ? ` · מייל ${fmtDate(g.recipient_certificate_sent_at)}` : ''}</span>
+                  {phone && wa('שליחה שוב בוואטסאפ', 'ad-link')}
+                  {g.recipient_email && <button type="button" className="ad-link" disabled={busy === g.id + 'r'} onClick={() => emailRecipient(g)}>{mailDue ? '📧 המייל לא נשלח — לשלוח' : 'מייל שוב'}</button>}
+                </div>
+              ) : phone ? (
+                <>
+                  {wa(`🎁 שליחה למקבל/ת (${mailDue ? 'וואטסאפ + מייל' : 'וואטסאפ'})`, 'ad-btn wa ad-gift-send', () => sendBoth(g))}
+                  {g.recipient_email && !mailDue && <span className="ad-muted">המייל כבר נשלח ב-{fmtDate(g.recipient_certificate_sent_at)}</span>}
+                </>
+              ) : g.recipient_email ? (
+                <button type="button" className="ad-btn wa ad-gift-send" disabled={busy === g.id + 'r'} onClick={() => emailRecipient(g)}>
+                  {busy === g.id + 'r' ? '⏳ שולח…' : '🎁 שליחה למקבל/ת (מייל)'}
+                </button>
+              ) : <span className="ad-muted">חסר טלפון ומייל של המקבל/ת — לוחצים על המתנה ומוסיפים</span>}
+            </div>
+            <div className="ad-gift-group">
+              <h4>לקונה</h4>
+              {g.certificate_sent_at ? (
+                <div className="ad-row-actions">
+                  <span>📧 קיבל/ה מייל {fmtDate(g.certificate_sent_at)}</span>
+                  <button type="button" className="ad-link" disabled={busy === g.id + 'b'} onClick={() => emailBuyer(g)}>שליחה שוב</button>
+                </div>
+              ) : g.donors?.email ? (
+                <button type="button" className="ad-btn sm" disabled={busy === g.id + 'b'} onClick={() => emailBuyer(g)}>
+                  {busy === g.id + 'b' ? '⏳ שולח…' : '📧 שליחת מייל לקונה'}
+                </button>
+              ) : <span className="ad-muted">לקונה אין מייל</span>}
+            </div>
           </div>
         )}
       </div>
@@ -171,8 +209,11 @@ export default function Gifts() {
         <button className="ad-btn primary" onClick={() => setForm(blank())}>➕ מתנה חדשה</button>
       </PageHead>
       <Help>
-        כשמגיע <b>יום השליחה</b> של מתנה, היא מופיעה למעלה. לוחצים <b>💬 שליחה</b> — נפתחת הודעת וואטסאפ מוכנה למקבל/ת המתנה עם הברכה, <b>ובאותו רגע נשלח גם המייל</b> (אם השאירו מייל). ואז <b>✓ נשלח</b>. אין מייל אוטומטי למקבל/ת המתנה.
-        אחרי זה המקבל/ת יופיעו אוטומטית ברשימת העדכונים החודשיים למשך שנה.
+        בכל מתנה יש שני חלקים: <b>למקבל/ת המתנה</b> ו<b>לקונה</b>.
+        כשמגיע <b>יום השליחה</b>, המתנה מופיעה ב"לשליחה היום". לוחצים על הכפתור הירוק <b>🎁 שליחה למקבל/ת</b>: נפתחת הודעת וואטסאפ מוכנה מהכלב עם הברכה, התעודה והסרטון,
+        <b>ובאותו רגע נשלח גם המייל</b> למקבל/ת (אם השאירו מייל; בסוגריים על הכפתור כתוב מה יוצא). המתנה מסומנת לבד כ<b>נשלחה</b>, והמקבל/ת נכנס/ת לעדכונים החודשיים למשך שנה.
+        אין מייל אוטומטי למקבל/ת המתנה. <b>הקונה</b> מקבל/ת מייל עם התעודה לבד מיד אחרי התשלום; רואים את זה בשורה "📧 קיבל/ה מייל".
+        מתנה שנשלחה בדרך אחרת? לוחצים עליה ומשנים סטטוס ל"נשלח".
       </Help>
       {err && <p className="ad-error">{err}</p>}
       <div className="ad-tabs" role="tablist">
@@ -194,7 +235,7 @@ export default function Gifts() {
               <button className="ad-link" onClick={e => { e.stopPropagation(); restore(g) }}>↩ החזרה</button>
             </div>
           )
-          : card(g, tab === 'today' || tab === 'later'))}</div>
+          : card(g))}</div>
       )}
       {form && (
         <Modal title={form.id ? 'עריכת מתנה' : 'מתנה חדשה'} onClose={() => setForm(null)}>
