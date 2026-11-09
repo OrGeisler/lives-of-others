@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-11-09 · Or (Claude) · AAR 9.11: lessons in CLAUDE.md (one field per channel, dashboard links, 1h logs, host TV clips); issue #60 (record email failures). Bella's false 'email sent' mark cleared.
 - 2026-11-09 · Or (Claude) · Dashboard grouped into sections: דחוף / אימוץ וירטואלי / אימוץ במתנה / יום הולדת; clearer card labels.
 - 2026-11-09 · Or (Claude) · Dashboard: 'certificates waiting' counted gift buyers but linked to adopters (empty list). Split: adopters tile → מאמצים, gift buyers tile → מתנות (?tab=buyer: only gifts whose buyer has no email yet).
 - 2026-11-09 · Or (Claude) · Bug: automatic post-payment emails were rejected (403): INTERNAL_SECRET differed between Vercel and Supabase. Or set one new value on both; production redeployed. Proof pending the next real payment.
