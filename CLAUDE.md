@@ -68,6 +68,13 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
 - Admin login is a TEMPORARY shared password (see Issues): replace with per-person logins before real donor data.
 - Emails are automatic (texts in `api/_lib/notify.ts`): grow-webhook → `/api/send-certificate` (= `api/cert.ts?op=send`) with `auto` after a paid,
   non-test payment. Gift RECIPIENTS get no automatic email (Or, 9.11): admin → מתנות has two recipient buttons, 💬 WhatsApp (opening it marks the gift sent) and 📧 email (asks first); staff send both together. The old cron is unscheduled. WhatsApp stays manual.
+- One field per channel: WhatsApp opened → `gifts.sent_at`; recipient email → `recipient_certificate_sent_at` (only the email
+  sets it). On 9.11 the old WhatsApp button set the email field, so admin showed "email sent" when none was (AAR 9.11).
+- Dashboard cards: each number links to a list filtered to exactly those rows (a gift-buyer count linked to adopters = empty list).
+- Vercel Hobby keeps ~1 hour of runtime logs: check a failed automatic job right away (`vercel logs --scope lives-of-others
+  -p lives-of-others-app --since 1h -q <path>`), later the evidence is gone.
+- Press/TV items: host the exact clip on our site, never "starts at minute X". Channel 14 archive = DASH manifest with
+  `startTime/stopTime` (ms) in the player's requests; `python3 -m yt_dlp --referer https://tv.c14.co.il/` on it, check frames.
 - Contact form (both languages) posts to `api/contact.ts`: saves to פניות + emails `CONTACT_NOTIFY_TO` (Vercel env;
   production = Beri, Adi, Tali; preview = Or for tests). Falls back to a direct insert if the API fails. The wa.me it opens is only sent if the visitor taps Send.
 - Automatic emails depend on INTERNAL_SECRET being identical in Vercel (production) and Supabase secrets. On 9.11 they differed, so
