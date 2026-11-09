@@ -178,3 +178,8 @@ section.gift-home { position: relative; overflow: hidden; color: #fff; backgroun
 .volunteer .vol-more strong { color: #ffe14d; }
 .volunteer .vol-more a.btn { background: #fff; color: #9c1650; }
 .gift-home p .gh-price, .en-gift .gh-price { background: #ffe14d; color: #6b1236; font-weight: 900; padding: 0 8px; border-radius: 6px; white-space: nowrap; }
+/* 2.11: banner text centred and as big as the subtitle; the price in bold black on a light chip so it reads on pink */
+.gift-home-body { align-items: center; text-align: center; }
+.gift-home p { font-size: 22px; line-height: 1.6; color: #fff; }
+.gift-home p .gh-price { background: #fff; color: #000; font-weight: 900; }
+@media (max-width: 720px) { .gift-home p { font-size: 19px; } }

@@ -23,6 +23,7 @@ const DONATION_PAGES: [RegExp, 'site_donation' | 'memorial' | 'items'][] = [
   [/^עמוד תרומה כללי.*אתר/, 'site_donation'],
   [/^פרויקט הנצחה/, 'memorial'],
   [/^תרומה כללית - הוראת קבע$/, 'items'],
+  [/שק אוכל|food sack|sack of food|bag of food/i, 'site_donation'], // 2.11: home food-sack button (Hebrew + English pages)
 ]
 const pageKind = (b: Record<string, string>) => {
   for (const v of Object.values(b)) for (const [ref, kind] of Object.entries(PAGE_REFS)) if (v === ref) return kind

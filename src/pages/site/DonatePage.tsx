@@ -28,7 +28,7 @@ export default function DonatePage() {
         <div className="dn-hero-text">
           <span className="dn-kicker">{t('כל תרומה מצילה חיים', 'Every donation saves lives')}</span>
           <h1>{t('הם מחכים לכם 🐾', "They're waiting for you 🐾")}</h1>
-          <p>{t('מאחורי כל זוג עיניים כאן יש סיפור של נטישה — ושל הצלה. התרומה שלכם היא האוכל, הטיפול והבית שלהם, כל יום מחדש.', 'Behind every pair of eyes here is a story of abandonment — and of rescue. Your donation is their food, their care and their home, every single day.')}</p>
+          <p>{t('מאחורי כל זוג עיניים יש סיפור של נטישה — ושל הצלה. התרומה שלכם היא האוכל, הטיפול והבית שלהם, כל יום מחדש.', 'Behind every pair of eyes is a story of abandonment — and of rescue. Your donation is their food, their care and their home, every single day.')}</p>
           <div className="dn-cta">
             <a className="btn dn-main" href={DONATE_URL} target="_blank" rel="noopener">{t('לתרומה מאובטחת ❤', 'Donate securely ❤')}</a>
           </div>

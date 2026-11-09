@@ -99,6 +99,20 @@ export function Press() {
               <span>{t('הכתבה על העמותה ששודרה בערוץ 12 — מתנגנת בראש עמוד הבית.', 'The report about us that aired on Channel 12 — playing at the top of the home page (Hebrew).')}</span>
               <em>{t('לצפייה', 'Watch')} {arrow}</em>
             </a>
+            {/* 2.11: Channel 14 "יומן צהריים" 7.7.2026; the item runs 01:48:20–01:54:40 of the broadcast (Adi, WhatsApp 2.11) */}
+            <a className="press-card" href="https://tv.c14.co.il/live,14251/ch14,935227/2026-07-07/ywmn-hryym,1305163" target="_blank" rel="noopener">
+              <span className="press-src">{t('ערוץ 14 · יומן צהריים · 7.7.2026', 'Channel 14 · Midday news · 7.7.2026')}</span>
+              <strong>{t('העמותה ביומן הצהריים של ערוץ 14', "Our nonprofit on Channel 14's midday news")}</strong>
+              <span>{t(<>האייטם על העמותה מתחיל בדקה <bdi dir="ltr">1:48:20</bdi> של השידור.</>, <>The item about us starts at <bdi dir="ltr">1:48:20</bdi> into the broadcast (Hebrew).</>)}</span>
+              <em>{t('לצפייה', 'Watch')} {arrow}</em>
+            </a>
+            {/* 2.11: Radio 102FM Tel Aviv item, posted as a reel by "החיים עצמם" (11.10.2026) */}
+            <a className="press-card" href="https://www.instagram.com/reel/DeXPtndNZ-i/" target="_blank" rel="noopener">
+              <span className="press-src">{t('רדיו 102FM תל אביב', 'Radio 102FM Tel Aviv')}</span>
+              <strong>{t('סני ומשיקה מחפשים בית אוהב', 'Sani and Mashika are looking for a loving home')}</strong>
+              <span>{t('האייטם ברדיו 102 תל אביב, בתוכנית "החיים עצמם".', 'Our item on Radio 102 Tel Aviv, on the show "Life Itself" (Hebrew).')}</span>
+              <em>{t('לצפייה', 'Watch')} {arrow}</em>
+            </a>
             <a className="press-card" href="https://youtu.be/jO9JChY_ETM" target="_blank" rel="noopener">
               <span className="press-src">YouTube · Give Together</span>
               <strong>{t('הם ננטשו. אנחנו לא ננטוש אותם 🐾', "They were abandoned. We won't abandon them 🐾")}</strong>

@@ -37,10 +37,11 @@ export async function certificateEmail(db: SupabaseClient, id: string, opts: { t
 
   const dog = esc(cert.dog), from = esc(r?.donors?.honor_name ?? '')
   const text = toRecipient
-    ? `יש לך הפתעה! 🎁 <b>${from}</b> העניק/ה לך מתנה מיוחדת: אימוץ וירטואלי של <b>${dog}</b> מעמותת חיים של אחרים.${cert.greeting ? `<br><br><i>"${esc(cert.greeting)}"</i>` : ''}<br><br>מצורפת תעודת האימוץ שלך. פעם בחודש יגיע אליך עדכון אישי מ${dog}, עם תמונות וסרטונים 🐾`
+    // 2.11: the nonprofit's wording for the first message, in the dog's voice
+    ? `כאן <b>${dog}</b>, אני ושאר הכלבים ממש נרגשים ש<b>${from}</b> העניק/ה לך מתנה מיוחדת: אימוץ וירטואלי מעמותת "חיים של אחרים" 🐾<br>אנחנו תמיד שמחים לצרף חברים חדשים ללהקה ❤️<br>מרגע זה הפכת להיות "המלאך השומר שלי", ואני אדאג לספר לך מדי פעם על החוויות שלי ושל שאר החברים.${cert.greeting ? `<br><br><i>"${esc(cert.greeting)}"</i>` : ''}<br><br>תודה מכל הלב על התמיכה בי. בזכותך אני והחברים שאיתי מטופלים, מוגנים ואהובים.<br>מצורפת תעודת האימוץ שלך. רוצה להכיר אותי טוב יותר? <a href="${SITE}/virtual-adoption">לחצו כאן</a>`
     : gift
     ? `תודה על המתנה המרגשת! 💛 מצורפת תעודת האימוץ במתנה של <b>${dog}</b> עבור <b>${esc(cert.name)}</b>.`
-    : `בזכותך <b>${dog}</b> זוכה לקורת גג בטוחה, אוכל טוב, טיפול רפואי והמון אהבה. מצורפת תעודת האימוץ האישית שלך. פעם בחודש יגיע אליך עדכון אישי מ${dog}, עם תמונות וסרטונים 🐾`
+    : `כאן <b>${dog}</b>, אני ושאר הכלבים ממש נרגשים שהענקת לעצמך מתנה מיוחדת: אימוץ וירטואלי מעמותת "חיים של אחרים" 🐾<br>אנחנו תמיד שמחים לצרף חברים חדשים ללהקה ❤️<br>מרגע זה הפכת להיות "המלאך השומר שלי", ואני אדאג לספר לך מדי פעם על החוויות שלי ושל שאר החברים.<br><br>תודה מכל הלב על התמיכה בי. בזכותך אני והחברים שאיתי מטופלים, מוגנים ואהובים.<br>מצורפת תעודת האימוץ האישית שלך.`
   const wa = toRecipient
     ? waNote(`בימים הקרובים תקבל/י מ${dog} גם הודעה אישית בוואטסאפ 🐾`)
     : gift
@@ -51,7 +52,7 @@ export async function certificateEmail(db: SupabaseClient, id: string, opts: { t
     to: person.email,
     subject: toRecipient ? `🎁 קיבלת מתנה — אימוץ וירטואלי של ${cert.dog}` : gift ? `🎁 תעודת אימוץ במתנה — ${cert.dog}` : `😇 תעודת האימוץ שלך — המלאך השומר של ${cert.dog}`,
     html: shell(gift ? (toRecipient ? 'קיבלת מתנה מיוחדת 🎁' : 'תעודת האימוץ במתנה מוכנה 🎁') : 'תודה שהפכת למלאך השומר 😇',
-      `<p>${esc(person.honor_name)} היקר/ה,</p><p>${text}</p>${wa}`, { href: `${SITE}/certificate/${id}`, label: 'לצפייה בתעודה' }),
+      `<p>היי ${esc(person.honor_name)},</p><p>${text}</p>${wa}`, { href: `${SITE}/certificate/${id}`, label: 'לצפייה בתעודה' }),
     replyTo: process.env.MAIL_REPLY_TO || undefined,
     attachments: [{ filename: `תעודת אימוץ - ${cert.dog}.pdf`, content: pdf }],
   })

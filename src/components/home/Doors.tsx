@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { FOOD_SACK_URL } from '../../lib/links'
+import { usePayLinks } from '../../lib/useLinks'
 import { useLang } from '../../lib/lang'
 
 // Home page "doors" — one inviting card per area of the site (pages split, 2026-10)
@@ -38,12 +39,14 @@ export default function Doors() {
 // 26.10: "קיומנו תלוי בכם" band between the doors and the birthday section: one bold line and one big
 // button shaped like a food sack (the nonprofit asked for a loud colour and a sack / bowl look).
 export function FoodBand() {
-  const { t } = useLang()
+  const { en, t } = useLang()
+  const links = usePayLinks() // 2.11: Grow links set in admin (קישורי תשלום), Hebrew and English
+  const href = (en && links.grow_food_en) || links.grow_food || FOOD_SACK_URL
   return (
     <section className="food-band">
       <div className="wrap food-band-inner reveal">
         <h2>{t('קיומנו תלוי בכם', 'We exist thanks to you')}</h2>
-        <a className="food-sack" href={FOOD_SACK_URL} target="_blank" rel="noopener">
+        <a className="food-sack" href={href} target="_blank" rel="noopener">
           <span className="food-sack-top" aria-hidden="true" />
           <span className="food-sack-body">
             <svg viewBox="0 0 64 40" aria-hidden="true"><path d="M4 18h56c0 12-12 20-28 20S4 30 4 18z" fill="#fff" opacity=".95"/><ellipse cx="32" cy="18" rx="28" ry="5" fill="#fff"/><circle cx="22" cy="14" r="4" fill="#8a5a2b"/><circle cx="32" cy="11" r="4.5" fill="#a26a35"/><circle cx="42" cy="14" r="4" fill="#8a5a2b"/><circle cx="27" cy="9" r="3.5" fill="#b97a3e"/><circle cx="37" cy="8" r="3.5" fill="#8a5a2b"/></svg>

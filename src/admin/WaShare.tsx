@@ -114,5 +114,15 @@ function SendWindow({ phone, to, text, certId, video, dog, onSent, onClose }: Pr
 }
 
 // Message templates (staff can edit before sending)
-export const sponsorCertText = (name: string, dog: string, id: string, video?: string | null) =>
-  `היי ${name}! 😇\nתודה שהפכת למלאך השומר של ${dog} 💛\n\nהנה תעודת האימוץ שלך${video ? ` וסרטון תודה מ${dog} 🎬` : ''}:\n${certUrl(id)}\n\nבאהבה, עמותת חיים של אחרים 🐾`
+// 2.11: the nonprofit's wording for the first message to a virtual adopter, in the dog's voice
+export const sponsorCertText = (name: string, dog: string, id: string, video?: string | null) => [
+  `היי ${name},`,
+  `כאן ${dog}, אני ושאר הכלבים ממש נרגשים שהענקת לעצמך מתנה מיוחדת – אימוץ וירטואלי מעמותת "חיים של אחרים" 🐾`,
+  'אנחנו תמיד שמחים לצרף חברים חדשים ללהקה ❤️',
+  'מרגע זה הפכת להיות "המלאך השומר שלי", ואני אדאג לספר לך מדי פעם על החוויות שלי ושל שאר החברים.',
+  'תודה מכל הלב על התמיכה בי.',
+  'בזכותך אני והחברים שאיתי מטופלים, מוגנים ואהובים.',
+  '',
+  `הנה תעודת האימוץ שלך${video ? ` וסרטון תודה ממני 🎬` : ''}:`,
+  certUrl(id),
+].join('\n')
