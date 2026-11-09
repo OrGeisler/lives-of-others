@@ -39,11 +39,5 @@
       "maxDuration": 300,
       "memory": 1024
     }
-  },
-  "crons": [
-    {
-      "path": "/api/cron-gift-recipients",
-      "schedule": "0 6 * * *"
-    }
-  ]
+  }
 }
