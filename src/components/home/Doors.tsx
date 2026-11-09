@@ -36,24 +36,22 @@ export default function Doors() {
   )
 }
 
-// 26.10: "קיומנו תלוי בכם" band between the doors and the birthday section: one bold line and one big
-// button shaped like a food sack (the nonprofit asked for a loud colour and a sack / bowl look).
+// "קיומנו תלוי בכם" band between the doors and the birthday section. 2.11: a real food-sack picture (the CSS sack
+// wasn't clear) and the site's teal/navy instead of orange. The link is editable in admin (קישורי תשלום), Hebrew and English.
 export function FoodBand() {
   const { en, t } = useLang()
-  const links = usePayLinks() // 2.11: Grow links set in admin (קישורי תשלום), Hebrew and English
+  const links = usePayLinks()
   const href = (en && links.grow_food_en) || links.grow_food || FOOD_SACK_URL
   return (
     <section className="food-band">
       <div className="wrap food-band-inner reveal">
-        <h2>{t('קיומנו תלוי בכם', 'We exist thanks to you')}</h2>
-        <a className="food-sack" href={href} target="_blank" rel="noopener">
-          <span className="food-sack-top" aria-hidden="true" />
-          <span className="food-sack-body">
-            <svg viewBox="0 0 64 40" aria-hidden="true"><path d="M4 18h56c0 12-12 20-28 20S4 30 4 18z" fill="#fff" opacity=".95"/><ellipse cx="32" cy="18" rx="28" ry="5" fill="#fff"/><circle cx="22" cy="14" r="4" fill="#8a5a2b"/><circle cx="32" cy="11" r="4.5" fill="#a26a35"/><circle cx="42" cy="14" r="4" fill="#8a5a2b"/><circle cx="27" cy="9" r="3.5" fill="#b97a3e"/><circle cx="37" cy="8" r="3.5" fill="#8a5a2b"/></svg>
-            <b>{t('לתרומת שק אוכל', 'Donate a sack of food')}</b>
-            <span className="food-sack-sum">{t('180 ₪', '₪180')}</span>
-          </span>
-        </a>
+        <img className="food-sack-img" src="/assets/img/food-sack.webp" width="464" height="700" loading="lazy" alt={t('שק אוכל לכלבים', 'A sack of dog food')} />
+        <div className="food-band-text">
+          <h2>{t('קיומנו תלוי בכם', 'We exist thanks to you')}</h2>
+          <a className="food-sack-btn" href={href} target="_blank" rel="noopener">
+            {t('לתרומת שק אוכל', 'Donate a sack of food')} <span className="food-sack-sum">{t('180 ₪', '₪180')}</span>
+          </a>
+        </div>
       </div>
     </section>
   )
