@@ -683,7 +683,19 @@ video.hero-photo { display: block; background: #0d1c2c; }
 .press { background: var(--cream); }
 .press .wrap { padding-block: 64px; }
 .press-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; margin-top: 18px; }
-.press-card { background: #fff; border-radius: 18px; padding: 22px; text-decoration: none; color: var(--ink); display: flex; flex-direction: column; gap: 8px; box-shadow: 0 2px 12px rgba(18,58,90,.07); border-top: 5px solid var(--gold); transition: transform .12s; }
+.press-card { background: #fff; border-radius: 18px; padding: 22px; text-decoration: none; color: var(--ink); display: flex; flex-direction: column; gap: 8px; box-shadow: 0 2px 12px rgba(18,58,90,.07); border-bottom: 5px solid var(--gold); overflow: hidden; transition: transform .12s; }
+/* 9.11: 16:9 image flush with the card's top edge (the card clips it to its rounded corners) */
+.press-img { display: block; width: calc(100% + 44px); max-width: none; height: auto; aspect-ratio: 16 / 9; object-fit: cover; margin: -22px -22px 6px; border-radius: 18px 18px 0 0; background: var(--chip, #eee); }
+.press-play { position: relative; display: block; padding: 0; border: 0; background: none; cursor: pointer; margin: 0; }
+.press-play .press-img { margin-bottom: 6px; }
+.press-play-icon { position: absolute; top: calc(50% - 14px); left: 50%; transform: translate(-50%, -50%); width: 58px; height: 58px; border-radius: 50%; background: rgba(10,22,36,.72); color: #fff; font: normal 22px/58px sans-serif; text-align: center; padding-inline-start: 4px; box-sizing: border-box; pointer-events: none; }
+.press-play:hover .press-play-icon { background: var(--primary, #1E6E9C); }
+.press-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
+.press-watch { font: inherit; font-weight: 800; color: var(--primary, #1E6E9C); background: none; border: 0; padding: 0; cursor: pointer; }
+.press-ext { font-size: 13.5px; color: var(--muted); }
+.lightbox.press-video { width: min(92vw, 900px); max-width: min(92vw, 900px); }
+.lightbox.press-video .lightbox-close { top: -52px; inset-inline-end: 0; }
+.lightbox.press-video video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
 .press-card:hover { transform: translateY(-3px); }
 .press-src { font-size: 13px; font-weight: 800; color: var(--chip-ink); letter-spacing: .3px; }
 .press-card strong { font: 800 19px 'Rubik', sans-serif; color: var(--navy); }

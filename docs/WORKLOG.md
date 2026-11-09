@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-11-09 · Or (Claude) · Press section: 16:9 image on each of the 5 cards (public/assets/img/press-*.webp); Channel 14 card plays our hosted cut of the item (public/assets/video/ch14-item.mp4) in a modal, small link to the full broadcast kept.
 - 2026-11-09 · Or (Claude) · No automatic email to gift recipients (cron removed): the admin 💬 שליחה button opens the WhatsApp and sends the email together. Guide updated.
 - 2026-11-09 · Or (Claude) · Gift recipient message (WhatsApp + email): "רוצה להכיר אותי" links to the dog's own page (/dogs/<slug>). Food band + phone language pill live (#50).
 - 2026-11-09 · Or (Claude) · Nonprofit doc 2.11: food-sack button link editable in admin (grow_food / grow_food_en, webhook kind site_donation); gift banner wording/centred/bold price; virtual-adopter + gift-recipient first message in the dog's voice (WhatsApp + email); birthday gift prices per Grow; press: Channel 14 + Radio 102; Natali & Rali photo; donate hero 'כאן' removed. Open: Grow food links, Ohad photo, mako page, Grow full-name bug (Grow side).
