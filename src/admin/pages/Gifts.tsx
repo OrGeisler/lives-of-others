@@ -32,7 +32,8 @@ const giftMessage = (g: Gift) => {
     ...(g.greeting ? ['', `"${g.greeting}"`, ''] : []),
     'תודה מכל הלב על התמיכה בי — בזכותך אני והחברים שאיתי מטופלים, מוגנים ואהובים.',
     '',
-    `רוצה להכיר אותי טוב יותר? ${SITE}/virtual-adoption`,
+    // 9.11 (Or): link to this dog's own page, not the general virtual-adoption page
+    `רוצה להכיר אותי טוב יותר? ${g.dogs?.slug ? `${SITE}/dogs/${g.dogs.slug}` : `${SITE}/virtual-adoption`}`,
   ].join('\n')
 }
 

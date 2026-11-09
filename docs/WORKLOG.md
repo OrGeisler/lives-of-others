@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-11-09 · Or (Claude) · Gift recipient message (WhatsApp + email): "רוצה להכיר אותי" links to the dog's own page (/dogs/<slug>). Food band + phone language pill live (#50).
 - 2026-11-09 · Or (Claude) · Nonprofit doc 2.11: food-sack button link editable in admin (grow_food / grow_food_en, webhook kind site_donation); gift banner wording/centred/bold price; virtual-adopter + gift-recipient first message in the dog's voice (WhatsApp + email); birthday gift prices per Grow; press: Channel 14 + Radio 102; Natali & Rali photo; donate hero 'כאן' removed. Open: Grow food links, Ohad photo, mako page, Grow full-name bug (Grow side).
 - 2026-10-26 · Or (Claude) · AAR: scripts/site-check.mjs replaces mobile-check (3 devices in parallel, both languages, nav + language switch + checkout/contact flows, ~6 min). Live after deploy: 102/102 pages, 33/33 flows.
 - 2026-10-26 · Or (Claude) · English = the same site: every page under /en (same components via useLang), old one-page English.tsx removed; menus, footer, top bar, food band, press, before/after, birthday, gift, memorials (DB *_en + admin field), privacy (translation) all in English; 76 prerendered pages. 4 new dogs (Mishka, Helena, Amy, Rosie) added as hidden drafts.

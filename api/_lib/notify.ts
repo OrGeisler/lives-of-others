@@ -27,10 +27,10 @@ export async function certificateEmail(db: SupabaseClient, id: string, opts: { t
   if (toRecipient && !gift) return { ok: false, status: 400, error: 'recipient only for gifts' }
   const sentField = toRecipient ? 'recipient_certificate_sent_at' : 'certificate_sent_at'
   const q = gift
-    ? db.from('gifts').select(`recipient_email, recipient_name, ${sentField}, donors:buyer_donor_id(email, honor_name)`).eq('id', id).single()
+    ? db.from('gifts').select(`recipient_email, recipient_name, ${sentField}, donors:buyer_donor_id(email, honor_name), dogs(slug)`).eq('id', id).single()
     : db.from('sponsorships').select(`${sentField}, donors(email, honor_name)`).eq('id', id).single()
   const { data: row } = await q
-  const r = row as unknown as Record<string, unknown> & { recipient_email?: string | null; recipient_name?: string | null; donors: { email: string | null; honor_name: string | null } | null } | null
+  const r = row as unknown as Record<string, unknown> & { recipient_email?: string | null; recipient_name?: string | null; dogs?: { slug: string } | null; donors: { email: string | null; honor_name: string | null } | null } | null
   if (auto && r?.[sentField]) return { ok: true, skipped: 'already sent' }
   const person = toRecipient ? { email: r?.recipient_email ?? null, honor_name: r?.recipient_name ?? null } : r?.donors
   if (!person?.email) return auto ? { ok: true, skipped: 'no email' } : { ok: false, status: 422, error: 'no email for this donor' }
@@ -38,7 +38,7 @@ export async function certificateEmail(db: SupabaseClient, id: string, opts: { t
   const dog = esc(cert.dog), from = esc(r?.donors?.honor_name ?? '')
   const text = toRecipient
     // 2.11: the nonprofit's wording for the first message, in the dog's voice
-    ? `כאן <b>${dog}</b>, אני ושאר הכלבים ממש נרגשים ש<b>${from}</b> העניק/ה לך מתנה מיוחדת: אימוץ וירטואלי מעמותת "חיים של אחרים" 🐾<br>אנחנו תמיד שמחים לצרף חברים חדשים ללהקה ❤️<br>מרגע זה הפכת להיות "המלאך השומר שלי", ואני אדאג לספר לך מדי פעם על החוויות שלי ושל שאר החברים.${cert.greeting ? `<br><br><i>"${esc(cert.greeting)}"</i>` : ''}<br><br>תודה מכל הלב על התמיכה בי. בזכותך אני והחברים שאיתי מטופלים, מוגנים ואהובים.<br>מצורפת תעודת האימוץ שלך. רוצה להכיר אותי טוב יותר? <a href="${SITE}/virtual-adoption">לחצו כאן</a>`
+    ? `כאן <b>${dog}</b>, אני ושאר הכלבים ממש נרגשים ש<b>${from}</b> העניק/ה לך מתנה מיוחדת: אימוץ וירטואלי מעמותת "חיים של אחרים" 🐾<br>אנחנו תמיד שמחים לצרף חברים חדשים ללהקה ❤️<br>מרגע זה הפכת להיות "המלאך השומר שלי", ואני אדאג לספר לך מדי פעם על החוויות שלי ושל שאר החברים.${cert.greeting ? `<br><br><i>"${esc(cert.greeting)}"</i>` : ''}<br><br>תודה מכל הלב על התמיכה בי. בזכותך אני והחברים שאיתי מטופלים, מוגנים ואהובים.<br>מצורפת תעודת האימוץ שלך. רוצה להכיר אותי טוב יותר? <a href="${SITE}/${r?.dogs?.slug ? `dogs/${r.dogs.slug}` : 'virtual-adoption'}">לחצו כאן</a>`
     : gift
     ? `תודה על המתנה המרגשת! 💛 מצורפת תעודת האימוץ במתנה של <b>${dog}</b> עבור <b>${esc(cert.name)}</b>.`
     : `כאן <b>${dog}</b>, אני ושאר הכלבים ממש נרגשים שהענקת לעצמך מתנה מיוחדת: אימוץ וירטואלי מעמותת "חיים של אחרים" 🐾<br>אנחנו תמיד שמחים לצרף חברים חדשים ללהקה ❤️<br>מרגע זה הפכת להיות "המלאך השומר שלי", ואני אדאג לספר לך מדי פעם על החוויות שלי ושל שאר החברים.<br><br>תודה מכל הלב על התמיכה בי. בזכותך אני והחברים שאיתי מטופלים, מוגנים ואהובים.<br>מצורפת תעודת האימוץ האישית שלך.`
