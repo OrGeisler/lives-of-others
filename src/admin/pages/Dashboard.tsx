@@ -5,7 +5,7 @@ import { Help, PageHead } from '../ui'
 import SentGuide from '../SentGuide'
 import { HE_MONTHS, monthStart, shekel } from '../util'
 
-type Stats = { inbox: number; certs: number; active: number; monthly: number; toSend: number; giftsToday: number; bdThanks: number; review: number; failed: number; stalePending: number; bday: string | null }
+type Stats = { inbox: number; certs: number; giftCerts: number; active: number; monthly: number; toSend: number; giftsToday: number; bdThanks: number; review: number; failed: number; stalePending: number; bday: string | null }
 
 export default function Dashboard() {
   const [s, setS] = useState<Stats | null>(null)
@@ -31,7 +31,8 @@ export default function Dashboard() {
       const sent = new Set((logs.data ?? []).map(l => l.sponsorship_id))
       setS({
         inbox: inbox.data?.length ?? 0,
-        certs: active.filter(x => !x.certificate_sent_at).length + (giftCerts.data?.length ?? 0),
+        certs: active.filter(x => !x.certificate_sent_at).length,
+        giftCerts: giftCerts.data?.length ?? 0, // 9.11: gift buyers are on the gifts page, not the adopters page
         active: active.length,
         monthly: active.reduce((a, x) => a + (x.tier ?? 0), 0),
         toSend: active.filter(x => !sent.has(x.id)).length,
@@ -75,6 +76,13 @@ export default function Dashboard() {
               <span className="ad-card-num">{s.certs}</span>
               <span className="ad-card-label">תעודות אימוץ שמחכות לשליחה</span>
               <span className="ad-card-go">לשליחת תעודות ←</span>
+            </Link>
+          )}
+          {s.giftCerts > 0 && (
+            <Link to="/admin/gifts?tab=all" className="ad-card alert">
+              <span className="ad-card-num">{s.giftCerts}</span>
+              <span className="ad-card-label">קונים של מתנה שעוד לא קיבלו מייל עם התעודה</span>
+              <span className="ad-card-go">למתנות ←</span>
             </Link>
           )}
           {s.bdThanks > 0 && (
