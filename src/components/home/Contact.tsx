@@ -3,6 +3,7 @@ import { WA_ADOPT, wa } from '../../lib/links'
 import { sendContact } from '../../lib/contact'
 import { useLang } from '../../lib/lang'
 import { WA_HELLO } from '../Layout'
+import { track } from '../../lib/track'
 
 const TOPICS: [string, string][] = [
   ['אני רוצה לאמץ כלב', 'I want to adopt a dog'],
@@ -33,6 +34,7 @@ export default function Contact() {
       .filter(Boolean)
       .join('\n')
     void sendContact({ name, phone, topic: en ? `[EN] ${topicHe}` : topicHe, message: msg })
+    track('wa')
     window.open(wa(WA_ADOPT, text), '_blank', 'noopener')
     setSent(true); form.reset()
   }

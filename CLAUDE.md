@@ -101,5 +101,9 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
   `/en/accessibility` (`src/pages/Accessibility.tsx`; update its date/limitations when the site changes). Remaining axe
   contrast failures are the brand buttons (WhatsApp green, turquoise, pink with white text): pending the nonprofit's OK.
   No cookie banner: the site sets no tracking cookies (only embeds do); keep it that way or add consent first.
+- Visit stats (12.11): our own, not a third-party tool. `src/lib/track.ts` posts page views + WhatsApp/payment clicks to
+  `site_events` (anon insert only; no cookies/IP; random id in sessionStorage); admin → סטטיסטיקה reads `site_stats(days)`.
+  Counts only on lives-of-others.com, never admin, bots/Playwright (`navigator.webdriver`) or a browser with a staff login.
+  Vercel Web Analytics was skipped: Hobby has no API, so staff couldn't see it in admin. Privacy page describes it: keep in sync.
 - Google Search Console (Or's Google account, property `https://lives-of-others.com/`) is verified by
   `public/google90aab82532d797ee.html`. Never delete it.

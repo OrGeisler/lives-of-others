@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Layout from './components/Layout'
 import A11yMenu from './components/A11yMenu'
@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import { useTitle } from './lib/pagesData'
 import { useLang } from './lib/lang'
 import { PageErrorBoundary, lazyPage as lazy } from './lib/staleChunks'
+import { track, trackClicks } from './lib/track'
 
 // Everything except the home page is loaded on demand (smaller first load). Admin is never loaded by visitors.
 const DogPage = lazy(() => import('./pages/DogPage'))
@@ -67,6 +68,11 @@ const siteRoutes = (
 export default function App() {
   const { pathname } = useLocation()
   const staff = pathname.startsWith('/admin') || pathname.startsWith('/certificate')
+  // anonymous visit stats (admin → סטטיסטיקה); a certificate link counts as one page, without its id
+  useEffect(trackClicks, [])
+  useEffect(() => {
+    if (!pathname.startsWith('/admin')) track('view', pathname.startsWith('/certificate') ? '/certificate' : pathname)
+  }, [pathname])
   return (
     <>
     <Routes>

@@ -11,7 +11,7 @@ export default function Privacy() {
   return (
     <div className="legal">
       <h1>מדיניות פרטיות ותקנון</h1>
-      <p className="updated">עמותת "חיים של אחרים" (ע"ר 580754083) · עודכן לאחרונה: אוקטובר 2026</p>
+      <p className="updated">עמותת "חיים של אחרים" (ע"ר 580754083) · עודכן לאחרונה: נובמבר 2026</p>
 
       <div className="toc">
         <strong>תוכן העניינים:</strong><br />
@@ -31,7 +31,8 @@ export default function Privacy() {
         <li><strong>מידע שאתם מוסרים מרצונכם</strong> — בעת מילוי טופס באתר (יצירת קשר, אימוץ וירטואלי, אימוץ במתנה): שם (לרבות השם לקבלה), טלפון, כתובת דוא"ל, איך הגעתם אלינו, תוכן ההודעה, ובמתנה — גם שם, טלפון ודוא"ל של מקבל/ת המתנה והברכה האישית. מידע זה <strong>נשמר במערכת הניהול של העמותה</strong> ומשמש את צוות העמותה בלבד.</li>
         <li><strong>פרטי מקבל/ת מתנה</strong> — כאשר אתם מוסרים פרטים של אדם אחר (מקבל/ת מתנה), אתם מצהירים כי הוא/היא מסכים/ה לכך שנפנה אליו/ה לצורך מסירת המתנה והעדכונים.</li>
         <li><strong>פרטי תרומה ותשלום</strong> — עסקאות התשלום מתבצעות ומעובדות באמצעות ספק הסליקה החיצוני <strong>Grow (מבית מלם-תשלומים)</strong>. פרטי כרטיס האשראי נמסרים ישירות לספק הסליקה ואינם נשמרים בשרתי העמותה.</li>
-        <li><strong>מידע טכני</strong> — שרתי האחסון שומרים יומני גישה טכניים (כגון כתובת IP, סוג דפדפן והעמוד שנפתח) לצורכי אבטחה ותפעול בלבד. האתר אינו מפעיל כלי ניתוח סטטיסטי או פרסום.</li>
+        <li><strong>מידע טכני</strong> — שרתי האחסון שומרים יומני גישה טכניים (כגון כתובת IP, סוג דפדפן והעמוד שנפתח) לצורכי אבטחה ותפעול בלבד.</li>
+        <li><strong>סטטיסטיקת ביקורים אנונימית</strong> — כדי לדעת כמה אנשים נכנסים לאתר ומה מעניין אותם, האתר רושם אצלנו, בלי שם, בלי כתובת IP ובלי עוגיות: איזה עמוד נפתח, מאיזה אתר הגעתם (למשל פייסבוק או גוגל), האם מטלפון או ממחשב, השפה, ולחיצות על כפתורי וואטסאפ ותשלום. כדי לספור ביקור אחד פעם אחת, נשמר בדפדפן מספר אקראי שנמחק כשסוגרים את הלשונית. המידע משמש את צוות העמותה בלבד, בסיכומים כלליים. האתר אינו מפעיל כלי פרסום.</li>
       </ul>
 
       <h3>1.2 השימוש במידע</h3>
@@ -47,7 +48,7 @@ export default function Privacy() {
       <p>איננו מוכרים ואיננו מעבירים את המידע שלכם לצדדים שלישיים, למעט: (א) לספקי שירות הפועלים מטעמנו ולצורך מתן השירות בלבד — ספק הסליקה (Grow), שירות אחסון האתר ומסד הנתונים (Vercel, Supabase — שרתים באיחוד האירופי) ושירות משלוח הדוא"ל (Resend); (ב) כאשר הדבר נדרש על פי דין או צו של רשות מוסמכת.</p>
 
       <h3>1.4 עוגיות (Cookies)</h3>
-      <p>האתר עצמו אינו משתמש בעוגיות פרסום, מעקב או מדידה. נשמרות בדפדפן שלכם רק העדפות פשוטות (כמו הגדרות תפריט הנגישות), והן אינן נשלחות אלינו. סרטונים ומפות משובצים מצדדים שלישיים (פייסבוק, יוטיוב, Waze, Google) עשויים לשמור עוגיות משלהם בהתאם למדיניות הפרטיות שלהם. ניתן לחסום או למחוק עוגיות דרך הגדרות הדפדפן.</p>
+      <p>האתר עצמו אינו משתמש בעוגיות פרסום, מעקב או מדידה. נשמרות בדפדפן שלכם רק העדפות פשוטות (כמו הגדרות תפריט הנגישות), שאינן נשלחות אלינו, ומספר הביקור האקראי שמתואר למעלה, שנמחק בסגירת הלשונית. סרטונים ומפות משובצים מצדדים שלישיים (פייסבוק, יוטיוב, Waze, Google) עשויים לשמור עוגיות משלהם בהתאם למדיניות הפרטיות שלהם. ניתן לחסום או למחוק עוגיות דרך הגדרות הדפדפן.</p>
 
       <h3>1.5 זכויותיכם</h3>
       <p>בהתאם לחוק הגנת הפרטיות, תשמ"א-1981, אתם זכאים לעיין במידע שנאסף עליכם, לבקש את תיקונו או מחיקתו, ולבטל הסכמה לדיוור. לפניות בנושא — ראו "יצירת קשר" בהמשך.</p>
@@ -97,7 +98,7 @@ function PrivacyEn() {
   return (
     <div className="legal">
       <h1>Privacy policy and terms</h1>
-      <p className="updated">Lives of Others (registered non-profit 580754083) · Last updated: October 2026 · This is a translation; the Hebrew version is the binding one.</p>
+      <p className="updated">Lives of Others (registered non-profit 580754083) · Last updated: November 2026 · This is a translation; the Hebrew version is the binding one.</p>
 
       <div className="toc">
         <strong>Contents:</strong><br />
@@ -116,7 +117,8 @@ function PrivacyEn() {
         <li><strong>Information you give us voluntarily</strong> — when you fill in a form on the site (contact, virtual adoption, adoption as a gift): name (including the name for the receipt), phone, email address, how you heard about us, the content of your message, and for a gift — also the recipient's name, phone and email and your personal greeting. This information is <strong>kept in the nonprofit's management system</strong> and used by the nonprofit's team only.</li>
         <li><strong>Gift recipient details</strong> — when you give us the details of another person (a gift recipient), you declare that they agree to be contacted for delivering the gift and the updates.</li>
         <li><strong>Donation and payment details</strong> — payments are made and processed by the external payment provider <strong>Grow (by Meshulam)</strong>. Credit card details go directly to the payment provider and are not stored on the nonprofit's servers.</li>
-        <li><strong>Technical information</strong> — the hosting servers keep technical access logs (such as IP address, browser type and the page opened) for security and operation only. The site does not run analytics or advertising tools.</li>
+        <li><strong>Technical information</strong> — the hosting servers keep technical access logs (such as IP address, browser type and the page opened) for security and operation only.</li>
+        <li><strong>Anonymous visit statistics</strong> — to know how many people visit the site and what interests them, the site records, with no name, no IP address and no cookies: which page was opened, which site you came from (for example Facebook or Google), phone or computer, the language, and clicks on the WhatsApp and payment buttons. To count one visit once, a random number is kept in your browser and deleted when you close the tab. It is used by the nonprofit's team only, as overall totals. The site does not run advertising tools.</li>
       </ul>
 
       <h3>1.2 How we use the information</h3>
@@ -132,7 +134,7 @@ function PrivacyEn() {
       <p>We do not sell or pass on your information to third parties, except: (a) to service providers acting on our behalf and only to provide the service — the payment provider (Grow), the website hosting and database services (Vercel, Supabase — servers in the European Union) and the email service (Resend); (b) when required by law or by an order of a competent authority.</p>
 
       <h3>1.4 Cookies</h3>
-      <p>The site itself does not use advertising, tracking or measurement cookies. Only simple preferences (such as the accessibility menu settings) are kept in your browser, and they are not sent to us. Videos and maps embedded from third parties (Facebook, YouTube, Waze, Google) may set their own cookies under their own privacy policies. You can block or delete cookies in your browser settings.</p>
+      <p>The site itself does not use advertising, tracking or measurement cookies. Only simple preferences (such as the accessibility menu settings), which are not sent to us, and the random visit number described above, deleted when you close the tab, are kept in your browser. Videos and maps embedded from third parties (Facebook, YouTube, Waze, Google) may set their own cookies under their own privacy policies. You can block or delete cookies in your browser settings.</p>
 
       <h3>1.5 Your rights</h3>
       <p>Under the Israeli Protection of Privacy Law, 1981, you may review the information collected about you, ask for it to be corrected or deleted, and withdraw consent to mailings. For requests — see "Contact" below.</p>

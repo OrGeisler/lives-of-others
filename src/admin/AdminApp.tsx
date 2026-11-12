@@ -16,6 +16,7 @@ import Payments from './pages/Payments'
 import Staff from './pages/Staff'
 import Guide from './pages/Guide'
 import Inbox from './pages/Inbox'
+import Stats from './pages/Stats'
 
 const NAV = [
   { to: '/admin', icon: '🏠', label: 'ראשי', end: true },
@@ -26,6 +27,7 @@ const NAV = [
   { to: '/admin/dogs', icon: '🐶', label: 'כלבים' },
   { to: '/admin/birthdays', icon: '🎂', label: 'ימי הולדת' },
   { to: '/admin/payments', icon: '💳', label: 'תשלומים' },
+  { to: '/admin/stats', icon: '📊', label: 'סטטיסטיקה' },
   { to: '/admin/site', icon: '✏️', label: 'תוכן האתר' },
   { to: '/admin/guide', icon: '📖', label: 'מדריך' },
 ]
@@ -110,6 +112,7 @@ function Shell() {
           <Route path="dogs/:id" element={<DogEdit />} />
           <Route path="birthdays" element={<Birthdays />} />
           <Route path="payments" element={<Payments />} />
+          <Route path="stats" element={<Stats />} />
           <Route path="site" element={<SiteContent />} />
           <Route path="guide" element={<Guide />} />
           {role === 'admin' && <Route path="staff" element={<Staff />} />}
