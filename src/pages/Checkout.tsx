@@ -7,6 +7,7 @@ import { GIFT_SUM, SOURCES, localDate } from '../lib/constants'
 import { useDog } from '../lib/data'
 import { useTitle } from '../lib/pagesData'
 import '../styles/checkout.css'
+import { track } from '../lib/track'
 
 
 // Our own details form (24.9: "לכבוד" instead of first/last/company, no address, "how did you hear of us",
@@ -38,7 +39,7 @@ export default function Checkout() {
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
   const [payUrl, setPayUrl] = useState('')
-  useEffect(() => { if (payUrl) window.location.href = payUrl }, [payUrl])
+  useEffect(() => { if (payUrl) { track('pay'); window.location.href = payUrl } }, [payUrl])
 
   if (loading) return <div className="wrap" style={{ padding: '80px 0' }}>{L('טוען…', 'Loading…')}</div>
   if (!dog) return <div className="wrap" style={{ padding: '80px 0' }}>{L('לא נבחר כלב.', 'No dog was chosen.')} <Link to={(en ? '/en' : '') + (type === 'gift' ? '/gift-adoption' : '/virtual-adoption#choose')}>{L('לבחירת כלב ←', 'Choose a dog →')}</Link></div>
