@@ -14,7 +14,7 @@ async function shrink(file: File, max = 1600): Promise<Blob> {
 export async function uploadImage(file: File, folder: string): Promise<string> {
   const blob = await shrink(file)
   const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 7)}.jpg`
-  const { error } = await supabase.storage.from('media').upload(path, blob, { contentType: 'image/jpeg' })
+  const { error } = await supabase.storage.from('media').upload(path, blob, { contentType: 'image/jpeg', cacheControl: '31536000' })
   if (error) throw error
   return supabase.storage.from('media').getPublicUrl(path).data.publicUrl
 }
@@ -25,7 +25,7 @@ export async function uploadVideo(file: File, folder: string): Promise<string> {
   if (file.size > VIDEO_MAX_MB * 1024 * 1024) throw new Error(`הסרטון גדול מ-${VIDEO_MAX_MB}MB. שלחו אותו לעצמכם בוואטסאפ ושמרו את הגרסה הדחוסה, או קצרו אותו`)
   const ext = (file.name.split('.').pop() || 'mp4').toLowerCase().replace(/[^a-z0-9]/g, '') || 'mp4'
   const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 7)}.${ext}`
-  const { error } = await supabase.storage.from('media').upload(path, file, { contentType: file.type || 'video/mp4' })
+  const { error } = await supabase.storage.from('media').upload(path, file, { contentType: file.type || 'video/mp4', cacheControl: '31536000' })
   if (error) throw error
   return supabase.storage.from('media').getPublicUrl(path).data.publicUrl
 }

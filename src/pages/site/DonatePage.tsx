@@ -1,3 +1,4 @@
+import { sized } from '../../lib/img'
 import { useCounters } from '../../lib/data'
 import { DONATE_URL, WA_TALI, wa } from '../../lib/links'
 import { useTitle } from '../../lib/pagesData'
@@ -23,7 +24,7 @@ export default function DonatePage() {
     <>
       <section className="dn-hero">
         <div className="dn-strip" aria-hidden="true">
-          {DOGS.map(([src, pos]) => <img key={src} src={src} alt="" style={{ objectPosition: pos }} />)}
+          {DOGS.map(([src, pos]) => <img key={src} {...sized(src)} alt="" style={{ objectPosition: pos }} />)}
         </div>
         <div className="dn-hero-text">
           <span className="dn-kicker">{t('כל תרומה מצילה חיים', 'Every donation saves lives')}</span>

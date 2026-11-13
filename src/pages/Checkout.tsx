@@ -1,3 +1,4 @@
+import { sized } from '../lib/img'
 import { focusStyle } from '../lib/focus'
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useSearchParams } from 'react-router-dom'
@@ -68,7 +69,7 @@ export default function Checkout() {
         <aside className="co-summary">
           <h2>{type === 'gift' ? L('המתנה שלכם', 'Your gift') : L('האימוץ שלכם', 'Your adoption')}</h2>
           <div className="co-item">
-            {dog.main_image && <img src={dog.main_image} style={focusStyle(dog)} alt={en ? dog.name_en || dog.name : dog.name} />}
+            {dog.main_image && <img {...sized(dog.main_image)} style={focusStyle(dog)} alt={en ? dog.name_en || dog.name : dog.name} />}
             <div>
               <b>{type === 'gift' ? L(`אימוץ וירטואלי של ${dog.name} במתנה`, `Virtual adoption of ${dog.name_en || dog.name} as a gift`) : L(`המלאך השומר של ${dog.name}`, `Guardian angel of ${dog.name_en || dog.name}`)}</b>
               <span>{type === 'gift' ? L('תרומה חד-פעמית', 'One-time donation') : L('הוראת קבע חודשית', 'Monthly standing order')}</span>

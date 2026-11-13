@@ -1,3 +1,4 @@
+import { sized } from '../lib/img'
 import { focusStyle } from '../lib/focus'
 import '../styles/checkout.css'
 import { useRef, useState } from 'react'
@@ -71,7 +72,7 @@ export default function GiftAdoption() {
             const on = chosen?.id === d.id
             return (
               <article className={`gdog${on ? ' on' : ''}`} key={d.id}>
-                {d.main_image && <img src={d.main_image} style={focusStyle(d)} alt={db(d.name, d.name_en)} loading="lazy" onClick={() => pick(d)} />}
+                {d.main_image && <img {...sized(d.main_image)} style={focusStyle(d)} alt={db(d.name, d.name_en)} loading="lazy" onClick={() => pick(d)} />}
                 <div className="gdog-body">
                   <h3>{db(d.name, d.name_en)}</h3>
                   <span className="gdog-tag">{db(d.tagline, d.tagline_en)}</span>

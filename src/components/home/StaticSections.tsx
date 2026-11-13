@@ -1,3 +1,4 @@
+import { sized } from '../../lib/img'
 import { MAPS_SHELTER, WAZE_SHELTER } from '../../lib/constants'
 import { VOLUNTEER_STORIES } from '../../lib/volunteerStories'
 import { VOLUNTEER_STORIES_EN } from '../../lib/volunteerStoriesEn'
@@ -6,7 +7,8 @@ import VolStories from '../VolStories'
 // Static home-page sections, converted 1:1 from the static site (index.html on main).
 // Texts are kept verbatim; dynamic sections (team, memorials, dogs, birthday, counters, contact) live in their own files.
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { useDeferredPlay } from '../../lib/deferVideo'
 import Modal from './Modal'
 import { WA_ADOPT, wa } from '../../lib/links'
 
@@ -37,6 +39,8 @@ export function Story() {
 
 export function About() {
   const { t } = useLang()
+  const montage = useRef<HTMLVideoElement>(null)
+  useDeferredPlay(montage, true)
   return (
     <>
       <section id="about" className="about-band">
@@ -51,7 +55,7 @@ export function About() {
             </div>
           </div>
           <div className="about-video reveal">
-            <video autoPlay muted loop playsInline preload="metadata" poster="/assets/img/montage-poster.jpg" aria-label={t('רגעים מפעילות העמותה', 'Moments from our work')}>
+            <video ref={montage} muted loop playsInline preload="none" poster="/assets/img/montage-poster.jpg" aria-label={t('רגעים מפעילות העמותה', 'Moments from our work')}>
               <source src="/assets/video/montage-draft.mp4" type="video/mp4" />
             </video>
           </div>
@@ -168,7 +172,7 @@ export function Volunteer() {
             <h2>{t('אנחנו צריכים אתכם', 'We need you')}</h2>
             <p>{t('רוצים להתנדב אצלנו? הכלבים שלנו מחכים לכם — מחכים שהשער ייפתח, שייצאו לטייל במרחב הפתוח ויזכו בליטוף. עבורם, טיול אתכם הוא השיא של היום. ועבורכם, הזדמנות מושלמת להתנתק מהשגרה, למלא את הלב ולחזור הביתה עם חיוך.', "Want to volunteer with us? Our dogs are waiting for you — waiting for the gate to open, to go out walking in the open fields and get a pat. For them, a walk with you is the highlight of the day. For you, it's the perfect chance to disconnect from routine, fill your heart and go home with a smile.")}</p>
           </div>
-          <img className="vol-banner reveal" src="/assets/img/dog-pil-1.jpg" alt={t('פיל מחכה למתנדבים', 'Pil waiting for volunteers')} style={{ objectPosition: "50% 17%" }} />
+          <img className="vol-banner reveal" {...sized("/assets/img/dog-pil-1.jpg", '100vw')} alt={t('פיל מחכה למתנדבים', 'Pil waiting for volunteers')} style={{ objectPosition: "50% 17%" }} />
           <div className="vol-info reveal">
             <div className="vol-info-card"><span className="vol-icon">📍</span><strong>{t('איפה?', 'Where?')}</strong><p>{t('בית המחסה של עמותת חיים של אחרים, רמת אפעל.', 'The Lives of Others shelter, Ramat Efal.')}<br /><span className="vol-map-note">🗺️ <strong>{t('הבית הקסום לזכרו של סמ״ר עדי צור', 'The Magical Home in memory of Staff Sgt. Adi Tzur')}</strong> · {t('ניווט:', 'Navigate:')} <a href={WAZE_SHELTER} target="_blank" rel="noopener">Waze</a> · <a href={MAPS_SHELTER} target="_blank" rel="noopener">Google Maps</a></span></p></div>
             <div className="vol-info-card"><span className="vol-icon">🗓️</span><strong>{t('מתי?', 'When?')}</strong><p>{t('בכל ימות השבוע, בתיאום מראש.', 'Every day of the week, by arrangement.')}</p></div>
@@ -206,12 +210,12 @@ export function Social() {
         <h3>{t('עקבו אחרינו ברשתות', 'Follow us on social media')}</h3>
         <p>{t('כלבים חדשים, אימוצים מרגשים ורגעים קטנים של אושר — כל יום, בפייסבוק ובאינסטגרם.', 'New dogs, moving adoptions and small moments of happiness — every day, on Facebook and Instagram.')}</p>
         <div className="social-thumbs">
-          <img src="/assets/img/dog-trail.jpg" alt="" loading="lazy" />
-          <img src="/assets/img/puppy.jpg" alt="" loading="lazy" />
-          <img src="/assets/img/dog-tub.jpg" alt="" loading="lazy" />
-          <img src="/assets/img/dog-shepherd.jpg" alt="" loading="lazy" />
-          <img src="/assets/img/adopt-me-cafe.jpg" alt="" loading="lazy" />
-          <img src="/assets/img/hero-two-dogs.jpg" alt="" loading="lazy" />
+          <img {...sized("/assets/img/dog-trail.jpg")} alt="" loading="lazy" />
+          <img {...sized("/assets/img/puppy.jpg")} alt="" loading="lazy" />
+          <img {...sized("/assets/img/dog-tub.jpg")} alt="" loading="lazy" />
+          <img {...sized("/assets/img/dog-shepherd.jpg")} alt="" loading="lazy" />
+          <img {...sized("/assets/img/adopt-me-cafe.jpg")} alt="" loading="lazy" />
+          <img {...sized("/assets/img/hero-two-dogs.jpg")} alt="" loading="lazy" />
         </div>
         <a className="fb-link" href="https://www.facebook.com/lifeofothers" target="_blank" rel="noopener">facebook.com/lifeofothers {arrow}</a>
         <a className="fb-link" href="https://www.instagram.com/lives.of.others.rescue" target="_blank" rel="noopener">@lives.of.others.rescue {arrow}</a>

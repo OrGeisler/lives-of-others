@@ -1,3 +1,4 @@
+import { sized } from '../lib/img'
 import { focusStyle } from '../lib/focus'
 import { Link } from 'react-router-dom'
 import { VaAccordions, VaTiers } from '../components/VirtualAdoptionDetails'
@@ -28,7 +29,7 @@ export default function VirtualAdoption() {
           </h1>
           {/* 13.10 + 17.10: תמונת החיבוק ("אימוץ וירטואלי 6") לצד הטקסט */}
           <div className="va-hero-body">
-            <img className="va-hug" src="/assets/img/va-hug.jpg" alt={t('חיבוק עם כלבים בבית המחסה', 'A hug with dogs at the shelter')} />
+            <img className="va-hug" {...sized("/assets/img/va-hug.jpg", '(max-width: 760px) 100vw, 50vw')} alt={t('חיבוק עם כלבים בבית המחסה', 'A hug with dogs at the shelter')} />
             <div className="va-hero-text">
               <p className="va-lead">{t('לא כל אחד יכול לפתוח את הבית – אבל כל אחד יכול לפתוח את הלב.', 'Not everyone can open their home — but everyone can open their heart.')}</p>
               <p>{t('ישנם כלבים שהדרך שלהם לבית קבוע ארוכה יותר. חלקם נמצאים איתנו חודשים וחלקם אף שנים ארוכות. עבורם הקמנו את תוכנית "המלאך השומר שלי".', 'Some dogs have a longer road to a permanent home. Some stay with us for months, some for years. For them we created the "My Guardian Angel" program.')}</p>
@@ -63,7 +64,7 @@ export default function VirtualAdoption() {
         <div className="va-gallery">
           {vdogs?.map(d => (
             <Link key={d.id} to={to(`/virtual-adoption/${d.slug}`)} className="va-gdog reveal" onClick={rememberGallery}>
-              {d.main_image && <img src={d.main_image} style={focusStyle(d)} alt={db(d.name, d.name_en)} loading="lazy" />}
+              {d.main_image && <img {...sized(d.main_image)} style={focusStyle(d)} alt={db(d.name, d.name_en)} loading="lazy" />}
               <span className="va-gdog-body"><b>{db(d.name, d.name_en)}</b><span>{db(d.tagline, d.tagline_en)}</span><em>{t('לאמץ וירטואלית', 'Adopt virtually')} {arrow}</em></span>
             </Link>
           ))}

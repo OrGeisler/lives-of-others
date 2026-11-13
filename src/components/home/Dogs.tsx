@@ -1,3 +1,4 @@
+import { sized } from '../../lib/img'
 import { focusStyle } from '../../lib/focus'
 import { Link } from 'react-router-dom'
 import { useDogs } from '../../lib/data'
@@ -18,7 +19,7 @@ export default function Dogs() {
       <div className="dogs-grid">
         {dogs.data?.map(d => (
           <Link to={to(`/dogs/${d.slug}`)} className="dog-card reveal" key={d.id} onClick={rememberGallery}>
-            {d.main_image && <img src={d.main_image} style={focusStyle(d)} alt={db(d.name, d.name_en)} loading="lazy" />}
+            {d.main_image && <img {...sized(d.main_image)} style={focusStyle(d)} alt={db(d.name, d.name_en)} loading="lazy" />}
             <div className="dog-card-body">
               <div className="dog-name-row"><span className="dog-name">{db(d.name, d.name_en)}</span><span className="dog-meta dog-tag">{db(d.tagline, d.tagline_en)}</span></div>
               <span className="dog-open-hint">{t('להכיר אותי', 'Meet me')} {arrow}</span>
