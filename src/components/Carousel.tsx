@@ -1,3 +1,4 @@
+import { sized } from '../lib/img'
 import { useEffect, useState } from 'react'
 import { useLang } from '../lib/lang'
 
@@ -17,7 +18,7 @@ export default function Carousel({ images, alt }: { images: string[]; alt: strin
       <div className="carousel-track" style={{ transform: `translateX(${-idx * 100}%)` }}>
         {images.map(src => (
           <div className="slide" key={src} style={{ ['--bg' as string]: `url("${src}")` }}>
-            <img src={src} alt={alt} loading="lazy" />
+            <img {...sized(src, '(max-width: 760px) 100vw, 50vw')} alt={alt} loading="lazy" />
           </div>
         ))}
       </div>

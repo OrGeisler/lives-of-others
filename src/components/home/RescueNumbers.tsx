@@ -1,3 +1,4 @@
+import { sized } from '../../lib/img'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCounters } from '../../lib/data'
@@ -22,8 +23,8 @@ function BeforeAfter({ slug, name }: { slug: string; name: string }) {
   const { t } = useLang()
   return (
     <div className={`ba-item${flip ? ' flip' : ''}`} role="button" tabIndex={0} aria-pressed={flip} aria-label={t(`${name} לפני ואחרי`, `${name} before and after`)} onClick={() => setFlip(f => !f)} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlip(f => !f) } }}>
-      <img className="ba-before" src={`/assets/img/ba-${slug}-before.jpg`} alt={t(`${name} לפני`, `${name} before`)} />
-      <img className="ba-after" src={`/assets/img/ba-${slug}-after.jpg`} alt={t(`${name} אחרי`, `${name} after`)} />
+      <img className="ba-before" {...sized(`/assets/img/ba-${slug}-before.jpg`)} alt={t(`${name} לפני`, `${name} before`)} />
+      <img className="ba-after" {...sized(`/assets/img/ba-${slug}-after.jpg`)} alt={t(`${name} אחרי`, `${name} after`)} />
       <span className="ba-tag">{t('לפני / אחרי', 'Before / after')}</span>
       <span className="ba-name">{name}</span>
     </div>

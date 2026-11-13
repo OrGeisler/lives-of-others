@@ -1,3 +1,4 @@
+import { sized } from '../../lib/img'
 import { Link } from 'react-router-dom'
 import { FOOD_SACK_URL } from '../../lib/links'
 import { usePayLinks } from '../../lib/useLinks'
@@ -22,7 +23,7 @@ export default function Doors() {
         <div className="doors-grid">
           {DOORS.map(d => (
             <Link key={d.to} to={to(d.to)} className={`door door-${d.tone} reveal`}>
-              <img src={d.img} alt="" loading="lazy" />
+              <img {...sized(d.img)} alt="" loading="lazy" />
               <span className="door-body">
                 <strong>{en ? d.en[0] : d.title}</strong>
                 <span>{en ? d.en[1] : d.text}</span>

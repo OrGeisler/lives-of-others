@@ -1,5 +1,6 @@
 # Work log (newest first, one line per task: date · who · what)
 
+- 2026-11-13 · Or (Claude) · SEO + speed: hreflang he/en on every page and in the sitemap, dog links + full stories + FAQ text in static HTML, fixed short descriptions/long /en title/og:locale; photos compressed (-8MB) + 700px phone copies; hero video 23→12MB and montage 9→3MB, both start after load; dog page no longer jumps (CLS 0.63→0). Local Lighthouse mobile home 28→72.
 - 2026-11-12 · Or (Claude) · Site visit stats: own anonymous counter (site_events + site_stats), admin → 📊 סטטיסטיקה (visits, sources, top dogs/pages, WhatsApp + payment clicks, busy hours, UTM link copier), guide section, privacy page (HE+EN).
 - 2026-11-10 · Or (Claude) · Admin shared password rotated (Or's request; new one given to Or in chat, not stored); all admin sessions revoked so staff log in again. Resource check: Vercel 25/100 GB transfer in 30d (likely the 22MB hero video), Supabase DB 13MB, storage 29MB, 8 emails total.
 - 2026-11-09 · Or (Claude) · AAR 9.11: lessons in CLAUDE.md (one field per channel, dashboard links, 1h logs, host TV clips); issue #60 (record email failures). Bella's false 'email sent' mark cleared.

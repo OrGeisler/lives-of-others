@@ -14,7 +14,8 @@ export default function DogPage() {
   const { en, t, to, db } = useLang()
   useTitle(dog ? `${dog.name} — חיים של אחרים` : 'חיים של אחרים', dog ? `${db(dog.name, dog.name_en)} — Lives of Others` : 'Lives of Others')
 
-  if (loading) return <div className="wrap" style={{ padding: '80px 0' }}>{t('טוען…', 'Loading…')}</div>
+  // min-height keeps the footer below the fold while the dog loads (it used to jump: Lighthouse CLS 0.63)
+  if (loading) return <div className="wrap" style={{ padding: '80px 0', minHeight: '100vh' }}>{t('טוען…', 'Loading…')}</div>
   if (error || !dog) return <div className="wrap" style={{ padding: '80px 0' }}>{t('לא מצאנו את הכלב הזה.', "We couldn't find this dog.")} <Link to={to('/dogs')}>{t('לכל הכלבים ←', 'All the dogs →')}</Link></div>
   const name = db(dog.name, dog.name_en)
   const age = en ? ageLabelEn(dog) : ageLabel(dog)

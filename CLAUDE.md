@@ -92,8 +92,13 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
   Check: no Hebrew on any /en page and same structure as Hebrew (`scripts/en-hebrew-leak.mjs`, `scripts/en-structure-diff.mjs`).
   Payments use the same Grow pages; EN contact inquiries are tagged [EN].
 - SEO: each public route gets a static head + text from `scripts/prerender-meta.mjs` (postbuild, also writes
-  sitemap.xml). New public route → add it there. The SPA fallback is `spa.html`, not `index.html`.
+  sitemap.xml). New public route → add it there. Every page carries hreflang he/en/x-default (also in the sitemap); /dogs and
+  /virtual-adoption link every dog in the static HTML. Lighthouse (`npx lighthouse@12`, mobile) after big visual changes. The SPA fallback is `spa.html`, not `index.html`.
   Nonprofit facts for search/AI live in that script (ORG, FAQ, EN_HTML) and `public/llms.txt`: change both together.
+- Photos: after adding a JPG to public/assets/img run `python3 scripts/optimize-images.py` (compresses, writes a 700px
+  `-sm.jpg` and `src/lib/imgVariants.ts`); render card photos with `<img {...sized(src)}>` (src/lib/img.ts) so phones get the small copy.
+  Background videos never autoPlay: `useDeferredPlay` (src/lib/deferVideo.ts) starts them after load; encode at display size
+  (13.11: hero autoplay + 1400px photos made phone LCP 17s; after the fix ~5s on the local build).
 - Pages are lazy chunks renamed on every deploy: always load pages via `lazyPage` (src/lib/staleChunks.tsx), never bare `lazy`, or open tabs go white after a deploy.
 - Old phones: `vite.config.ts` uses `@vitejs/plugin-legacy` (Safari 13 / Chrome 80 + polyfills). Without it Vite 8
   targets 2023+ browsers and older iPhones get a white screen. Check after build: `npx es-check@8 es2020 'dist/assets/*.js' --module`.

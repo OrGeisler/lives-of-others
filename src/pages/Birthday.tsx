@@ -1,3 +1,4 @@
+import { sized } from '../lib/img'
 import { focusStyle } from '../lib/focus'
 import { Link, useLocation } from 'react-router-dom'
 import { isTestMode } from '../lib/links'
@@ -60,7 +61,7 @@ export default function Birthday() {
       </section>
 
       {dog && <section className="bd-dog reveal">
-        {dog?.main_image && <img src={dog.main_image} style={focusStyle(dog)} alt={t(`${name} חוגג/ת יום הולדת`, `${name}'s birthday`)} />}
+        {dog?.main_image && <img {...sized(dog.main_image)} style={focusStyle(dog)} alt={t(`${name} חוגג/ת יום הולדת`, `${name}'s birthday`)} />}
         <div>
           <span className="bd-badge">{t('🎉 חוגג/ת החודש', "🎉 This month's birthday")}</span>
           <h2>{t(`בואו לחגוג עם ${name}! 🥳`, `Come celebrate with ${name}! 🥳`)}</h2>

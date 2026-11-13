@@ -1,3 +1,4 @@
+import { sized } from '../../lib/img'
 import { useState } from 'react'
 import { useTeam } from '../../lib/data'
 import { useLang } from '../../lib/lang'
@@ -18,7 +19,7 @@ export default function Team() {
         <div className="team-grid reveal">
           {team.data?.map(m => (
             <div className="team-member" key={m.id}>
-              {m.photo && <button type="button" className="team-zoom" aria-label={t(`הגדלת התמונה של ${m.name}`, `Enlarge ${db(m.name, m.name_en)}'s photo`)} onClick={() => setZoom(m)}><img src={m.photo} alt={db(m.name, m.name_en)} /></button>}
+              {m.photo && <button type="button" className="team-zoom" aria-label={t(`הגדלת התמונה של ${m.name}`, `Enlarge ${db(m.name, m.name_en)}'s photo`)} onClick={() => setZoom(m)}><img {...sized(m.photo)} alt={db(m.name, m.name_en)} /></button>}
               <span className="team-name">{db(m.name, m.name_en)}</span>
             </div>
           ))}

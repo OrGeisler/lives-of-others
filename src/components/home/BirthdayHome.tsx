@@ -1,3 +1,4 @@
+import { sized } from '../../lib/img'
 import { Link } from 'react-router-dom'
 import { focusStyle } from '../../lib/focus'
 import { useBirthdayDog } from '../../lib/data'
@@ -15,7 +16,7 @@ export default function BirthdayHome() {
       <div className="bday-card reveal">
         {dog.main_image && (
           <div className="bday-photo">
-            <img src={dog.main_image} style={focusStyle(dog)} alt={t(`${dog.name} חוגג/ת יום הולדת`, `${db(dog.name, dog.name_en)}'s birthday`)} />
+            <img {...sized(dog.main_image)} style={focusStyle(dog)} alt={t(`${dog.name} חוגג/ת יום הולדת`, `${db(dog.name, dog.name_en)}'s birthday`)} />
           </div>
         )}
         <div className="bday-body">

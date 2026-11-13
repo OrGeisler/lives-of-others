@@ -1,3 +1,4 @@
+import { sized } from '../../lib/img'
 import { useState } from 'react'
 import { useFallen } from '../../lib/data'
 import { useLang } from '../../lib/lang'
@@ -21,7 +22,7 @@ export default function Homes() {
           <div className="homes-grid">
             {fallen.data?.map(f => (
               <article className="home-card reveal" key={f.id}>
-                {f.hero_image && <img src={f.hero_image} alt={db(f.card_title, f.card_title_en)} />}
+                {f.hero_image && <img {...sized(f.hero_image)} alt={db(f.card_title, f.card_title_en)} />}
                 <div className="home-card-body">
                   <h3>{db(f.card_title, f.card_title_en)}</h3>
                   <p>{db(f.card_text, f.card_text_en)}</p>

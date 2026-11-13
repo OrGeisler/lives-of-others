@@ -1,3 +1,4 @@
+import { sized } from '../lib/img'
 import { focusStyle } from '../lib/focus'
 import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
@@ -31,7 +32,7 @@ export default function BirthdayThanks() {
           <Confetti items={CARD_CONFETTI} />
           <div className="ty-inner">
             <span className="ty-hat" aria-hidden="true">🥳</span>
-            {dog?.main_image && <img className="ty-photo" src={dog.main_image} style={focusStyle(dog)} alt="" />}
+            {dog?.main_image && <img className="ty-photo" {...sized(dog.main_image)} style={focusStyle(dog)} alt="" />}
             <h1>{t('תודה על המתנה! 🎁', 'Thank you for the gift! 🎁')}</h1>
             <p className="ty-to">{donor ? t(`ל${donor} היקרים,`, `Dear ${donor},`) : ''}</p>
             <p>{t('בזכותכם יום ההולדת שלי היה הכי שמח בבית המחסה! פינקתם אותי, ועשיתם לי את הלב (ואת הזנב 🐕) לכשכש בלי הפסקה.', 'Thanks to you, my birthday was the happiest at the shelter! You spoiled me, and made my heart (and my tail 🐕) wag non-stop.')}</p>

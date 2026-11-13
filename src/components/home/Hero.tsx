@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import { WA_ADOPT, wa } from '../../lib/links'
 import AngelButton from './AngelButton'
+import { useDeferredPlay } from '../../lib/deferVideo'
 import { useLang } from '../../lib/lang'
 
 export default function Hero() {
@@ -9,6 +10,7 @@ export default function Hero() {
   const video = useRef<HTMLVideoElement>(null)
   const [soundOn, setSoundOn] = useState(false)
   const [playing, setPlaying] = useState(false)
+  useDeferredPlay(video)
   const togglePlay = () => {
     const v = video.current
     if (!v) return
@@ -60,7 +62,7 @@ export default function Hero() {
           <div className="tv-antenna" aria-hidden="true"></div>
           <div className="tv-body">
             <div className="tv-screen">
-              <video onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} ref={video} autoPlay muted loop playsInline preload="auto" poster="/assets/img/channel12-poster.jpg" aria-label={t('הכתבה ששודרה בערוץ 12', "Our story on Israel's Channel 12")}>
+              <video onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} ref={video} muted loop playsInline preload="none" poster="/assets/img/channel12-poster.jpg" aria-label={t('הכתבה ששודרה בערוץ 12', "Our story on Israel's Channel 12")}>
                 <source src="/assets/video/channel12.mp4" type="video/mp4" />
               </video>
             </div>
