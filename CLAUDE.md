@@ -99,6 +99,9 @@ Live: https://lives-of-others.com · Admin: /admin · Two developers (Or, Lev), 
   `-sm.jpg` and `src/lib/imgVariants.ts`); render card photos with `<img {...sized(src)}>` (src/lib/img.ts) so phones get the small copy.
   Background videos never autoPlay: `useDeferredPlay` (src/lib/deferVideo.ts) starts them after load; encode at display size
   (13.11: hero autoplay + 1400px photos made phone LCP 17s; after the fix ~5s on the local build).
+- Thank-you videos from the nonprofit (Drive) arrive as 4K/HEVC, 20-260MB: admin refuses >50MB and HEVC doesn't play
+  everywhere. Re-encode to 540px-wide H.264 + AAC, faststart (3-8MB), then set `dogs.thanks_video_url`. Match each to its dog
+  by comparing frames with the site photo. A new or re-activated dog needs a production redeploy for its static page + sitemap.
 - Pages are lazy chunks renamed on every deploy: always load pages via `lazyPage` (src/lib/staleChunks.tsx), never bare `lazy`, or open tabs go white after a deploy.
 - Old phones: `vite.config.ts` uses `@vitejs/plugin-legacy` (Safari 13 / Chrome 80 + polyfills). Without it Vite 8
   targets 2023+ browsers and older iPhones get a white screen. Check after build: `npx es-check@8 es2020 'dist/assets/*.js' --module`.
